@@ -578,10 +578,25 @@ const handleKeyDown = (e) => {
 
 // Função para sincronizar o campo de texto móvel com o estado do terminal
 const syncMobileInput = (e) => {
-  state.currentInput = e.target.value;
+  // Abordagem mais robusta para entrada de texto em dispositivos móveis
+  const inputValue = e.target.value;
+  
+  // Atualizar o estado diretamente, mas manter o cursor na posição correta
+  state.currentInput = inputValue;
+  
+  // Garantir que o valor do campo seja o mesmo do estado
+  if (mobileInputRef.value) {
+    // Pequeno atraso para garantir que o campo seja atualizado após o Vue renderizar
+    setTimeout(() => {
+      mobileInputRef.value.value = state.currentInput;
+    }, 10);
+  }
+  
+  // Som de digitação
   if (state.isSoundEnabled) {
     typeSound.typeKey();
   }
+  
   scrollToBottom();
 };
 
@@ -980,7 +995,7 @@ const downloadPDF = (pdfUrl) => {
                 ref="mobileInputRef"
                 type="text" 
                 class="mobile-input"
-                v-model="state.currentInput"
+                :value="state.currentInput"
                 @input="syncMobileInput"
                 @keydown.enter="handleMobileSubmit"
                 @blur="handleInputBlur"
