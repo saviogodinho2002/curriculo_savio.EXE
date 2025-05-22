@@ -28,7 +28,7 @@ body {
 }
 
 .terminal-container {
-  width: 95%;
+  width: 99.90%;
   height: 90vh;
   margin: 0 auto;
   border-radius: 20px;

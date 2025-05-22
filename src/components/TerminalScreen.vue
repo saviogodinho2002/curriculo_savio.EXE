@@ -1449,7 +1449,7 @@ const downloadPDF = (pdfUrl) => {
   
   /* Indicadores no modal de ajuda para mobile */
   .help-message::after {
-    content: "👆 Deslize para cima e para baixo para ver todas as dicas 👇";
+    content: " ";
     display: block;
     margin-top: 15px;
     color: #ffff00;
@@ -1601,7 +1601,6 @@ const downloadPDF = (pdfUrl) => {
   
   /* Mensagem de instrução para usuários móveis sobre digitação */
   #command-prompt::before {
-    content: "Toque aqui para digitar um comando";
     position: absolute;
     top: -30px;
     left: 0;
@@ -2101,7 +2100,6 @@ const downloadPDF = (pdfUrl) => {
   
   /* Mensagem de instrução para usuários móveis sobre digitação */
   #command-prompt::before {
-    content: "Toque aqui para digitar um comando";
     position: absolute;
     top: -30px;
     left: 0;
