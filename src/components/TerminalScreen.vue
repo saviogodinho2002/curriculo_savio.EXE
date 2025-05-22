@@ -24,10 +24,24 @@ const speedSettings = {
   }
 };
 
+// Adicionar detecção de dispositivo móvel
+const isMobile = ref(false);
+
+// Verificar se o dispositivo é móvel ao montar o componente
+const checkIfMobile = () => {
+  isMobile.value = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+};
+
+// Referência para o campo de texto móvel
+const mobileInputRef = ref(null);
+
 // Referências reativas para as velocidades
 const typingSpeed = ref(speedSettings.normal.typingSpeed);
 const lineDelay = ref(speedSettings.normal.lineDelay);
 const commandDelay = ref(speedSettings.normal.commandDelay);
+
+// Controle de estado do campo de entrada móvel
+const isInputActive = ref(false);
 
 // Estado do terminal
 const state = reactive({
@@ -562,6 +576,51 @@ const handleKeyDown = (e) => {
   scrollToBottom();
 };
 
+// Função para sincronizar o campo de texto móvel com o estado do terminal
+const syncMobileInput = (e) => {
+  state.currentInput = e.target.value;
+  if (state.isSoundEnabled) {
+    typeSound.typeKey();
+  }
+  scrollToBottom();
+};
+
+// Função para lidar com envio de comando via campo móvel
+const handleMobileSubmit = () => {
+  if (state.isTyping || !state.promptVisible || !state.currentInput.trim()) return;
+  
+  const command = state.currentInput.trim();
+  state.currentInput = ''; // Limpar o campo de entrada
+  
+  if (mobileInputRef.value) {
+    mobileInputRef.value.value = '';
+    mobileInputRef.value.blur(); // Esconder o teclado após enviar
+  }
+  
+  isInputActive.value = false; // Desativar o estado de entrada
+  processCommand(command);
+};
+
+// Função para focar no campo de texto móvel
+const focusMobileInput = () => {
+  if (isMobile.value && mobileInputRef.value && !state.isTyping && state.promptVisible) {
+    mobileInputRef.value.focus();
+    isInputActive.value = true; // Ativar o estado de entrada
+    
+    // Pequeno atraso para garantir que o teclado virtual apareça no iOS
+    setTimeout(() => {
+      if (mobileInputRef.value) {
+        mobileInputRef.value.focus();
+      }
+    }, 100);
+  }
+};
+
+// Função para lidar com o desfoque do campo de entrada
+const handleInputBlur = () => {
+  isInputActive.value = false;
+};
+
 // Scroll para o fim do terminal
 const scrollToBottom = () => {
   setTimeout(() => {
@@ -623,6 +682,12 @@ const hideInitialOverlay = () => {
 
 // Inicialização
 const initTerminal = async () => {
+  // Verificar se é dispositivo móvel
+  checkIfMobile();
+  
+  // Adicionar evento para recalcular em caso de redimensionamento
+  window.addEventListener('resize', checkIfMobile);
+  
   // Adicionar evento de teclado
   window.addEventListener('keydown', handleKeyDown);
   
@@ -642,9 +707,10 @@ const initTerminal = async () => {
   
 };
 
-// Remove o evento de teclado ao desmontar o componente
+// Remove os eventos ao desmontar o componente
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeyDown);
+  window.removeEventListener('resize', checkIfMobile);
 });
 
 onMounted(initTerminal);
@@ -899,12 +965,32 @@ const downloadPDF = (pdfUrl) => {
                 <span class="cmd-text">{{ cmd.text }}</span>
               </div>
             </div>
-            <div id="command-prompt" class="history-input" :class="{ 'disabled': state.isTyping }">
+            <div id="command-prompt" class="history-input" 
+                 :class="{ 'disabled': state.isTyping, 'input-active': isInputActive }" 
+                 @click="focusMobileInput">
               <div class="prompt-line">
                 <span class="prompt">user@retro-terminal:~$</span>
                 <span class="input-text">{{ state.currentInput }}</span>
                 <span class="cursor" :class="{ 'blink': !state.isTyping }"></span>
               </div>
+              
+              <!-- Campo de entrada para dispositivos móveis -->
+              <input 
+                v-if="isMobile" 
+                ref="mobileInputRef"
+                type="text" 
+                class="mobile-input"
+                v-model="state.currentInput"
+                @input="syncMobileInput"
+                @keydown.enter="handleMobileSubmit"
+                @blur="handleInputBlur"
+                :disabled="state.isTyping || !state.promptVisible"
+                :placeholder="state.isTyping ? 'Aguarde...' : 'Digite um comando...'"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+              />
             </div>
           </div>
           
@@ -1000,6 +1086,17 @@ const downloadPDF = (pdfUrl) => {
       </div>
       <div class="crt-reflection"></div>
     </div>
+    
+    <!-- Botão flutuante para dispositivos móveis que mostra o teclado -->
+    <button 
+      v-if="isMobile && state.promptVisible && !state.isTyping" 
+      @click="focusMobileInput" 
+      class="mobile-keyboard-toggle"
+      :class="{ 'active': isInputActive }"
+      title="Abrir teclado para digitar comandos"
+    >
+      ⌨️ Digitar Comando
+    </button>
   </div>
 </template>
 
@@ -1490,6 +1587,35 @@ const downloadPDF = (pdfUrl) => {
     background-color: rgba(255, 170, 0, 0.2) !important;
     border: 2px solid #ffaa00 !important;
   }
+  
+  /* Tornar a linha de prompt clicável em dispositivos móveis */
+  #command-prompt {
+    cursor: text;
+    position: relative;
+  }
+  
+  /* Mensagem de instrução para usuários móveis sobre digitação */
+  #command-prompt::before {
+    content: "Toque aqui para digitar um comando";
+    position: absolute;
+    top: -30px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #ffcc00;
+    font-size: 12px;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    animation: pulse 2s infinite;
+    pointer-events: none;
+  }
+  
+  /* Estilo especial quando o campo de entrada está ativo */
+  #command-prompt.input-active {
+    border: 2px solid #00ff00;
+    background-color: rgba(0, 255, 0, 0.1);
+  }
 }
 
 @media (min-width: 1200px) {
@@ -1909,5 +2035,91 @@ const downloadPDF = (pdfUrl) => {
   font-style: italic;
   color: #aaffaa;
   font-size: 14px;
+}
+
+/* Estilo para campo de entrada em dispositivos móveis */
+.mobile-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  z-index: -10;
+}
+
+/* Botão flutuante para abrir teclado em dispositivos móveis */
+.mobile-keyboard-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(0, 255, 0, 0.2);
+  color: #00ff00;
+  border: 2px solid #00ff00;
+  border-radius: 30px;
+  padding: 12px 20px;
+  font-size: 16px;
+  z-index: 1000;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s;
+  animation: pulse 2s infinite;
+}
+
+.mobile-keyboard-toggle.active {
+  background-color: rgba(0, 255, 0, 0.4);
+  color: #000;
+  border-color: #00ff00;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+  transform: scale(1.05);
+}
+
+.mobile-keyboard-toggle:hover, 
+.mobile-keyboard-toggle:focus {
+  background-color: rgba(0, 255, 0, 0.4);
+  transform: scale(1.05);
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  .terminal-layout {
+    flex-direction: column;
+    height: auto;
+    gap: 20px; /* Aumentar o espaço entre os terminais */
+  }
+  
+  /* ... existing mobile styles ... */
+  
+  /* Tornar a linha de prompt clicável em dispositivos móveis */
+  #command-prompt {
+    cursor: text;
+    position: relative;
+  }
+  
+  /* Mensagem de instrução para usuários móveis sobre digitação */
+  #command-prompt::before {
+    content: "Toque aqui para digitar um comando";
+    position: absolute;
+    top: -30px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #ffcc00;
+    font-size: 12px;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    animation: pulse 2s infinite;
+    pointer-events: none;
+  }
+  
+  /* Estilo especial quando o campo de entrada está ativo */
+  #command-prompt.input-active {
+    border: 2px solid #00ff00;
+    background-color: rgba(0, 255, 0, 0.1);
+  }
+  
+  /* Ocultar a mensagem de instrução quando o campo está ativo */
+  #command-prompt.input-active::before {
+    display: none;
+  }
 }
 </style>
