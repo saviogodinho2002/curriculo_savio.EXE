@@ -288,7 +288,7 @@ const processCommand = async (cmd) => {
       await typeText('  about       - Exibe informações pessoais');
       await typeText('  basic       - Mostra as informações básicas iniciais');
       await typeText('  pdf         - Baixa o currículo em formato PDF');
-      await typeText('  all         - Exibe todas as informações do CV');
+      await typeText('  curriculum         - Exibe todas as informações do CV');
       await typeText('  contact     - Mostra informações de contato');
       await typeText('  experience  - Exibe experiência profissional');
       await typeText('  skills      - Mostra habilidades técnicas');
@@ -305,7 +305,7 @@ const processCommand = async (cmd) => {
       await typeText('  speed:instant - Exibição instantânea (sem animação)');
       break;
       
-    case 'all':
+    case 'curriculum':
       await showAllInfo();
       break;
     case 'about':
@@ -443,7 +443,7 @@ const executeCommandFromHistory = (command) => {
   if (state.isTyping) return;
   
   // Lista de comandos válidos
-  const validCommands = ['help', 'about', 'all', 'contact', 'experience', 'skills', 
+  const validCommands = ['help', 'about', 'curriculum', 'contact', 'experience', 'skills', 
                          'afinidades', 'education', 'projects', 'image', 'basic', 
                          'pdf', 'sound', 'clear', 'speed', 'speed:normal', 'speed:fast', 'speed:instant'];
   
@@ -480,7 +480,7 @@ const handleKeyDown = (e) => {
   if (e.key === 'Enter') {
     if (state.currentInput.trim()) {
       // Verificar se o comando é válido
-      const validCommands = ['help', 'about', 'all', 'contact', 'experience', 'skills', 
+      const validCommands = ['help', 'about', 'curriculum', 'contact', 'experience', 'skills', 
                            'afinidades', 'education', 'projects', 'image', 'basic',
                            'pdf', 'sound', 'clear', 'speed', 'speed:normal', 'speed:fast', 'speed:instant'];
       
@@ -571,7 +571,7 @@ const initTerminal = async () => {
   window.addEventListener('keydown', handleKeyDown);
   
   // Adicionar comando inicial
-  addCommandLine('all');
+  addCommandLine('curriculum');
   
   // Mostrar apenas informações básicas
   await showAllInfo();
@@ -700,9 +700,9 @@ const downloadPDF = (pdfUrl) => {
           </li>
           <li>
             <div class="command-item">
-              <button @click="processCommand('all'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+              <button @click="processCommand('curriculum'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
               <div class="command-description">
-                <strong>all</strong> - Exibe todas as informações do CV
+                <strong>curriculum</strong> - Exibe todas as informações do CV
               </div>
             </div>
           </li>
