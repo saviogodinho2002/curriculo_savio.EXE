@@ -940,57 +940,62 @@ const downloadPDF = (pdfUrl) => {
             Aguarde... processando saída
           </div>
           
-          <!-- Overlay inicial de ajuda simplificado -->
-          <div v-if="state.initialOverlayVisible" class="initial-help-overlay">
-            <div class="overlay-content">
-              <!-- Substituir os pointers por uma mensagem central mais limpa -->
-              <div class="help-message">
-                <div class="help-tutorial-header">
-                  <h2>BEM-VINDO!</h2>
-                  <button @click="hideInitialOverlay" class="close-button">×</button>
-                </div>
-                
-                <p>Este terminal permite explorar o currículo de Sávio Godinho de forma interativa.</p>
-                
-                <div class="instructions">
-                  <div class="instruction-item">
-                    <strong>📝 COMO USAR:</strong>
-                    <p>• Digite comandos na parte inferior esquerda e pressione ENTER</p>
-                    <p>• Use as setas ↑↓ para navegar no histórico de comandos</p>
-                  </div>
-                  
-                  <div class="instruction-item">
-                    <strong>🧭 LAYOUT:</strong>
-                    <p>• ESQUERDA: Histórico de comandos e entrada de texto</p>
-                    <p>• DIREITA: Saída dos comandos (resultados)</p>
-                  </div>
-                  
-                  <div class="instruction-item">
-                    <strong>🛠️ COMANDOS ÚTEIS:</strong>
-                    <p>• <code>help</code> - Lista todos os comandos disponíveis</p>
-                    <p>• <code>pdf</code> - Baixa o currículo em PDF</p>
-                    <p>• <code>curriculum</code> - Exibe o currículo completo</p>
-                    <p>• <code>contact</code> - Mostra informações de contato</p>
-                  </div>
-                  
-                  <div class="instruction-item">
-                    <strong>🎛️ BOTÕES:</strong>
-                    <p>• <span class="help-icon">?</span> - Mostra a lista de comandos disponíveis</p>
-                    <p>• <span class="speed-icon">⏱️</span> - Ajusta velocidade de digitação</p>
-                    <p>• <span class="clear-icon">🗑️</span> - Limpa o histórico de comandos</p>
-                  </div>
-                </div>
-                
-                <p class="continue-note">Para continuar, clique no X...</p>
-              </div>
-            </div>
-          </div>
-          
           <div class="terminal-overlay"></div>
           
           <!-- Scanlines e efeitos CRT -->
           <div class="crt-scanline"></div>
           <div class="crt-glow"></div>
+        </div>
+        
+        <!-- Overlay inicial de ajuda simplificado - Movido para fora das colunas de terminais -->
+        <div v-if="state.initialOverlayVisible" class="initial-help-overlay">
+          <div class="overlay-content">
+            <div class="help-message">
+              <div class="help-tutorial-header">
+                <h2>BEM-VINDO!</h2>
+                <button @click="hideInitialOverlay" class="close-button">×</button>
+              </div>
+              
+              <p>Este terminal permite explorar o currículo de Sávio Godinho de forma interativa.</p>
+              
+              <div class="instruction-item mobile-tip">
+                <strong>📱 DICA PARA CELULAR:</strong>
+                <p>Em dispositivos móveis, é mais fácil usar o botão <span class="help-icon">?</span> para acessar os comandos do que digitar!</p>
+                <p>Toque nos botões dos comandos (▶️) para executá-los diretamente.</p>
+              </div>
+              
+              <div class="instructions">
+                <div class="instruction-item">
+                  <strong>📝 COMO USAR:</strong>
+                  <p>• Digite comandos na parte inferior esquerda e pressione ENTER</p>
+                  <p>• Use as setas ↑↓ para navegar no histórico de comandos</p>
+                </div>
+                
+                <div class="instruction-item">
+                  <strong>🧭 LAYOUT:</strong>
+                  <p>• ESQUERDA: Histórico de comandos e entrada de texto</p>
+                  <p>• DIREITA: Saída dos comandos (resultados)</p>
+                </div>
+                
+                <div class="instruction-item">
+                  <strong>🛠️ COMANDOS ÚTEIS:</strong>
+                  <p>• <code>help</code> - Lista todos os comandos disponíveis</p>
+                  <p>• <code>pdf</code> - Baixa o currículo em PDF</p>
+                  <p>• <code>curriculum</code> - Exibe o currículo completo</p>
+                  <p>• <code>contact</code> - Mostra informações de contato</p>
+                </div>
+                
+                <div class="instruction-item">
+                  <strong>🎛️ BOTÕES:</strong>
+                  <p>• <span class="help-icon">?</span> - Mostra a lista de comandos disponíveis</p>
+                  <p>• <span class="speed-icon">⏱️</span> - Ajusta velocidade de digitação</p>
+                  <p>• <span class="clear-icon">🗑️</span> - Limpa o histórico de comandos</p>
+                </div>
+              </div>
+              
+              <p class="continue-note">Para continuar, clique no X...</p>
+            </div>
+          </div>
         </div>
       </div>
       <div class="crt-reflection"></div>
@@ -1172,21 +1177,318 @@ const downloadPDF = (pdfUrl) => {
   .terminal-layout {
     flex-direction: column;
     height: auto;
+    gap: 20px; /* Aumentar o espaço entre os terminais */
   }
   
   .command-history, .output-panel {
     flex: none;
-    height: 50vh;
+    height: 45vh; /* Reduzir ligeiramente para mostrar a separação */
+    border: 2px solid #ffaa00 !important; /* Bordas mais evidentes */
+    box-shadow: 0 0 15px rgba(255, 170, 0, 0.4) !important; /* Sombra para destacar */
+    border-radius: 8px;
   }
   
-  .output-content {
+  /* Adicionar indicadores de painel */
+  .history-header::before, 
+  .output-header::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, #ffaa00, transparent);
+    margin-bottom: 5px;
+  }
+  
+  /* Melhorar visibilidade dos cabeçalhos */
+  .history-header h3, 
+  .output-header h3 {
+    font-size: 18px !important;
+    text-shadow: 0 0 8px rgba(255, 221, 0, 0.8) !important;
+    padding: 8px 0 !important;
+    text-align: center !important;
+    border-bottom: 1px dashed #ffaa00;
+  }
+  
+  /* Adicionar indicador entre os terminais */
+  .command-history::after {
+    display: block;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #ffff00;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(255, 255, 0, 0.7);
+    z-index: 100;
+    pointer-events: none;
+  }
+  
+  /* Adicionar botão fixo de ajuda para celular */
+  .command-history::before {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 255, 0, 0.2);
+    color: #00ff00;
+    padding: 5px 10px;
+    border-radius: 4px;
     font-size: 12px;
+    z-index: 100;
+    pointer-events: none;
+    animation: pulse 2s infinite;
+  }
+  
+  /* Corrigir problema de rolagem na saída do terminal em celulares */
+  .output-content {
+    font-size: 13px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important; /* Melhorar rolagem no iOS */
+    max-height: calc(45vh - 40px) !important; /* Altura máxima considerando o cabeçalho */
+    height: 100% !important;
+    padding-bottom: 20px !important;
+  }
+  
+  .output-panel {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
   }
   
   .ascii-art {
     font-size: 4px;
     transform: scale(0.7);
     transform-origin: left top;
+  }
+  
+  /* Ajustes no modal de tutorial para celular */
+  .initial-help-overlay {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000 !important;
+    background-color: rgba(0, 0, 0, 0.9) !important;
+  }
+  
+  .initial-help-overlay .help-message {
+    width: 90% !important;
+    max-width: none !important;
+    max-height: 85vh !important;
+    overflow-y: auto !important;
+    padding: 15px !important;
+    margin: 20px auto !important;
+  }
+  
+  /* Destacar a dica para celular */
+  .mobile-tip {
+    background-color: rgba(255, 255, 0, 0.15) !important;
+    border: 2px solid #ffee00 !important;
+    color: #ffee00 !important;
+    padding: 15px 10px !important;
+    margin: 10px 0 20px 0 !important;
+    text-align: center !important;
+    border-radius: 8px !important;
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.2) !important;
+  }
+  
+  .mobile-tip strong {
+    color: #ffee00 !important;
+    font-size: 16px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .mobile-tip p {
+    font-size: 14px !important;
+    margin: 8px 0 !important;
+  }
+  
+  .mobile-tip .help-icon {
+    color: #ffee00 !important;
+    border-color: #ffee00 !important;
+    padding: 2px 6px !important;
+    font-weight: bold !important;
+    font-size: 16px !important;
+  }
+  
+  .help-tutorial-header h2 {
+    font-size: 20px !important;
+  }
+  
+  .help-tutorial-header .close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 22px !important;
+  }
+  
+  .instruction-item {
+    padding: 10px !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .instruction-item strong {
+    font-size: 15px !important;
+  }
+  
+  .instruction-item p {
+    font-size: 13px !important;
+    margin: 4px 0 !important;
+  }
+  
+  .instructions {
+    grid-template-columns: 1fr; /* Uma coluna em telas pequenas */
+    gap: 15px;
+  }
+  
+  /* Indicadores no modal de ajuda para mobile */
+  .help-message::after {
+    content: "👆 Deslize para cima e para baixo para ver todas as dicas 👇";
+    display: block;
+    margin-top: 15px;
+    color: #ffff00;
+    font-style: italic;
+  }
+  
+  /* Tornar modais responsivos */
+  .speed-dropdown {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 90% !important;
+    max-width: 320px !important;
+    z-index: 1100 !important;
+  }
+  
+  .speed-dropdown::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: -1;
+  }
+  
+  .speed-dropdown .speed-header {
+    padding: 10px !important;
+  }
+  
+  .speed-dropdown h4 {
+    font-size: 18px !important;
+  }
+  
+  .speed-dropdown li {
+    padding: 12px !important;
+    font-size: 16px !important;
+  }
+  
+  .speed-icon {
+    font-size: 20px !important;
+  }
+  
+  /* Ajustar modal de ajuda para telas menores em celulares - aparecer do topo */
+  .help-dropdown {
+    position: fixed !important;
+    top: 0 !important; /* Começa do topo */
+    left: 0 !important; 
+    right: 0 !important;
+    transform: none !important; /* Remove a transformação de centralização */
+    width: 100% !important; /* Ocupa toda a largura */
+    max-width: 100% !important;
+    height: 100vh !important; /* Altura máxima da viewport */
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    padding: 15px !important;
+    border-radius: 0 !important; /* Remove bordas arredondadas */
+    z-index: 2500 !important; /* Garante que fique acima de tudo */
+    display: flex !important;
+    flex-direction: column !important;
+    background-color: rgba(0, 0, 0, 0.95) !important; /* Fundo mais escuro para melhor contraste */
+  }
+  
+  .help-dropdown::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: -1;
+  }
+  
+  /* Ajustar o cabeçalho do modal para ficar fixo no topo */
+  .help-dropdown .help-header {
+    position: sticky !important;
+    top: 0 !important;
+    background-color: rgba(0, 0, 0, 0.95) !important;
+    padding: 15px 0 !important;
+    margin-bottom: 15px !important;
+    z-index: 10 !important;
+    border-bottom: 2px solid #ffaa00 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  
+  .help-dropdown h4 {
+    font-size: 18px !important;
+    margin: 0 !important;
+  }
+  
+  /* Ajustar a lista de comandos para tela cheia */
+  .help-dropdown ul {
+    padding: 10px !important;
+    margin-bottom: 20px !important;
+    flex: 1 !important;
+  }
+  
+  /* Melhorar visibilidade dos itens de comando */
+  .help-dropdown li {
+    margin-bottom: 15px !important;
+    padding: 10px !important;
+    border-bottom: 1px dashed rgba(255, 255, 0, 0.3) !important;
+  }
+  
+  .command-description {
+    font-size: 14px !important;
+  }
+  
+  .command-description strong {
+    display: block !important;
+    margin-bottom: 3px !important;
+  }
+  
+  .run-button {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    font-size: 18px !important;
+  }
+  
+  .help-dropdown .command-item {
+    padding: 5px 0 !important;
+  }
+  
+  /* Remover a indicação de scroll */
+  .help-dropdown::after {
+    content: none !important;
+  }
+  
+  /* Aumentar o botão de fechar no modal de comandos */
+  .help-dropdown .close-button {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 24px !important;
+    background-color: rgba(255, 170, 0, 0.2) !important;
+    border: 2px solid #ffaa00 !important;
   }
 }
 
