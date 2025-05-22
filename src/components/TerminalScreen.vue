@@ -41,7 +41,9 @@ const state = reactive({
   activeCommand: null, // Comando ativo atualmente
   helpVisible: false, // Estado para controlar a visibilidade do dropdown de ajuda
   speedMenuVisible: false, // Estado para controlar a visibilidade do menu de velocidade
-  currentSpeed: 'normal' // Velocidade atual: normal, fast, instant
+  currentSpeed: 'normal', // Velocidade atual: normal, fast, instant
+  initialOverlayVisible: true, // Controle para o overlay inicial de ajuda
+  isFirstTimeOverlay: true // Flag para controlar se é a primeira vez que o overlay é mostrado
 });
 
 // Carregar arte ASCII do arquivo JSON
@@ -285,10 +287,13 @@ const processCommand = async (cmd) => {
     case 'help':
       await typeText('Comandos disponíveis:');
       await typeText('  help        - Mostra esta lista de comandos');
-      await typeText('  about       - Exibe informações pessoais');
+      await typeText('  tutorial    - Mostra a tela de ajuda/instruções iniciais');
+
       await typeText('  basic       - Mostra as informações básicas iniciais');
       await typeText('  pdf         - Baixa o currículo em formato PDF');
-      await typeText('  curriculum         - Exibe todas as informações do CV');
+      await typeText('  curriculum  - Exibe todas as informações do CV');
+      await typeText('  about       - Exibe informações pessoais');
+
       await typeText('  contact     - Mostra informações de contato');
       await typeText('  experience  - Exibe experiência profissional');
       await typeText('  skills      - Mostra habilidades técnicas');
@@ -425,6 +430,11 @@ const processCommand = async (cmd) => {
       changeSpeed('instant');
       await typeText('Velocidade alterada para: instantânea');
       break;
+    case 'tutorial':
+      await typeText('Abrindo a tela de ajuda...');
+      state.initialOverlayVisible = true;
+      state.isFirstTimeOverlay = false; // Não é mais a primeira vez
+      break;
     default:
       if (state.isSoundEnabled) {
         typeSound.beep();
@@ -445,7 +455,8 @@ const executeCommandFromHistory = (command) => {
   // Lista de comandos válidos
   const validCommands = ['help', 'about', 'curriculum', 'contact', 'experience', 'skills', 
                          'afinidades', 'education', 'projects', 'image', 'basic', 
-                         'pdf', 'sound', 'clear', 'speed', 'speed:normal', 'speed:fast', 'speed:instant'];
+                         'pdf', 'sound', 'clear', 'speed', 'speed:normal', 'speed:fast', 'speed:instant',
+                         'tutorial'];
   
   // Verificar se o comando é válido antes de executar
   if (validCommands.includes(command.toLowerCase())) {
@@ -482,7 +493,8 @@ const handleKeyDown = (e) => {
       // Verificar se o comando é válido
       const validCommands = ['help', 'about', 'curriculum', 'contact', 'experience', 'skills', 
                            'afinidades', 'education', 'projects', 'image', 'basic',
-                           'pdf', 'sound', 'clear', 'speed', 'speed:normal', 'speed:fast', 'speed:instant'];
+                           'pdf', 'sound', 'clear', 'speed', 'speed:normal', 'speed:fast', 'speed:instant',
+                           'tutorial'];
       
       if (validCommands.includes(state.currentInput.trim().toLowerCase())) {
         const command = state.currentInput.trim();
@@ -565,19 +577,68 @@ const toggleHelp = () => {
   state.helpVisible = !state.helpVisible;
 };
 
+// Mostrar instruções iniciais de uso
+const showInitialInstructions = async () => {
+  await typeText('==================================================');
+  await typeText(' BEM-VINDO AO CURRÍCULO TERMINAL!');
+  await typeText('==================================================');
+  await typeText(' ');
+  
+  await typeText('📋 GUIA DE USO RÁPIDO:');
+  await typeText(' ');
+  
+  await typeText('1️⃣ LAYOUT:');
+  await typeText('  • ESQUERDA: Histórico de comandos digitados e entrada de texto');
+  await typeText('  • DIREITA: Saída dos comandos (resultados)');
+  await typeText(' ');
+  
+  await typeText('2️⃣ COMO USAR:');
+  await typeText('  • Digite comandos na linha onde vê "user@retro-terminal:~$"');
+  await typeText('  • Pressione ENTER para executar o comando');
+  await typeText('  • Use as setas ↑↓ para navegar no histórico de comandos');
+  await typeText(' ');
+  
+  await typeText('3️⃣ BOTÕES NA BARRA SUPERIOR:');
+  await typeText('  • ⏱️/⚡/🚀: Ajusta a velocidade de digitação do terminal');
+  await typeText('  • 🗑️: Limpa o histórico de comandos');
+  await typeText('  • ?: Mostra a lista de comandos disponíveis');
+  await typeText(' ');
+  
+  await typeText('4️⃣ DICAS:');
+  await typeText('  • Clique em qualquer comando do histórico para executá-lo novamente');
+  await typeText('  • Digite "help" para ver todos os comandos disponíveis');
+  await typeText('  • Digite "pdf" para baixar o currículo em PDF');
+  await typeText('  • Digite "clear" para limpar a tela');
+  await typeText(' ');
+  
+  await typeText('Experimente agora! Digite "help" para começar ou clique no botão "?" no canto superior direito.');
+  await typeText('==================================================');
+};
+
+// Esconder o overlay de ajuda inicial
+const hideInitialOverlay = () => {
+  state.initialOverlayVisible = false;
+};
+
 // Inicialização
 const initTerminal = async () => {
   // Adicionar evento de teclado
   window.addEventListener('keydown', handleKeyDown);
   
   // Adicionar comando inicial
-  addCommandLine('curriculum');
+  addCommandLine('inicio');
+  
+  // Mostrar instruções iniciais
+  await showInitialInstructions();
   
   // Mostrar apenas informações básicas
-  await showAllInfo();
+  //await showBasicInfo();
   
   // Mostrar prompt
   await showPrompt();
+  
+  // Esconder o overlay de ajuda após 8 segundos, mas apenas na primeira vez
+  
 };
 
 // Remove o evento de teclado ao desmontar o componente
@@ -617,7 +678,7 @@ const downloadPDF = (pdfUrl) => {
 <template>
   <div class="terminal-layout">
     <!-- Coluna esquerda - histórico de comandos -->
-    <div class="command-history">
+    <div id="command-history-column" class="command-history">
       <div class="history-header">
         <h3>Histórico de Comandos</h3>
         <div class="header-buttons">
@@ -627,7 +688,7 @@ const downloadPDF = (pdfUrl) => {
             <span v-else>🚀</span>
           </button>
           <button @click="clearCommandHistory" class="clear-button" title="Limpar histórico">🗑️</button>
-          <button @click="toggleHelp" class="help-button">?</button>
+          <button id="help-button" @click="toggleHelp" class="help-button">?</button>
         </div>
       </div>
       
@@ -676,12 +737,13 @@ const downloadPDF = (pdfUrl) => {
           </li>
           <li>
             <div class="command-item">
-              <button @click="processCommand('about'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+              <button @click="processCommand('tutorial'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
               <div class="command-description">
-                <strong>about</strong> - Exibe informações pessoais
+                <strong>tutorial</strong> - Mostra a tela de ajuda/instruções iniciais
               </div>
             </div>
           </li>
+         
           <li>
             <div class="command-item">
               <button @click="processCommand('basic'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
@@ -711,6 +773,14 @@ const downloadPDF = (pdfUrl) => {
               <button @click="processCommand('contact'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
               <div class="command-description">
                 <strong>contact</strong> - Mostra informações de contato
+              </div>
+            </div>
+          </li>
+           <li>
+            <div class="command-item">
+              <button @click="processCommand('about'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+              <div class="command-description">
+                <strong>about</strong> - Exibe informações pessoais
               </div>
             </div>
           </li>
@@ -762,6 +832,7 @@ const downloadPDF = (pdfUrl) => {
               </div>
             </div>
           </li>
+          
           
           <li>
             <div class="command-item">
@@ -824,7 +895,7 @@ const downloadPDF = (pdfUrl) => {
           <span class="cmd-text">{{ cmd.text }}</span>
         </div>
       </div>
-      <div class="history-input" :class="{ 'disabled': state.isTyping }">
+      <div id="command-prompt" class="history-input" :class="{ 'disabled': state.isTyping }">
         <div class="prompt-line">
           <span class="prompt">user@retro-terminal:~$</span>
           <span class="input-text">{{ state.currentInput }}</span>
@@ -834,7 +905,7 @@ const downloadPDF = (pdfUrl) => {
     </div>
     
     <!-- Coluna direita - saída dos comandos -->
-    <div class="output-panel">
+    <div id="output-panel" class="output-panel">
       <div class="output-header">
         <h3>Saída do Terminal</h3>
       </div>
@@ -863,6 +934,50 @@ const downloadPDF = (pdfUrl) => {
     <!-- Indicador de digitação desativada -->
     <div v-if="state.isTyping" class="typing-indicator">
       Aguarde... processando saída
+    </div>
+    
+    <!-- Overlay inicial de ajuda simplificado -->
+    <div v-if="state.initialOverlayVisible" class="initial-help-overlay">
+      <div class="overlay-content">
+        <button @click="hideInitialOverlay" class="close-overlay-button">×</button>
+        
+        <!-- Substituir os pointers por uma mensagem central mais limpa -->
+        <div class="help-message">
+          <h2> BEM-VINDO! </h2>
+          <p>Este terminal permite explorar o currículo de Sávio Godinho de forma interativa.</p>
+          
+          <div class="instructions">
+            <div class="instruction-item">
+              <strong>📝 COMO USAR:</strong>
+              <p>• Digite comandos na parte inferior esquerda e pressione ENTER</p>
+              <p>• Use as setas ↑↓ para navegar no histórico de comandos</p>
+            </div>
+            
+            <div class="instruction-item">
+              <strong>🧭 LAYOUT:</strong>
+              <p>• ESQUERDA: Histórico de comandos e entrada de texto</p>
+              <p>• DIREITA: Saída dos comandos (resultados)</p>
+            </div>
+            
+            <div class="instruction-item">
+              <strong>🛠️ COMANDOS ÚTEIS:</strong>
+              <p>• <code>help</code> - Lista todos os comandos disponíveis</p>
+              <p>• <code>pdf</code> - Baixa o currículo em PDF</p>
+              <p>• <code>curriculum</code> - Exibe o currículo completo</p>
+              <p>• <code>contact</code> - Mostra informações de contato</p>
+            </div>
+            
+            <div class="instruction-item">
+              <strong>🎛️ BOTÕES:</strong>
+              <p>• <span class="help-icon">?</span> - Mostra a lista de comandos disponíveis</p>
+              <p>• <span class="speed-icon">⏱️</span> - Ajusta velocidade de digitação</p>
+              <p>• <span class="clear-icon">🗑️</span> - Limpa o histórico de comandos</p>
+            </div>
+          </div>
+          
+          <p class="continue-note">Para continuar, clique no X...</p>
+        </div>
+      </div>
     </div>
     
     <div class="terminal-overlay"></div>
@@ -1412,5 +1527,137 @@ const downloadPDF = (pdfUrl) => {
 
 .download-link::before {
   content: "📥 ";
+}
+
+/* Estilos para o overlay inicial de ajuda */
+.initial-help-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Ajusto a opacidade para melhor legibilidade */
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: all;
+}
+
+.overlay-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.close-overlay-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #ff3333;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* Novos estilos para a mensagem central */
+.help-message {
+  background-color: rgba(0, 0, 0, 0.85);
+  border: 2px solid #00ff00;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 800px;
+  color: #00ff00;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 10px rgba(0, 255, 0, 0.3); }
+  to { box-shadow: 0 0 20px rgba(0, 255, 0, 0.7); }
+}
+
+.help-message h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #00ff00;
+}
+
+.instructions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 25px 0;
+  text-align: left;
+}
+
+.instruction-item {
+  border: 1px dotted #00aa00;
+  border-radius: 5px;
+  padding: 15px;
+  background-color: rgba(0, 50, 0, 0.3);
+}
+
+.instruction-item strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #00ffaa;
+}
+
+.instruction-item p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.instruction-item code {
+  background-color: rgba(0, 50, 0, 0.5);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: monospace;
+  font-weight: bold;
+}
+
+.help-icon, .speed-icon, .clear-icon {
+  display: inline-block;
+  padding: 2px 5px;
+  border: 1px solid;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+.help-icon {
+  color: #00ff00;
+  border-color: #00ff00;
+}
+
+.speed-icon {
+  color: #33ccff;
+  border-color: #33ccff;
+}
+
+.clear-icon {
+  color: #ff6b6b;
+  border-color: #ff6b6b;
+}
+
+.continue-note {
+  margin-top: 20px;
+  font-style: italic;
+  color: #aaffaa;
+  font-size: 14px;
 }
 </style>
