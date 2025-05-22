@@ -591,17 +591,11 @@ const syncMobileInput = (e) => {
 
 // Função para enviar o comando do campo móvel
 const handleMobileSubmit = () => {
-  if (state.isTyping || !state.promptVisible || !mobileInputText.value.trim()) return;
+  if (state.isTyping || !state.promptVisible || !state.currentInput.trim()) return;
   
-  const command = mobileInputText.value.trim();
-  mobileInputText.value = ''; // Limpar o campo de entrada temporário
+  const command = state.currentInput.trim();
+  state.currentInput = ''; // Limpar o campo de entrada
   
-  if (mobileInputRef.value) {
-    mobileInputRef.value.value = '';
-    mobileInputRef.value.blur(); // Esconder o teclado após enviar
-  }
-  
-  isInputActive.value = false; // Desativar o estado de entrada
   processCommand(command);
 };
 
@@ -980,30 +974,27 @@ const downloadPDF = (pdfUrl) => {
               </div>
             </div>
             <div id="command-prompt" class="history-input" 
-                 :class="{ 'disabled': state.isTyping, 'input-active': isInputActive }" 
+                 :class="{ 'disabled': state.isTyping }" 
                  @click="focusMobileInput">
               <div class="prompt-line">
                 <span class="prompt">user@retro-terminal:~$</span>
-                <span class="input-text">{{ displayInputText }}</span>
-                <span class="cursor" :class="{ 'blink': !state.isTyping }"></span>
+                <span v-if="!isMobile" class="input-text">{{ state.currentInput }}</span>
+                <input 
+                  v-if="isMobile" 
+                  ref="mobileInputRef"
+                  type="text" 
+                  class="mobile-input-visible"
+                  v-model="state.currentInput"
+                  @keydown.enter="handleMobileSubmit"
+                  :disabled="state.isTyping || !state.promptVisible"
+                  :placeholder="state.isTyping ? 'Aguarde...' : 'Digite um comando...'"
+                  autocomplete="off"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                />
+                <span v-if="!isMobile" class="cursor" :class="{ 'blink': !state.isTyping }"></span>
               </div>
-              
-              <!-- Campo de entrada para dispositivos móveis - sem v-model ou :value -->
-              <input 
-                v-if="isMobile" 
-                ref="mobileInputRef"
-                type="text" 
-                class="mobile-input"
-                @input="syncMobileInput"
-                @keydown.enter="handleMobileSubmit"
-                @blur="handleInputBlur"
-                :disabled="state.isTyping || !state.promptVisible"
-                :placeholder="state.isTyping ? 'Aguarde...' : 'Digite um comando...'"
-                autocomplete="off"
-                autocorrect="off"
-                autocapitalize="off"
-                spellcheck="false"
-              />
             </div>
           </div>
           
@@ -2134,5 +2125,24 @@ const downloadPDF = (pdfUrl) => {
   #command-prompt.input-active::before {
     display: none;
   }
+}
+
+.mobile-input-visible {
+  flex: 1;
+  background-color: transparent;
+  color: #ffee00;
+  border: none;
+  outline: none;
+  font-family: monospace;
+  font-size: 16px;
+  padding: 0;
+  margin-left: 5px;
+  caret-color: #ffee00;
+  text-shadow: 0 0 5px rgba(255, 221, 0, 0.5);
+}
+
+.mobile-input-visible::placeholder {
+  color: rgba(255, 238, 0, 0.5);
+  opacity: 0.7;
 }
 </style>
