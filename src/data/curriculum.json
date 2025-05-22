@@ -77,7 +77,40 @@
     "descricao": "Atuação no backend da plataforma Yjara Viagens, facilitadora da compra de passagens fluviais na Amazônia. O projeto envolveu otimização de performance, revisão da estrutura de código, definição de regras de negócio e integração com novas funcionalidades, melhorando a experiência do usuário e preparando a plataforma para escalabilidade.",
     "link": "https://yjaraviagens.com/"
   }
+],
+"projetos_codigo": [
+  {
+    "nome": "Bomberman Multiplayer via Socket",
+    "descricao": "Implementação de uma versão multiplayer do clássico jogo Bomberman utilizando Java e sockets. O jogo permite partidas em rede local, demonstrando domínio de threads, comunicação cliente-servidor e lógica de jogos em tempo real.",
+    "link": "https://github.com/saviogodinho2002/bomberman-socketmultiplayer"
+  },
+  {
+    "nome": "Cópia do KS Simulator (JavaScript)",
+    "descricao": "Recriação do simulador KS usando HTML, CSS e JavaScript puro, com foco na fidelidade da interface e funcionalidades. Exercício prático em manipulação do DOM e construção de UI responsiva.",
+    "link": "https://github.com/saviogodinho2002/copia-ks-javascript"
+  },
+  {
+    "nome": "Corta Fácil – Editor de Vídeo Simples",
+    "descricao": "Aplicação em Python com interface gráfica (Tkinter) para cortar e juntar vídeos de forma prática, utilizando FFmpeg como motor de processamento. Foco em automação de tarefas comuns de edição.",
+    "link": "https://github.com/saviogodinho2002/corta-facil"
+  },
+  {
+    "nome": "Analisador de Expressões Matemáticas",
+    "descricao": "Desenvolvido em Kotlin, esse projeto interpreta expressões matemáticas usando apenas recursividade e expressões regulares. Exemplo de lógica algorítmica e manipulação de strings.",
+    "link": "https://github.com/saviogodinho2002/Analisador-de-expressao"
+  },
+  {
+    "nome": "Calculadora em Brainfuck",
+    "descricao": "Calculadora simples desenvolvida na linguagem esotérica Brainfuck, com suporte a operações básicas. Demonstra habilidade com lógica pura e compreensão de baixo nível computacional.",
+    "link": "https://github.com/saviogodinho2002/calculadora-brainfuck"
+  },
+  {
+    "nome": "Vizinho Mais Próximo – Algoritmo em C",
+    "descricao": "Implementação do algoritmo do vizinho mais próximo para grafos, utilizando matriz de adjacência em C. Projeto foca na aplicação de algoritmos clássicos e estruturas de dados.",
+    "link": "https://github.com/saviogodinho2002/vizinho-mais-proximo-grafos"
+  }
 ]
+
 ,
   "contato": {
     "email": "saviogmoiagaia.2001@gmail.com",

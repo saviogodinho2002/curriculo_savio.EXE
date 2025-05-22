@@ -154,6 +154,15 @@ const showBasicInfo = async () => {
         await typeText(`• ${afinidade}`);
     }
     await typeText(' ');
+  
+  // Adicionar seção de projetos de código
+  await typeText('PROJETOS DE CÓDIGO:');
+  for (const projeto of cvData.projetos_codigo) {
+    await typeText(`• ${projeto.nome}`);
+  }
+  await typeText('Digite "code-projects" para ver detalhes de todos os projetos de código.');
+  await typeText(' ');
+  
   await typeText('CONTATOS:');
   await typeText(`Email: ${cvData.contato.email}`);
   await typeText(`Telefone: ${cvData.contato.telefone}`);
@@ -245,6 +254,15 @@ const showAllInfo = async () => {
     await typeText(' ');
   }
   
+  // Projetos de código
+  await typeText('PROJETOS DE CÓDIGO:');
+  for (const proj of cvData.projetos_codigo) {
+    await typeText(`${proj.nome}`);
+    await typeText(`${proj.descricao}`);
+    await typeText(`Link: ${proj.link}`);
+    await typeText(' ');
+  }
+  
   // Contato
   await typeText('CONTATO:');
   await typeText(`Email: ${cvData.contato.email}`);
@@ -318,6 +336,7 @@ const processCommand = async (cmd) => {
       await typeText('  afinidades  - Mostra afinidades profissionais');
       await typeText('  education   - Mostra formação acadêmica');
       await typeText('  projects    - Exibe projetos e prêmios');
+      await typeText('  code-projects - Exibe projetos de código com demonstração de habilidades');
       await typeText('  image       - Mostra a imagem ASCII');
       
       await typeText('  sound       - Ativa/desativa os efeitos sonoros');
@@ -453,6 +472,15 @@ const processCommand = async (cmd) => {
       state.initialOverlayVisible = true;
       state.isFirstTimeOverlay = false; // Não é mais a primeira vez
       break;
+    case 'code-projects':
+      await typeText('PROJETOS DE CÓDIGO:');
+      for (const proj of cvData.projetos_codigo) {
+        await typeText(`${proj.nome}`);
+        await typeText(`${proj.descricao}`);
+        await typeText(`Link: ${proj.link}`);
+        await typeText(' ');
+      }
+      break;
     default:
       if (state.isSoundEnabled) {
         typeSound.beep();
@@ -472,7 +500,7 @@ const executeCommandFromHistory = (command) => {
   
   // Lista de comandos válidos
   const validCommands = ['help', 'about', 'curriculum', 'contact', 'experience', 'skills', 
-                         'afinidades', 'education', 'projects', 'image', 'basic', 
+                         'afinidades', 'education', 'projects', 'code-projects', 'image', 'basic', 
                          'pdf', 'sound', 'clear', 'speed', 'speed:normal', 'speed:fast', 'speed:instant',
                          'tutorial'];
   
@@ -510,7 +538,7 @@ const handleKeyDown = (e) => {
     if (state.currentInput.trim()) {
       // Verificar se o comando é válido
       const validCommands = ['help', 'about', 'curriculum', 'contact', 'experience', 'skills', 
-                           'afinidades', 'education', 'projects', 'image', 'basic',
+                           'afinidades', 'education', 'projects', 'code-projects', 'image', 'basic',
                            'pdf', 'sound', 'clear', 'speed', 'speed:normal', 'speed:fast', 'speed:instant',
                            'tutorial'];
       
@@ -899,6 +927,14 @@ const downloadPDF = (pdfUrl) => {
                     <button @click="processCommand('projects'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
                     <div class="command-description">
                       <strong>projects</strong> - Exibe projetos e prêmios
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('code-projects'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>code-projects</strong> - Exibe projetos de código com demonstração de habilidades
                     </div>
                   </div>
                 </li>
