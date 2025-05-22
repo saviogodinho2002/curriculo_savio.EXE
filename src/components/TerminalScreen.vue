@@ -162,6 +162,27 @@ const showAllInfo = async () => {
   await typeText(`Localização: ${cvData.contato.localizacao}`);
   await typeText('=========================================');
   
+  //
+
+  const link = document.createElement('a');
+      link.href = curriculo;
+      link.setAttribute('download', 'curriculo_savio.pdf');
+      link.setAttribute('target', '_blank');
+      document.body.appendChild(link);
+      document.body.removeChild(link);
+      
+      
+      // Adicionar link clicável
+      const linkLine = { 
+        text: 'Currículo Sávio Godinho (PDF)', 
+        isCommand: false, 
+        finished: true, 
+        isLink: true,
+        url: curriculo,
+        isDownload: true
+      };
+      state.lines.push(linkLine);
+
   // Resumo
   await typeText('RESUMO PROFISSIONAL:');
   await typeMultipleLines(cvData.resumo);
@@ -550,10 +571,10 @@ const initTerminal = async () => {
   window.addEventListener('keydown', handleKeyDown);
   
   // Adicionar comando inicial
-  addCommandLine('inicio');
+  addCommandLine('all');
   
   // Mostrar apenas informações básicas
-  await showBasicInfo();
+  await showAllInfo();
   
   // Mostrar prompt
   await showPrompt();
