@@ -3,6 +3,7 @@ import { ref, onMounted, reactive, onUnmounted, watch } from 'vue';
 import typeSound from './TypeSound';
 import cvDataJson from '../data/curriculum.json';
 import curriculo from '../assets/curriculo_savio.pdf';
+import '../assets/crt.css'; // Importar os estilos CRT
 
 // Configurações de velocidade de digitação
 const speedSettings = {
@@ -676,315 +677,416 @@ const downloadPDF = (pdfUrl) => {
 </script>
 
 <template>
-  <div class="terminal-layout">
-    <!-- Coluna esquerda - histórico de comandos -->
-    <div id="command-history-column" class="command-history">
-      <div class="history-header">
-        <h3>Histórico de Comandos</h3>
-        <div class="header-buttons">
-          <button @click="toggleSpeedMenu" class="speed-button" title="Ajustar velocidade">
-            <span v-if="state.currentSpeed === 'normal'">⏱️</span>
-            <span v-else-if="state.currentSpeed === 'fast'">⚡</span>
-            <span v-else>🚀</span>
-          </button>
-          <button @click="clearCommandHistory" class="clear-button" title="Limpar histórico">🗑️</button>
-          <button id="help-button" @click="toggleHelp" class="help-button">?</button>
-        </div>
-      </div>
-      
-      <!-- Menu de velocidade -->
-      <div v-if="state.speedMenuVisible" class="speed-dropdown">
-        <div class="speed-header">
-          <h4>Velocidade de Digitação:</h4>
-          <button @click="toggleSpeedMenu" class="close-button">×</button>
-        </div>
-        <ul>
-          <li 
-            @click="changeSpeed('normal')" 
-            :class="{ 'active': state.currentSpeed === 'normal' }">
-            <span class="speed-icon">⏱️</span>
-            <span class="speed-label">Normal</span>
-          </li>
-          <li 
-            @click="changeSpeed('fast')" 
-            :class="{ 'active': state.currentSpeed === 'fast' }">
-            <span class="speed-icon">⚡</span>
-            <span class="speed-label">Rápida</span>
-          </li>
-          <li 
-            @click="changeSpeed('instant')" 
-            :class="{ 'active': state.currentSpeed === 'instant' }">
-            <span class="speed-icon">🚀</span>
-            <span class="speed-label">Instantânea</span>
-          </li>
-        </ul>
-      </div>
-      
-      <!-- Dropdown de ajuda com comandos disponíveis -->
-      <div v-if="state.helpVisible" class="help-dropdown">
-        <div class="help-header">
-          <h4>Comandos Disponíveis:</h4>
-          <button @click="toggleHelp" class="close-button">×</button>
-        </div>
-        <ul>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('help'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>help</strong> - Mostra esta lista de comandos
+  <div class="crt-monitor">
+    <div class="crt-frame">
+      <div class="crt-screen">
+        <div class="terminal-layout">
+          <!-- Coluna esquerda - histórico de comandos -->
+          <div id="command-history-column" class="command-history">
+            <div class="history-header">
+              <h3>Histórico de Comandos</h3>
+              <div class="header-buttons">
+                <button @click="toggleSpeedMenu" class="speed-button" title="Ajustar velocidade">
+                  <span v-if="state.currentSpeed === 'normal'">⏱️</span>
+                  <span v-else-if="state.currentSpeed === 'fast'">⚡</span>
+                  <span v-else>🚀</span>
+                </button>
+                <button @click="clearCommandHistory" class="clear-button" title="Limpar histórico">🗑️</button>
+                <button id="help-button" @click="toggleHelp" class="help-button">?</button>
               </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('tutorial'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>tutorial</strong> - Mostra a tela de ajuda/instruções iniciais
-              </div>
-            </div>
-          </li>
-         
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('basic'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>basic</strong> - Mostra as informações básicas iniciais
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('pdf'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>pdf</strong> - Baixa o currículo em formato PDF
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('curriculum'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>curriculum</strong> - Exibe todas as informações do CV
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('contact'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>contact</strong> - Mostra informações de contato
-              </div>
-            </div>
-          </li>
-           <li>
-            <div class="command-item">
-              <button @click="processCommand('about'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>about</strong> - Exibe informações pessoais
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('experience'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>experience</strong> - Exibe experiência profissional
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('skills'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>skills</strong> - Mostra habilidades técnicas
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('afinidades'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>afinidades</strong> - Mostra afinidades profissionais
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('education'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>education</strong> - Mostra formação acadêmica
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('projects'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>projects</strong> - Exibe projetos e prêmios
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('image'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>image</strong> - Mostra a imagem ASCII
-              </div>
-            </div>
-          </li>
-          
-          
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('sound'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>sound</strong> - Ativa/desativa os efeitos sonoros
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('clear'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>clear</strong> - Limpa a tela do terminal
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('speed'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>speed</strong> - Mostra e altera a velocidade de digitação
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('speed:normal'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>speed:normal</strong> - Velocidade normal de digitação
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('speed:fast'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>speed:fast</strong> - Velocidade rápida de digitação
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="command-item">
-              <button @click="processCommand('speed:instant'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
-              <div class="command-description">
-                <strong>speed:instant</strong> - Exibição instantânea (sem animação)
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      
-      <div class="history-content">
-        <div v-for="(cmd, index) in state.commandLines" 
-             :key="index" 
-             class="history-item"
-             :class="{ 'active': state.activeCommand === cmd.text }"
-             @click="executeCommandFromHistory(cmd.text)">
-          <span class="cmd-time">{{ cmd.timestamp }}</span>
-          <span class="cmd-text">{{ cmd.text }}</span>
-        </div>
-      </div>
-      <div id="command-prompt" class="history-input" :class="{ 'disabled': state.isTyping }">
-        <div class="prompt-line">
-          <span class="prompt">user@retro-terminal:~$</span>
-          <span class="input-text">{{ state.currentInput }}</span>
-          <span class="cursor" :class="{ 'blink': !state.isTyping }"></span>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Coluna direita - saída dos comandos -->
-    <div id="output-panel" class="output-panel">
-      <div class="output-header">
-        <h3>Saída do Terminal</h3>
-      </div>
-      <div class="output-content">
-        <div v-for="(line, index) in state.lines" :key="index" class="terminal-line">
-          <div v-if="line.isLink" 
-               @click="line.isDownload ? downloadPDF(curriculo) : window.open(line.url, '_blank')" 
-               :class="{ 
-                 'command-line': line.isCommand, 
-                 'ascii-art': line.text.includes('⣿'),
-                 'hint-line': line.isHint,
-                 'link-line': line.isLink,
-                 'download-link': line.isDownload
-               }">
-            {{ line.text }}
-          </div>
-          <div v-else :class="{ 
-            'command-line': line.isCommand, 
-            'ascii-art': line.text.includes('⣿'),
-            'hint-line': line.isHint 
-          }">{{ line.text }}</div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Indicador de digitação desativada -->
-    <div v-if="state.isTyping" class="typing-indicator">
-      Aguarde... processando saída
-    </div>
-    
-    <!-- Overlay inicial de ajuda simplificado -->
-    <div v-if="state.initialOverlayVisible" class="initial-help-overlay">
-      <div class="overlay-content">
-        <button @click="hideInitialOverlay" class="close-overlay-button">×</button>
-        
-        <!-- Substituir os pointers por uma mensagem central mais limpa -->
-        <div class="help-message">
-          <h2> BEM-VINDO! </h2>
-          <p>Este terminal permite explorar o currículo de Sávio Godinho de forma interativa.</p>
-          
-          <div class="instructions">
-            <div class="instruction-item">
-              <strong>📝 COMO USAR:</strong>
-              <p>• Digite comandos na parte inferior esquerda e pressione ENTER</p>
-              <p>• Use as setas ↑↓ para navegar no histórico de comandos</p>
             </div>
             
-            <div class="instruction-item">
-              <strong>🧭 LAYOUT:</strong>
-              <p>• ESQUERDA: Histórico de comandos e entrada de texto</p>
-              <p>• DIREITA: Saída dos comandos (resultados)</p>
+            <!-- Menu de velocidade -->
+            <div v-if="state.speedMenuVisible" class="speed-dropdown">
+              <div class="speed-header">
+                <h4>Velocidade de Digitação:</h4>
+                <button @click="toggleSpeedMenu" class="close-button">×</button>
+              </div>
+              <ul>
+                <li 
+                  @click="changeSpeed('normal')" 
+                  :class="{ 'active': state.currentSpeed === 'normal' }">
+                  <span class="speed-icon">⏱️</span>
+                  <span class="speed-label">Normal</span>
+                </li>
+                <li 
+                  @click="changeSpeed('fast')" 
+                  :class="{ 'active': state.currentSpeed === 'fast' }">
+                  <span class="speed-icon">⚡</span>
+                  <span class="speed-label">Rápida</span>
+                </li>
+                <li 
+                  @click="changeSpeed('instant')" 
+                  :class="{ 'active': state.currentSpeed === 'instant' }">
+                  <span class="speed-icon">🚀</span>
+                  <span class="speed-label">Instantânea</span>
+                </li>
+              </ul>
             </div>
             
-            <div class="instruction-item">
-              <strong>🛠️ COMANDOS ÚTEIS:</strong>
-              <p>• <code>help</code> - Lista todos os comandos disponíveis</p>
-              <p>• <code>pdf</code> - Baixa o currículo em PDF</p>
-              <p>• <code>curriculum</code> - Exibe o currículo completo</p>
-              <p>• <code>contact</code> - Mostra informações de contato</p>
+            <!-- Dropdown de ajuda com comandos disponíveis -->
+            <div v-if="state.helpVisible" class="help-dropdown">
+              <div class="help-header">
+                <h4>Comandos Disponíveis:</h4>
+                <button @click="toggleHelp" class="close-button">×</button>
+              </div>
+              <ul>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('help'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>help</strong> - Mostra esta lista de comandos
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('tutorial'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>tutorial</strong> - Mostra a tela de ajuda/instruções iniciais
+                    </div>
+                  </div>
+                </li>
+               
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('basic'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>basic</strong> - Mostra as informações básicas iniciais
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('pdf'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>pdf</strong> - Baixa o currículo em formato PDF
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('curriculum'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>curriculum</strong> - Exibe todas as informações do CV
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('contact'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>contact</strong> - Mostra informações de contato
+                    </div>
+                  </div>
+                </li>
+                 <li>
+                  <div class="command-item">
+                    <button @click="processCommand('about'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>about</strong> - Exibe informações pessoais
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('experience'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>experience</strong> - Exibe experiência profissional
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('skills'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>skills</strong> - Mostra habilidades técnicas
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('afinidades'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>afinidades</strong> - Mostra afinidades profissionais
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('education'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>education</strong> - Mostra formação acadêmica
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('projects'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>projects</strong> - Exibe projetos e prêmios
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('image'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>image</strong> - Mostra a imagem ASCII
+                    </div>
+                  </div>
+                </li>
+                
+                
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('sound'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>sound</strong> - Ativa/desativa os efeitos sonoros
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('clear'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>clear</strong> - Limpa a tela do terminal
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('speed'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>speed</strong> - Mostra e altera a velocidade de digitação
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('speed:normal'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>speed:normal</strong> - Velocidade normal de digitação
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('speed:fast'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>speed:fast</strong> - Velocidade rápida de digitação
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('speed:instant'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>speed:instant</strong> - Exibição instantânea (sem animação)
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </div>
             
-            <div class="instruction-item">
-              <strong>🎛️ BOTÕES:</strong>
-              <p>• <span class="help-icon">?</span> - Mostra a lista de comandos disponíveis</p>
-              <p>• <span class="speed-icon">⏱️</span> - Ajusta velocidade de digitação</p>
-              <p>• <span class="clear-icon">🗑️</span> - Limpa o histórico de comandos</p>
+            <div class="history-content">
+              <div v-for="(cmd, index) in state.commandLines" 
+                   :key="index" 
+                   class="history-item"
+                   :class="{ 'active': state.activeCommand === cmd.text }"
+                   @click="executeCommandFromHistory(cmd.text)">
+                <span class="cmd-time">{{ cmd.timestamp }}</span>
+                <span class="cmd-text">{{ cmd.text }}</span>
+              </div>
+            </div>
+            <div id="command-prompt" class="history-input" :class="{ 'disabled': state.isTyping }">
+              <div class="prompt-line">
+                <span class="prompt">user@retro-terminal:~$</span>
+                <span class="input-text">{{ state.currentInput }}</span>
+                <span class="cursor" :class="{ 'blink': !state.isTyping }"></span>
+              </div>
             </div>
           </div>
           
-          <p class="continue-note">Para continuar, clique no X...</p>
+          <!-- Coluna direita - saída dos comandos -->
+          <div id="output-panel" class="output-panel">
+            <div class="output-header">
+              <h3>Saída do Terminal</h3>
+            </div>
+            <div class="output-content">
+              <div v-for="(line, index) in state.lines" :key="index" class="terminal-line">
+                <div v-if="line.isLink" 
+                     @click="line.isDownload ? downloadPDF(curriculo) : window.open(line.url, '_blank')" 
+                     :class="{ 
+                       'command-line': line.isCommand, 
+                       'ascii-art': line.text.includes('⣿'),
+                       'hint-line': line.isHint,
+                       'link-line': line.isLink,
+                       'download-link': line.isDownload
+                     }">
+                  {{ line.text }}
+                </div>
+                <div v-else :class="{ 
+                  'command-line': line.isCommand, 
+                  'ascii-art': line.text.includes('⣿'),
+                  'hint-line': line.isHint 
+                }">{{ line.text }}</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Indicador de digitação desativada -->
+          <div v-if="state.isTyping" class="typing-indicator">
+            Aguarde... processando saída
+          </div>
+          
+          <!-- Overlay inicial de ajuda simplificado -->
+          <div v-if="state.initialOverlayVisible" class="initial-help-overlay">
+            <div class="overlay-content">
+              <!-- Substituir os pointers por uma mensagem central mais limpa -->
+              <div class="help-message">
+                <div class="help-tutorial-header">
+                  <h2>BEM-VINDO!</h2>
+                  <button @click="hideInitialOverlay" class="close-button">×</button>
+                </div>
+                
+                <p>Este terminal permite explorar o currículo de Sávio Godinho de forma interativa.</p>
+                
+                <div class="instructions">
+                  <div class="instruction-item">
+                    <strong>📝 COMO USAR:</strong>
+                    <p>• Digite comandos na parte inferior esquerda e pressione ENTER</p>
+                    <p>• Use as setas ↑↓ para navegar no histórico de comandos</p>
+                  </div>
+                  
+                  <div class="instruction-item">
+                    <strong>🧭 LAYOUT:</strong>
+                    <p>• ESQUERDA: Histórico de comandos e entrada de texto</p>
+                    <p>• DIREITA: Saída dos comandos (resultados)</p>
+                  </div>
+                  
+                  <div class="instruction-item">
+                    <strong>🛠️ COMANDOS ÚTEIS:</strong>
+                    <p>• <code>help</code> - Lista todos os comandos disponíveis</p>
+                    <p>• <code>pdf</code> - Baixa o currículo em PDF</p>
+                    <p>• <code>curriculum</code> - Exibe o currículo completo</p>
+                    <p>• <code>contact</code> - Mostra informações de contato</p>
+                  </div>
+                  
+                  <div class="instruction-item">
+                    <strong>🎛️ BOTÕES:</strong>
+                    <p>• <span class="help-icon">?</span> - Mostra a lista de comandos disponíveis</p>
+                    <p>• <span class="speed-icon">⏱️</span> - Ajusta velocidade de digitação</p>
+                    <p>• <span class="clear-icon">🗑️</span> - Limpa o histórico de comandos</p>
+                  </div>
+                </div>
+                
+                <p class="continue-note">Para continuar, clique no X...</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="terminal-overlay"></div>
+          
+          <!-- Scanlines e efeitos CRT -->
+          <div class="crt-scanline"></div>
+          <div class="crt-glow"></div>
         </div>
       </div>
+      <div class="crt-reflection"></div>
     </div>
-    
-    <div class="terminal-overlay"></div>
   </div>
 </template>
 
 <style scoped>
+/* Estilos CRT Monitor */
+.crt-monitor {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #2a2a2a;
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8) inset, 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.crt-frame {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: #111;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 0 8px #333, 0 0 0 12px #1a1a1a;
+}
+
+.crt-screen {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #000;
+  overflow: hidden;
+  border-radius: 5px;
+  animation: flicker 0.15s infinite alternate;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0.98;
+  }
+  100% {
+    opacity: 1.0;
+  }
+}
+
+.crt-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.2) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 15;
+  opacity: 0.7; /* Reduzir opacidade das scanlines para melhorar legibilidade */
+}
+
+.crt-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 20px rgba(255, 200, 0, 0.15) inset;
+  border-radius: 5px;
+  pointer-events: none;
+  z-index: 16;
+  mix-blend-mode: screen;
+}
+
+.crt-reflection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0) 40%
+  );
+  pointer-events: none;
+  z-index: 20;
+  border-radius: 5px;
+}
+
 .terminal-layout {
   display: flex;
   width: 100%;
@@ -993,261 +1095,144 @@ const downloadPDF = (pdfUrl) => {
   padding: 10px;
   box-sizing: border-box;
   position: relative;
-}
-
-/* Estilos da coluna de histórico de comandos */
-.command-history {
-  flex: 0 0 30%;
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.8);
-  border: 1px solid #00aa00;
-  border-radius: 5px;
   overflow: hidden;
+  filter: sepia(10%) hue-rotate(15deg) saturate(130%) brightness(110%);
 }
 
-.history-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #1b1b1b;
-  border-bottom: 1px solid #333;
-}
-
-.history-header h3 {
-  margin: 0;
-  color: #00ff00;
-  font-size: 1em;
-  text-align: center;
-}
-
-.header-buttons {
-  display: flex;
-  gap: 8px;
-}
-
-.speed-button {
-  background-color: #333;
-  color: #33ccff;
-  border: 1px solid #33ccff;
-  border-radius: 4px;
-  width: 25px;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 0;
-}
-
-.speed-button:hover {
-  background-color: #33ccff;
-  color: #000;
-}
-
-.clear-button {
-  background-color: #333;
-  color: #ff6b6b;
-  border: 1px solid #ff6b6b;
-  border-radius: 4px;
-  width: 25px;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 0;
-}
-
-.clear-button:hover {
-  background-color: #ff6b6b;
-  color: #000;
-}
-
-.help-button {
-  background-color: #333;
-  color: #0f0;
-  border: 1px solid #0f0;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-weight: bold;
-  padding: 0;
-}
-
-.help-button:hover {
-  background-color: #0f0;
-  color: #000;
-}
-
-.help-dropdown {
+/* Ajuste para efeito de monitor CRT antigo */
+.terminal-overlay {
   position: absolute;
-  width: 30%; /* Mesmo tamanho da coluna de histórico de comandos */
-  max-width: 100%;
-  background-color: #111;
-  border: 1px solid #0f0;
-  padding: 10px;
-  z-index: 10;
-  color: #0f0;
-  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-  top: 40px; /* Posicionamento abaixo do cabeçalho */
+  top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  background-image: 
+    radial-gradient(
+      ellipse at center,
+      rgba(255, 200, 0, 0.05) 0%,
+      rgba(0, 0, 0, 0) 70%
+    );
+  box-shadow: 0 0 30px rgba(255, 200, 0, 0.15) inset;
+  border-radius: 5px;
 }
 
-.help-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #0f0;
-  padding-bottom: 5px;
-}
-
-.help-header h4 {
-  margin: 0;
-}
-
-.help-dropdown ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.help-dropdown li {
-  padding: 5px 0;
-  border-bottom: 1px dotted #333;
-}
-
-.help-dropdown li:last-child {
-  border-bottom: none;
-}
-
-.close-button {
-  background-color: transparent;
-  color: #0f0;
-  border: 1px solid #0f0;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 1;
-  padding: 0;
-}
-
-.close-button:hover {
-  background-color: #0f0;
-  color: #000;
-}
-
-.history-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 5px;
-}
-
-.history-item {
-  padding: 5px 10px;
-  margin-bottom: 5px;
-  border-radius: 3px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: background-color 0.2s;
-}
-
-.history-item:hover {
-  background-color: rgba(0, 255, 0, 0.1);
-}
-
-.history-item.active {
-  background-color: rgba(0, 255, 0, 0.2);
-  border-left: 3px solid #00ff00;
-}
-
-.cmd-time {
-  font-size: 0.8em;
-  color: #00aa00;
+/* Alterar as cores para tom âmbar/amarelo CRT antigo, com mais saturação */
+.command-history, .output-panel {
+  border-color: #ff9900;
 }
 
 .cmd-text {
-  font-weight: bold;
-  color: #00ff00;
+  color: #ffdd00;
+  text-shadow: 0 0 5px rgba(255, 221, 0, 0.5); /* Adicionar glow no texto */
 }
 
-.history-input {
-  padding: 10px;
-  border-top: 1px solid #00aa00;
-  background-color: rgba(0, 0, 0, 0.5);
-  position: relative;
-  cursor: text;
+.prompt {
+  color: #ffdd00;
+  text-shadow: 0 0 5px rgba(255, 221, 0, 0.5);
 }
 
-/* Estilo para quando não é possível digitar */
-.history-input::before {
-  content: '';
+.input-text {
+  color: #ffdd00;
+  text-shadow: 0 0 5px rgba(255, 221, 0, 0.5);
+}
+
+.cursor {
+  background-color: #ffdd00;
+  box-shadow: 0 0 5px #ffdd00;
+}
+
+.help-button {
+  color: #ffdd00;
+  border-color: #ffdd00;
+  text-shadow: 0 0 5px rgba(255, 221, 0, 0.5);
+}
+
+.help-button:hover {
+  background-color: #ffdd00;
+  color: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffcc00;
+}
+
+/* Estilizar scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  .terminal-layout {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .command-history, .output-panel {
+    flex: none;
+    height: 50vh;
+  }
+  
+  .output-content {
+    font-size: 12px;
+  }
+  
+  .ascii-art {
+    font-size: 4px;
+    transform: scale(0.7);
+    transform-origin: left top;
+  }
+}
+
+@media (min-width: 1200px) {
+  .output-content {
+    font-size: 14px;
+  }
+  
+  .ascii-art {
+    font-size: 12px;
+  }
+}
+
+/* Simulação de tela curvada - reduzida para melhorar legibilidade nas bordas */
+.crt-screen::before {
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: none;
-  z-index: 5;
-  cursor: not-allowed;
-}
-
-.history-input.disabled::before {
-  display: block;
-}
-
-/* Estilos da coluna de saída de comandos */
-.output-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.8);
-  border: 1px solid #00aa00;
+  background: 
+    radial-gradient(
+      ellipse at center, 
+      transparent 0%, 
+      rgba(0, 0, 0, 0.1) 90%, 
+      rgba(0, 0, 0, 0.2) 100%
+    );
+  z-index: 11;
+  pointer-events: none;
   border-radius: 5px;
-  overflow: hidden;
 }
 
-.output-header {
-  padding: 10px;
-  background-color: rgba(0, 150, 0, 0.2);
-  border-bottom: 1px solid #00aa00;
+/* Melhorar a visibilidade do texto em todos os componentes */
+.history-header h3 {
+  color: #ffdd00;
+  text-shadow: 0 0 5px rgba(255, 221, 0, 0.5);
 }
 
 .output-header h3 {
-  margin: 0;
-  color: #00ff00;
-  font-size: 1em;
-  text-align: center;
+  color: #ffdd00;
+  text-shadow: 0 0 5px rgba(255, 221, 0, 0.5);
 }
 
-.output-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 15px;
-  font-size: 14px;
-}
-
-/* Estilos do terminal */
 .terminal-line {
-  padding: 2px 0;
-  white-space: pre-wrap;
-  word-break: break-word;
+  text-shadow: 0 0 3px rgba(255, 221, 0, 0.3);
 }
 
 .command-line {
@@ -1305,70 +1290,6 @@ const downloadPDF = (pdfUrl) => {
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
-}
-
-/* Pequenos efeitos de ruído no terminal */
-.terminal-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 10;
-  background-image: 
-    radial-gradient(
-      ellipse at center,
-      rgba(0, 255, 0, 0.05) 0%,
-      rgba(0, 255, 0, 0) 70%
-    );
-}
-
-/* Estilizar scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #000;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #00aa00;
-  border-radius: 3px;
-}
-
-/* Ajustes responsivos */
-@media (max-width: 768px) {
-  .terminal-layout {
-    flex-direction: column;
-    height: auto;
-  }
-  
-  .command-history, .output-panel {
-    flex: none;
-    height: 50vh;
-  }
-  
-  .output-content {
-    font-size: 12px;
-  }
-  
-  .ascii-art {
-    font-size: 4px;
-    transform: scale(0.7);
-    transform-origin: left top;
-  }
-}
-
-@media (min-width: 1200px) {
-  .output-content {
-    font-size: 14px;
-  }
-  
-  .ascii-art {
-    font-size: 12px;
-  }
 }
 
 .typing-indicator {
@@ -1555,11 +1476,11 @@ const downloadPDF = (pdfUrl) => {
 
 .close-overlay-button {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: #ff3333;
-  color: white;
-  border: none;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(80, 80, 0, 0.5);
+  color: #ffff00;
+  border: 2px solid #ffaa00;
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -1569,6 +1490,15 @@ const downloadPDF = (pdfUrl) => {
   justify-content: center;
   cursor: pointer;
   z-index: 1001;
+  box-shadow: 0 0 12px rgba(255, 255, 0, 0.6), inset 0 0 8px rgba(255, 255, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.close-overlay-button:hover {
+  background-color: #ffff00;
+  color: #000;
+  transform: rotate(90deg);
+  box-shadow: 0 0 20px rgba(255, 255, 0, 0.9);
 }
 
 /* Novos estilos para a mensagem central */
@@ -1582,6 +1512,7 @@ const downloadPDF = (pdfUrl) => {
   text-align: center;
   box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
   animation: glow 2s infinite alternate;
+  position: relative; /* Adicionado para posicionamento do botão */
 }
 
 @keyframes glow {
@@ -1589,11 +1520,28 @@ const downloadPDF = (pdfUrl) => {
   to { box-shadow: 0 0 20px rgba(0, 255, 0, 0.7); }
 }
 
-.help-message h2 {
-  margin-top: 0;
+.help-tutorial-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
+  border-bottom: 1px solid #00ff00;
+  padding-bottom: 10px;
+}
+
+.help-tutorial-header h2 {
+  margin: 0;
   font-size: 24px;
   color: #00ff00;
+}
+
+.help-tutorial-header .close-button {
+  background-color: rgba(80, 80, 0, 0.5);
+  color: #ffff00;
+  border: 2px solid #ffaa00;
+  position: relative;
+  top: 0;
+  right: 0;
 }
 
 .instructions {

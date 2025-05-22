@@ -1,0 +1,382 @@
+/* Estilos CRT Monitor */
+.crt-monitor {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #2a2a2a;
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8) inset, 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.crt-frame {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: #111;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 0 8px #333, 0 0 0 12px #1a1a1a;
+}
+
+.crt-screen {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #000;
+  overflow: hidden;
+  border-radius: 5px;
+  animation: flicker 0.15s infinite alternate;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0.98;
+  }
+  100% {
+    opacity: 1.0;
+  }
+}
+
+.crt-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.15) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 15;
+  opacity: 0.6; /* Reduzir opacidade das scanlines para melhorar legibilidade */
+}
+
+.crt-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 20px rgba(255, 200, 0, 0.15) inset;
+  border-radius: 5px;
+  pointer-events: none;
+  z-index: 16;
+  mix-blend-mode: screen;
+}
+
+.crt-reflection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0) 40%
+  );
+  pointer-events: none;
+  z-index: 20;
+  border-radius: 5px;
+}
+
+/* Simulação de tela curvada - reduzida para melhorar legibilidade nas bordas */
+.crt-screen::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(
+      ellipse at center, 
+      transparent 0%, 
+      rgba(0, 0, 0, 0.05) 80%, 
+      rgba(0, 0, 0, 0.15) 100%
+    );
+  z-index: 11;
+  pointer-events: none;
+  border-radius: 5px;
+}
+
+/* Estilo âmbar para monitor CRT - Cores mais vivas */
+.terminal-layout {
+  filter: sepia(8%) hue-rotate(10deg) saturate(220%) brightness(130%) contrast(130%);
+  gap: 15px;
+}
+
+/* Redefinir tamanho das colunas */
+.command-history {
+  flex: 0 0 25% !important; /* Reduzir largura da coluna de histórico */
+}
+
+.output-panel {
+  flex: 1 !important; /* Garantir que a coluna de saída ocupe o espaço restante */
+  display: flex !important; 
+  flex-direction: column !important;
+  overflow: hidden !important; /* Esconder overflow do painel, mas permitir no conteúdo */
+  max-height: 100% !important;
+}
+
+/* Ajustes para conteúdo */
+.output-content {
+  padding: 15px !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  overflow-y: auto !important; /* Garantir que a rolagem vertical funcione */
+  height: calc(100% - 50px) !important; /* Altura total menos o header */
+  max-height: calc(100vh - 120px) !important; /* Limitar altura máxima */
+}
+
+.history-content {
+  padding: 8px !important;
+  overflow-y: auto !important; /* Permitir rolagem na coluna de histórico também */
+  flex: 1 !important;
+  max-height: calc(100% - 100px) !important; /* Altura máxima considerando header e input */
+}
+
+.history-item {
+  padding: 4px 8px !important;
+  margin-bottom: 4px !important;
+}
+
+/* Cores âmbar/amarelo mais vivas para monitor CRT */
+.cmd-text, .prompt, .input-text, .history-header h3, .output-header h3, 
+.command-line, .typing-indicator {
+  color: #ffff00 !important; /* Amarelo totalmente saturado */
+  text-shadow: 0 0 8px rgba(255, 255, 0, 0.9);
+}
+
+.cursor {
+  background-color: #ffee00 !important;
+  box-shadow: 0 0 8px #ffee00;
+}
+
+.hint-line {
+  color: #ffff88 !important;
+  text-shadow: 0 0 6px rgba(255, 255, 136, 0.7);
+}
+
+.link-line {
+  color: #ffbb55 !important;
+  text-shadow: 0 0 6px rgba(255, 187, 85, 0.7);
+}
+
+.download-link {
+  color: #ffff88 !important;
+  text-shadow: 0 0 6px rgba(255, 255, 136, 0.7);
+  border-color: #ffff88 !important;
+}
+
+.download-link:hover {
+  background-color: #ffee00 !important;
+  color: #000 !important;
+}
+
+.terminal-line {
+  text-shadow: 0 0 4px rgba(255, 238, 0, 0.4);
+}
+
+.command-history, .output-panel {
+  border-color: #ffaa00 !important;
+}
+
+/* Melhorar a interação com scrollbars */
+::-webkit-scrollbar {
+  width: 8px !important; /* Aumentar largura para facilitar o uso */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffcc00 !important;
+  border-radius: 4px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ffee00 !important; /* Mais brilhante ao passar o mouse */
+  cursor: pointer !important;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(50, 50, 0, 0.1) !important; /* Track mais visível */
+  border-radius: 4px !important;
+}
+
+/* Garantir que eventos de rolagem não sejam bloqueados */
+.crt-monitor, .crt-frame, .crt-screen, .terminal-layout {
+  overflow: hidden !important;
+}
+
+/* Terminal overlay para efeito de brilho */
+.terminal-overlay {
+  background-image: 
+    radial-gradient(
+      ellipse at center,
+      rgba(255, 200, 0, 0.05) 0%,
+      rgba(0, 0, 0, 0) 70%
+    ) !important;
+  box-shadow: 0 0 30px rgba(255, 200, 0, 0.15) inset !important;
+}
+
+/* Botões com estilo âmbar muito mais visível */
+.help-button, 
+.clear-button, 
+.speed-button {
+  color: #ffff00 !important;
+  border-color: #ffaa00 !important;
+  text-shadow: 0 0 8px rgba(255, 255, 0, 0.9);
+  width: 34px !important;
+  height: 34px !important;
+  font-size: 20px !important;
+  background-color: rgba(80, 80, 0, 0.5) !important;
+  box-shadow: 0 0 12px rgba(255, 255, 0, 0.6) !important, inset 0 0 8px rgba(255, 255, 0, 0.3) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  border-width: 2px !important;
+  border-style: solid !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 2px !important;
+}
+
+.help-button:hover, .clear-button:hover, .speed-button:hover {
+  background-color: #ffff00 !important;
+  color: #000 !important;
+  transform: scale(1.15) !important;
+  box-shadow: 0 0 20px rgba(255, 255, 0, 0.9) !important;
+}
+
+/* Ponteiro para itens clicáveis */
+.history-item, .run-button, .close-button, .speed-dropdown li,
+.close-overlay-button, .link-line, .download-link {
+  cursor: pointer !important;
+}
+
+/* Estilizar os botões do menu de velocidade */
+.speed-dropdown li {
+  transition: all 0.2s ease !important;
+  border-radius: 4px !important;
+}
+
+.speed-dropdown li:hover {
+  background-color: rgba(255, 221, 0, 0.2) !important;
+  transform: translateX(3px) !important;
+}
+
+/* Corrigir o menu de dúvidas para aparecer como modal */
+.help-dropdown {
+  position: fixed !important; /* Fixado na tela */
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 60% !important; /* Largura responsiva */
+  max-width: 500px !important;
+  max-height: 80vh !important;
+  overflow-y: auto !important;
+  background-color: rgba(0, 0, 0, 0.9) !important;
+  border: 2px solid #ffee00 !important;
+  padding: 20px !important;
+  z-index: 1000 !important;
+  color: #ffee00 !important;
+  box-shadow: 0 0 30px rgba(255, 238, 0, 0.3) !important;
+  border-radius: 10px !important;
+}
+
+/* Adicionar overlay escuro atrás do modal */
+.help-dropdown::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: -1;
+}
+
+/* Reposicionar o header e botão de fechar no modal de ajuda */
+.help-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 15px !important;
+  padding-bottom: 10px !important;
+  border-bottom: 1px solid #ffee00 !important;
+  position: relative !important;
+}
+
+.help-header .close-button {
+  position: absolute !important;
+  top: 0 !important; /* Alterado de -15px para 0 */
+  right: 0 !important; /* Alterado de -15px para 0 */
+  z-index: 1002 !important;
+  background-color: rgba(100, 100, 0, 0.7) !important;
+  border: 2px solid #ffff00 !important;
+}
+
+.help-header h4 {
+  font-size: 18px !important;
+  color: #ffee00 !important;
+  text-shadow: 0 0 6px rgba(255, 238, 0, 0.7);
+}
+
+/* Melhorar estilo dos botões no menu de ajuda */
+.run-button {
+  background-color: rgba(80, 80, 0, 0.5) !important;
+  color: #ffff00 !important;
+  border-color: #ffaa00 !important;
+  text-shadow: 0 0 8px rgba(255, 255, 0, 0.9) !important;
+  box-shadow: 0 0 12px rgba(255, 255, 0, 0.6) !important, inset 0 0 8px rgba(255, 255, 0, 0.3) !important;
+  width: 30px !important;
+  height: 30px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  border-width: 2px !important;
+  border-style: solid !important;
+  font-size: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.run-button:hover {
+  background-color: #ffff00 !important;
+  color: #000 !important;
+  transform: scale(1.15) !important;
+  box-shadow: 0 0 20px rgba(255, 255, 0, 0.9) !important;
+}
+
+/* Melhorar visibilidade do botão de fechar (×) */
+.close-button {
+  background-color: rgba(80, 80, 0, 0.5) !important;
+  color: #ffff00 !important;
+  border-color: #ffaa00 !important;
+  font-weight: bold !important;
+  font-size: 20px !important;
+  width: 30px !important;
+  height: 30px !important;
+  box-shadow: 0 0 12px rgba(255, 255, 0, 0.6) !important, inset 0 0 8px rgba(255, 255, 0, 0.3) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  border-width: 2px !important;
+  border-style: solid !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+}
+
+.close-button:hover {
+  background-color: #ffff00 !important;
+  color: #000 !important;
+  transform: rotate(90deg) !important;
+  box-shadow: 0 0 20px rgba(255, 255, 0, 0.9) !important;
+} 
