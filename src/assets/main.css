@@ -1,0 +1,96 @@
+/* Reset de CSS para o terminal retrô */
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Courier+Prime&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: #111;
+}
+
+#app {
+  font-family: 'Courier Prime', 'Courier New', monospace;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #111;
+  color: #00ff00;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+  position: relative;
+}
+
+/* Efeito de monitor antigo sobreposto à tela toda */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Efeito de reflexo de tela nas bordas */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    rgba(0, 10, 0, 0.15) 50%,
+    rgba(0, 20, 0, 0.3) 100%
+  );
+  pointer-events: none;
+  z-index: 1001;
+}
+
+/* Pequeno efeito de flicker aleatório */
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  5% { opacity: 0.95; }
+  10% { opacity: 0.97; }
+  15% { opacity: 0.95; }
+  20% { opacity: 0.99; }
+  25% { opacity: 0.93; }
+  30% { opacity: 0.98; }
+  35% { opacity: 0.93; }
+  40% { opacity: 0.97; }
+  45% { opacity: 0.95; }
+  50% { opacity: 0.98; }
+  55% { opacity: 0.93; }
+  60% { opacity: 0.99; }
+  65% { opacity: 0.95; }
+  70% { opacity: 0.97; }
+  75% { opacity: 0.94; }
+  80% { opacity: 0.98; }
+  85% { opacity: 0.96; }
+  90% { opacity: 0.98; }
+  95% { opacity: 0.93; }
+  100% { opacity: 0.97; }
+}
+
+.terminal-container {
+  animation: flicker 8s infinite;
+}

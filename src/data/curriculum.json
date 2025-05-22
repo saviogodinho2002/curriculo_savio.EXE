@@ -1,0 +1,90 @@
+{
+  "nome": "Sávio Godinho Moia Gaia",
+  "titulo": "Desenvolvedor FullStack",
+  "resumo": "Desenvolvedor FullStack com experiência em projetos SaaS, e-commerce de venda de passagens e sistemas de gestão portuária. Atuo no desenvolvimento de soluções escaláveis e eficientes, com foco na otimização de processos e integrações estratégicas.\n\nMinhas principais contribuições são:\n• Modernização e otimização de processos de venda, proporcionando uma experiência mais eficiente para vendedores e compradores.\n• Desenvolvimento e aprimoramento de relatórios, aumentando a eficiência e a velocidade das consultas, especialmente para grandes volumes de dados.\n• Implementação de melhorias de segurança e consistência, reduzindo anomalias e fortalecendo a confiabilidade do software.\n• Implementação de novas funcionalidades estratégicas, aumentando a eficiência operacional e a receita da empresa.",
+  "habilidades": [
+    "PHP",
+    "JavaScript/TypeScript",
+    "Node.js",
+    "Vue.js",
+    "Laravel/Inertia",
+    "CSS",
+    "MySQL",
+    "APIs REST",
+    "Integrações de sistemas"
+  ],
+  "afinidades": [
+  "Desenvolvimento backend",
+  "Criação de soluções criativas e escaláveis",
+  "Otimização e resolução de queries SQL complexas",
+  "Desafios de código com foco em lógica e algoritmos",
+  "Arquitetura de sistemas e design de APIs",
+  "Automação de processos e tarefas repetitivas",
+  "Análise e refatoração de código para melhoria de performance",
+  "Resolução de problemas técnicos de alta complexidade"
+],
+  "experiencias": [
+    {
+      "empresa": "W3 COMPANHIA, Santarém/PA",
+      "cargo": "Desenvolvedor de Software",
+      "periodo": "Janeiro de 2023 - Presente",
+      "descricao": "• Desenvolvimento Web FullStack utilizando JavaScript e PHP.\n• Análise e desenvolvimento de funcionalidades Web/Mobile.\n• Desenvolvimento e otimização de banco de dados para melhorar eficiência das consultas.\n• Desenvolvimento de APIs REST.\n• Desenvolvimento de sistema de gerenciamento de catracas.\n• Desenvolvimento de integrações com sistemas como Dropbox, BP-e SEFAZ, Safe2Pay e Sicredi.\n• Tecnologias: PHP, JavaScript, TypeScript, Node, Vue, Laravel, Inertia, CSS, MySQL."
+    },
+    {
+      "empresa": "WebFarma, Santarém/PA",
+      "cargo": "Desenvolvedor de Software (estágio)",
+      "periodo": "Novembro de 2022 - Fevereiro de 2023",
+      "descricao": "• Desenvolvimento Web FullStack utilizando JavaScript e PHP.\n• Análise e desenvolvimento de funcionalidades Web.\n• Desenvolvimento e otimização de banco de dados para melhorar eficiência das consultas.\n• Tecnologias: PHP, JavaScript, TypeScript, Jquery, Ajax, Node, Vue, Laravel, Inertia, CSS, MySQL."
+    }
+  ],
+  "formacao": [
+    {
+      "instituicao": "Universidade Federal do Oeste do Pará, Santarém/PA",
+      "curso": "Bacharelado em Ciência da Computação",
+      "periodo": "Fevereiro de 2020 - Outubro de 2024",
+      "descricao": "• Monitor acadêmico nas disciplinas de Banco de Dados e Laboratório de Programação.\n• Vice-presidente do Centro Acadêmico de Ciência da Computação, promovendo melhorias e representando os estudantes.\n• Monitor do Laboratório de Informática, auxiliando na gestão e suporte técnico."
+    },
+    {
+      "instituicao": "Universidade Federal do Pampa, Alegrete/RS",
+      "curso": "Mestrado",
+      "periodo": "Março de 2025 (Previsão de início)",
+      "descricao": ""
+    }
+  ],
+ "projetos": [
+  {
+    "nome": "1º Lugar no Hackathon CIAT Santarém",
+    "descricao": "Projeto vencedor da maratona promovida pelo Centro de Inovação Aces Tapajós (CIAT), com foco em desenvolver uma solução tecnológica para conectar empresas locais com estudantes em busca de oportunidades de emprego, promovendo integração entre o setor produtivo e o jovem talento regional.",
+    "link": "#"
+  },
+  {
+    "nome": "3º Lugar no Hackatour Alter do Chão",
+    "descricao": "Solução premiada na competição voltada para fomentar o turismo durante o período de cheias dos rios na região amazônica. O projeto propôs estratégias criativas e tecnológicas para valorizar a cultura local e atrair visitantes mesmo fora da alta temporada.",
+    "link": "#"
+  },
+  {
+    "nome": "River FIAM – Sistema de Gestão para Fundação FIAM (UFOPA)",
+    "descricao": "Sistema desenvolvido em parceria com os colaboradores da Fundação FIAM, responsável por gerenciar recursos de projetos da UFOPA. O River FIAM foi criado para otimizar a organização de documentos como notas fiscais e pedidos de compra, tornando os processos administrativos mais intuitivos, eficientes e automatizados.",
+    "link": "#"
+  },
+  {
+    "nome": "Concrettec – Sistema de Agendamento de Entregas de Concreto",
+    "descricao": "Plataforma criada para uma empresa de análise de concreto, com foco em controle logístico e comunicação. O sistema permite cadastro de clientes, solicitações via web ou WhatsApp e geração de relatórios operacionais e gerenciais, visando reduzir falhas e organizar os pedidos de forma centralizada.",
+    "link": "#"
+  },
+  {
+    "nome": "Yjara Viagens – Modernização de Plataforma de Passagens Fluviais",
+    "descricao": "Atuação no backend da plataforma Yjara Viagens, facilitadora da compra de passagens fluviais na Amazônia. O projeto envolveu otimização de performance, revisão da estrutura de código, definição de regras de negócio e integração com novas funcionalidades, melhorando a experiência do usuário e preparando a plataforma para escalabilidade.",
+    "link": "https://yjaraviagens.com/"
+  }
+]
+,
+  "contato": {
+    "email": "saviogmoiagaia.2001@gmail.com",
+    "telefone": "(93) 99212-1329",
+    "linkedin": "https://www.linkedin.com/in/savio-godinho/",
+    "github": "https://github.com/saviogodinho2002",
+    "localizacao": "Santarém, Pará"
+  },
+  "asciiArt": "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠋⠛⠛⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⠇⡀⡀⡀⣠⣀⡀⡀⡀⠹⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣏⡀⡀⡀⢼⣿⣿⣄⡀⡀⡀⢿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⠆⢀⣀⣀⣼⠁⡀⡀⡀⡀⢼⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⣤⣿⠛⣟⡛⢸⣿⠗⡀⢀⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣷⣾⣿⣤⡶⠐⣠⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⢷⠈⠉⠉⠁⡀⢦⣿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⠿⠟⠛⠋⠉⡀⠁⡀⡀⡀⡀⡀⡀⠈⠉⠛⠻⢿⣿⣿\n"
+} 
