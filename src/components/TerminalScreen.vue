@@ -979,8 +979,10 @@ const downloadPDF = (pdfUrl) => {
               <div class="prompt-line">
                 <span class="prompt">user@retro-terminal:~$</span>
                 <span v-if="!isMobile" class="input-text">{{ state.currentInput }}</span>
+                <span v-if="!isMobile" class="cursor" :class="{ 'blink': !state.isTyping }"></span>
+              </div>
+              <div v-if="isMobile" class="mobile-input-container">
                 <input 
-                  v-if="isMobile" 
                   ref="mobileInputRef"
                   type="text" 
                   class="mobile-input-visible"
@@ -993,7 +995,6 @@ const downloadPDF = (pdfUrl) => {
                   autocapitalize="off"
                   spellcheck="false"
                 />
-                <span v-if="!isMobile" class="cursor" :class="{ 'blink': !state.isTyping }"></span>
               </div>
             </div>
           </div>
@@ -2129,20 +2130,47 @@ const downloadPDF = (pdfUrl) => {
 
 .mobile-input-visible {
   flex: 1;
+  width: 100%;
   background-color: transparent;
   color: #ffee00;
   border: none;
   outline: none;
   font-family: monospace;
   font-size: 16px;
-  padding: 0;
-  margin-left: 5px;
+  padding: 5px;
   caret-color: #ffee00;
   text-shadow: 0 0 5px rgba(255, 221, 0, 0.5);
+  box-sizing: border-box;
+  border-left: 2px solid #ffee00;
 }
 
 .mobile-input-visible::placeholder {
   color: rgba(255, 238, 0, 0.5);
   opacity: 0.7;
+}
+
+/* Ajustes específicos para dispositivos móveis muito pequenos */
+@media (max-width: 400px) {
+  .prompt-line {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .prompt {
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .mobile-input-container {
+    margin-top: 5px;
+    width: 100%;
+  }
+}
+
+/* Adicionar estilos para o container de input móvel */
+.mobile-input-container {
+  width: 100%;
+  margin-top: 5px;
+  padding-left: 5px;
 }
 </style>
