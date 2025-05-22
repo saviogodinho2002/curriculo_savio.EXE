@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, reactive, onUnmounted, watch } from 'vue';
+import { ref, onMounted, reactive, onUnmounted, watch, computed } from 'vue';
 import typeSound from './TypeSound';
 import cvDataJson from '../data/curriculum.json';
 import curriculo from '../assets/curriculo_savio.pdf';
@@ -42,6 +42,9 @@ const commandDelay = ref(speedSettings.normal.commandDelay);
 
 // Controle de estado do campo de entrada móvel
 const isInputActive = ref(false);
+
+// Adicionar referência para armazenar temporariamente o texto de entrada móvel
+const mobileInputText = ref('');
 
 // Estado do terminal
 const state = reactive({
@@ -499,9 +502,9 @@ const clearCommandHistory = () => {
   }
 };
 
-// Tratar teclas pressionadas
+// Tratar teclas pressionadas (apenas para desktop)
 const handleKeyDown = (e) => {
-  if (state.isTyping || !state.promptVisible) return;
+  if (state.isTyping || !state.promptVisible || isMobile.value) return;
   
   if (e.key === 'Enter') {
     if (state.currentInput.trim()) {
@@ -578,34 +581,20 @@ const handleKeyDown = (e) => {
 
 // Função para sincronizar o campo de texto móvel com o estado do terminal
 const syncMobileInput = (e) => {
-  // Abordagem mais robusta para entrada de texto em dispositivos móveis
-  const inputValue = e.target.value;
+  // Armazenar o texto digitado na referência temporária, não no estado principal
+  mobileInputText.value = e.target.value;
   
-  // Atualizar o estado diretamente, mas manter o cursor na posição correta
-  state.currentInput = inputValue;
-  
-  // Garantir que o valor do campo seja o mesmo do estado
-  if (mobileInputRef.value) {
-    // Pequeno atraso para garantir que o campo seja atualizado após o Vue renderizar
-    setTimeout(() => {
-      mobileInputRef.value.value = state.currentInput;
-    }, 10);
-  }
-  
-  // Som de digitação
   if (state.isSoundEnabled) {
     typeSound.typeKey();
   }
-  
-  scrollToBottom();
 };
 
-// Função para lidar com envio de comando via campo móvel
+// Função para enviar o comando do campo móvel
 const handleMobileSubmit = () => {
-  if (state.isTyping || !state.promptVisible || !state.currentInput.trim()) return;
+  if (state.isTyping || !state.promptVisible || !mobileInputText.value.trim()) return;
   
-  const command = state.currentInput.trim();
-  state.currentInput = ''; // Limpar o campo de entrada
+  const command = mobileInputText.value.trim();
+  mobileInputText.value = ''; // Limpar o campo de entrada temporário
   
   if (mobileInputRef.value) {
     mobileInputRef.value.value = '';
@@ -616,11 +605,21 @@ const handleMobileSubmit = () => {
   processCommand(command);
 };
 
+// Função para atualizar o texto visível na interface
+const displayInputText = computed(() => {
+  // Em dispositivos móveis, mostrar o texto da referência temporária
+  // Em desktop, mostrar o texto do estado principal
+  return isMobile.value ? mobileInputText.value : state.currentInput;
+});
+
 // Função para focar no campo de texto móvel
 const focusMobileInput = () => {
   if (isMobile.value && mobileInputRef.value && !state.isTyping && state.promptVisible) {
     mobileInputRef.value.focus();
-    isInputActive.value = true; // Ativar o estado de entrada
+    isInputActive.value = true;
+    
+    // Garantir que o campo de entrada tenha o texto correto
+    mobileInputRef.value.value = mobileInputText.value;
     
     // Pequeno atraso para garantir que o teclado virtual apareça no iOS
     setTimeout(() => {
@@ -985,17 +984,16 @@ const downloadPDF = (pdfUrl) => {
                  @click="focusMobileInput">
               <div class="prompt-line">
                 <span class="prompt">user@retro-terminal:~$</span>
-                <span class="input-text">{{ state.currentInput }}</span>
+                <span class="input-text">{{ displayInputText }}</span>
                 <span class="cursor" :class="{ 'blink': !state.isTyping }"></span>
               </div>
               
-              <!-- Campo de entrada para dispositivos móveis -->
+              <!-- Campo de entrada para dispositivos móveis - sem v-model ou :value -->
               <input 
                 v-if="isMobile" 
                 ref="mobileInputRef"
                 type="text" 
                 class="mobile-input"
-                :value="state.currentInput"
                 @input="syncMobileInput"
                 @keydown.enter="handleMobileSubmit"
                 @blur="handleInputBlur"
