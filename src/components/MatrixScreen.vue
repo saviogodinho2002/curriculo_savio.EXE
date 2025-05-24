@@ -319,7 +319,7 @@ onUnmounted(() => {
               <button @click="() => window.location.href = '/'" class="back-button" title="Voltar ao terminal">
                 ⬅️ Terminal
               </button>
-              <h3>Visualização da Matriz</h3>
+              <h3>Naves em batalha ASCII </h3>
             </div>
             <div class="header-controls">
               <div class="controls-info">
