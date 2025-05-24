@@ -171,6 +171,28 @@ function newEnemy(y){
         ^
 
 */
+function newExplosion(x, y){
+    return {
+        x: x,
+        y: y,
+        symbol: '*',
+        state: 0
+    }
+}
+let explosions = [];
+let lastExplosionTime = 0;
+const delayBetweenExplosions = 1000;
+
+
+function calcWaveMovement(x) {
+  const yBase = 5       ; // valor central da onda
+  const amplitude = 1; // variação máxima
+  const comprimentoDeOnda = 64; // frequência da onda
+
+  const y = Math.round(yBase + amplitude * Math.sin((2 * Math.PI * x) / comprimentoDeOnda));
+  return y;
+}
+
 function tick() {
   if (state.isPaused) return; // Não atualizar se estiver pausado
   
@@ -213,7 +235,7 @@ function tick() {
   enemies = enemies.filter(enemy => enemy.x != width-7 && !enemeyCollosionWithAnyProjectile(enemy));
   for(let i = 0; i < enemies.length; i++){
         enemies[i].x += enemies[i].speed;
-    
+        enemies[i].y = calcWaveMovement(enemies[i].x);
   }
 
   const sortSpawnEnemy = Math.random() < 0.01;
@@ -230,7 +252,10 @@ function tick() {
   for(let i = 0; i < projectiles.length; i++){
     projectiles[i].y -= projectiles[i].speed;
   }
-
+  explosions = explosions.filter(explosion => explosion.state < 4);
+  for(let i = 0; i < explosions.length; i++){
+    explosions[i].state += 1;
+  }
 }
 function renderPlayer(screenTemp){
     screenTemp[player.y][player.x] = '<';
@@ -244,11 +269,18 @@ function renderPlayer(screenTemp){
     return screenTemp;
 }
 function enemeyCollosionWithAnyProjectile(enemy){
+    let collision = false;
+    let i;
     for(let i = 0; i < projectiles.length; i++){
         if(checkCollisionWithEnemy(projectiles[i], enemy)){
-            return true;
+            collision = true;
+             projectiles.splice(i, 1); // remove o projétil que colidiu
+            explosions.push(newExplosion(enemy.x+2, enemy.y+1));
+            break;
         }
     }
+    
+    return collision;
 }
 function checkCollisionWithEnemy(projectile, enemy) {
     if (projectile.y === enemy.y + 1) {
@@ -259,6 +291,7 @@ function checkCollisionWithEnemy(projectile, enemy) {
     
     return false;
 }
+
 function renderEnemy(screenTemp, enemy){
     
 
@@ -278,6 +311,24 @@ function renderProjectiles(screenTemp){
     }
     return screenTemp;
 }
+function renderExplosions(screenTemp){
+    for(let i = 0; i < explosions.length; i++){
+        const currentExplosion = explosions[i];
+        for(let j = 0; j < currentExplosion.state; j++){
+            screenTemp[currentExplosion.y+j][currentExplosion.x] = currentExplosion.symbol;
+            screenTemp[currentExplosion.y-j][currentExplosion.x] = currentExplosion.symbol;
+            screenTemp[currentExplosion.y][currentExplosion.x+j] = currentExplosion.symbol;
+            screenTemp[currentExplosion.y][currentExplosion.x-j] = currentExplosion.symbol;
+            screenTemp[currentExplosion.y+j][currentExplosion.x+j] = currentExplosion.symbol;
+            screenTemp[currentExplosion.y-j][currentExplosion.x-j] = currentExplosion.symbol;
+            screenTemp[currentExplosion.y+j][currentExplosion.x-j] = currentExplosion.symbol;
+            screenTemp[currentExplosion.y-j][currentExplosion.x+j] = currentExplosion.symbol;
+        }
+       
+        
+    }
+    return screenTemp;
+}
 
 function render() {
     let screenTemp = screen.value.map(row => row.slice());
@@ -287,6 +338,7 @@ function render() {
     for(let i = 0; i < enemies.length; i++){
         screenTemp = renderEnemy(screenTemp, enemies[i]);
     }
+    screenTemp = renderExplosions(screenTemp);
   typeMatrix(screenTemp);
 }
 setInterval(()=>{
