@@ -78,6 +78,13 @@ const typeText = async (text, isCommand = false) => {
   
   const lineIndex = state.lines.length - 1;
   
+  // Se o texto for um espaço ou vazio, apenas finaliza a linha
+  if (text === ' ' || text === '') {
+    state.lines[lineIndex].finished = true;
+    state.isTyping = false;
+    return new Promise(resolve => setTimeout(resolve, lineDelay.value));
+  }
+  
   for (let i = 0; i < text.length; i++) {
     // Som de digitação a cada caractere
     if (state.isSoundEnabled) {
@@ -147,7 +154,7 @@ const showBasicInfo = async () => {
   // Resumo
   await typeText('RESUMO PROFISSIONAL:');
   await typeMultipleLines(cvData.resumo);
-  await typeText(' ');
+  await typeText(" ");
 
   await typeText('AFINIDADES PROFISSIONAIS:');
     for (const afinidade of cvData.afinidades) {
@@ -227,7 +234,7 @@ const showAllInfo = async () => {
   // Experiência
   await typeText('EXPERIÊNCIA PROFISSIONAL:');
   for (const exp of cvData.experiencias) {
-    await typeText(`${exp.cargo}`);
+    await typeText(`# ${exp.cargo}`);
     await typeText(`${exp.empresa}`);
     await typeText(`${exp.periodo}`);
     await typeMultipleLines(exp.descricao);
@@ -237,7 +244,7 @@ const showAllInfo = async () => {
   // Formação
   await typeText('FORMAÇÃO ACADÊMICA:');
   for (const edu of cvData.formacao) {
-    await typeText(`${edu.curso}`);
+    await typeText(`• ${edu.curso}`);
     await typeText(`${edu.instituicao}`);
     await typeText(`${edu.periodo}`);
     if (edu.descricao) {
@@ -249,7 +256,7 @@ const showAllInfo = async () => {
   // Projetos/Prêmios
   await typeText('CONQUISTAS E PROJETOS:');
   for (const proj of cvData.projetos) {
-    await typeText(`${proj.nome}`);
+    await typeText(`• ${proj.nome}`);
     await typeText(`${proj.descricao}`);
     await typeText(' ');
   }
@@ -257,7 +264,7 @@ const showAllInfo = async () => {
   // Projetos de código
   await typeText('PROJETOS DE CÓDIGO:');
   for (const proj of cvData.projetos_codigo) {
-    await typeText(`${proj.nome}`);
+    await typeText(`• ${proj.nome}`);
     await typeText(`${proj.descricao}`);
     await typeText(`Link: ${proj.link}`);
     await typeText(' ');
@@ -366,7 +373,7 @@ const processCommand = async (cmd) => {
       break;
     case 'experience':
       for (const exp of cvData.experiencias) {
-        await typeText(`${exp.cargo}`);
+        await typeText(`# ${exp.cargo}`);
         await typeText(`${exp.empresa}`);
         await typeText(`${exp.periodo}`);
         await typeMultipleLines(exp.descricao);
@@ -375,7 +382,7 @@ const processCommand = async (cmd) => {
       break;
     case 'education':
       for (const edu of cvData.formacao) {
-        await typeText(`${edu.curso}`);
+        await typeText(`• ${edu.curso}`);
         await typeText(`${edu.instituicao}`);
         await typeText(`${edu.periodo}`);
         if (edu.descricao) {
@@ -390,7 +397,7 @@ const processCommand = async (cmd) => {
     case 'projects':
       await typeText('CONQUISTAS E PROJETOS:');
       for (const proj of cvData.projetos) {
-        await typeText(`${proj.nome}`);
+        await typeText(`• ${proj.nome}`);
         await typeText(`${proj.descricao}`);
         await typeText(' ');
       }
@@ -481,6 +488,12 @@ const processCommand = async (cmd) => {
         await typeText(' ');
       }
       break;
+    case 'matrix':
+      await typeText('Redirecionando para a visualização da matriz...');
+      setTimeout(() => {
+        window.location.href = '/matrix';
+      }, 1000);
+      break;
     default:
       if (state.isSoundEnabled) {
         typeSound.beep();
@@ -502,7 +515,7 @@ const executeCommandFromHistory = (command) => {
   const validCommands = ['help', 'about', 'curriculum', 'contact', 'experience', 'skills', 
                          'afinidades', 'education', 'projects', 'code-projects', 'image', 'basic', 
                          'pdf', 'sound', 'clear', 'speed', 'speed:normal', 'speed:fast', 'speed:instant',
-                         'tutorial'];
+                         'tutorial', 'matrix'];
   
   // Verificar se o comando é válido antes de executar
   if (validCommands.includes(command.toLowerCase())) {
@@ -540,7 +553,7 @@ const handleKeyDown = (e) => {
       const validCommands = ['help', 'about', 'curriculum', 'contact', 'experience', 'skills', 
                            'afinidades', 'education', 'projects', 'code-projects', 'image', 'basic',
                            'pdf', 'sound', 'clear', 'speed', 'speed:normal', 'speed:fast', 'speed:instant',
-                           'tutorial'];
+                           'tutorial', 'matrix'];
       
       if (validCommands.includes(state.currentInput.trim().toLowerCase())) {
         const command = state.currentInput.trim();
@@ -993,6 +1006,14 @@ const downloadPDF = (pdfUrl) => {
                     <button @click="processCommand('speed:instant'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
                     <div class="command-description">
                       <strong>speed:instant</strong> - Exibição instantânea (sem animação)
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="command-item">
+                    <button @click="processCommand('matrix'); toggleHelp();" class="run-button" title="Executar comando">▶️</button>
+                    <div class="command-description">
+                      <strong>matrix</strong> - Abre a visualização da matriz
                     </div>
                   </div>
                 </li>
