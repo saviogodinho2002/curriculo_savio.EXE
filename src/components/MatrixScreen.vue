@@ -187,7 +187,7 @@ const delayBetweenExplosions = 1000;
 function calcWaveMovement(x) {
   const yBase = 5       ; // valor central da onda
   const amplitude = 1; // variação máxima
-  const comprimentoDeOnda = 64; // frequência da onda
+  const comprimentoDeOnda = 48; // frequência da onda
 
   const y = Math.round(yBase + amplitude * Math.sin((2 * Math.PI * x) / comprimentoDeOnda));
   return y;
