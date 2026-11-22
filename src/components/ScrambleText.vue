@@ -12,9 +12,10 @@ const props = defineProps({
 
 // só ASCII: largura idêntica em qualquer fonte monoespaçada (o texto não "pula")
 const GLYPHS = '#$%&*+<>/\\=_-01'
-const motionOk = document.documentElement.classList.contains('motion-ok')
-
-const display = ref(motionOk ? scrambled(props.text, 0) : props.text)
+// começa com o texto final (igual ao HTML pré-renderizado); só embaralha quando ativa
+const display = ref(props.text)
+const motionOk = () =>
+  typeof document !== 'undefined' && document.documentElement.classList.contains('motion-ok')
 let raf = 0
 let timer = 0
 
@@ -46,8 +47,8 @@ function run() {
 watch(
   () => props.active,
   (on) => {
-    if (!on) return
-    if (!motionOk) {
+    if (!on || typeof window === 'undefined') return
+    if (!motionOk()) {
       display.value = props.text
       return
     }
@@ -59,7 +60,7 @@ watch(
 watch(
   () => props.text,
   (t) => {
-    if (!raf || !motionOk) display.value = t
+    if (!raf || !motionOk()) display.value = t
   },
 )
 

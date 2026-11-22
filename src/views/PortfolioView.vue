@@ -3,8 +3,10 @@ import '../assets/theme.css'
 import '../assets/portfolio.css'
 import '../assets/motion.css'
 import CrtBoot from '../components/CrtBoot.vue'
-import { computed, watchEffect } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useHead } from '@unhead/vue'
+import { buildHead } from '../seo/head'
 import { SECTIONS } from '../data/sections'
 import { provideLocale } from '../composables/useLocale'
 import { useActiveSection } from '../composables/useActiveSection'
@@ -33,14 +35,11 @@ const CONTENT = {
 
 // idioma vem da rota ('/' = pt, '/en/' = en) e é repassado a todos os componentes
 const route = useRoute()
-const { t, cv } = provideLocale(computed(() => route.meta.locale ?? 'pt'))
+const { t, cv, locale } = provideLocale(computed(() => route.meta.locale ?? 'pt'))
 
-// título e lang do documento por idioma (na etapa de SEO isso passa para o useHead)
-watchEffect(() => {
-  if (typeof document === 'undefined') return
-  document.documentElement.lang = t.value.htmlLang
-  document.title = `${cv.value.nome} — ${cv.value.titulo}`
-})
+// <head> do idioma (title, description, canonical, hreflang, Open Graph, JSON-LD),
+// gravado no HTML estático pelo vite-ssg
+useHead(computed(() => buildHead(locale.value, cv.value)))
 
 const activeId = useActiveSection(['top', ...SECTIONS.map((s) => s.id)])
 

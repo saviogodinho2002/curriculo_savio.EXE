@@ -28,3 +28,6 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# pasta temporária da pré-renderização (vite-ssg)
+.vite-ssg-temp

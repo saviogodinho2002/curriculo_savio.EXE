@@ -1,20 +1,26 @@
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 // Estado compartilhado do tema (nível de módulo = singleton).
-// O valor inicial já foi aplicado no <html> pelo script inline do index.html.
-// Padrão: escuro (não segue o tema do sistema); o claro só vale se escolhido no botão.
+// Padrão: escuro. O tema real é aplicado no <html> pelo script inline do index.html
+// ANTES da primeira pintura; aqui o estado começa em 'dark' (igual ao HTML pré-renderizado,
+// para a hidratação não divergir) e é sincronizado com o <html> quando o componente monta.
 const STORAGE_KEY = 'theme'
-const root = document.documentElement
+const theme = ref('dark')
+let synced = false
 
 function apply(t) {
-  root.dataset.theme = t
+  document.documentElement.dataset.theme = t
   theme.value = t
 }
 
-const theme = ref(root.dataset.theme || 'dark')
-
 export function useTheme() {
   const isDark = computed(() => theme.value === 'dark')
+
+  onMounted(() => {
+    if (synced) return
+    synced = true
+    theme.value = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark'
+  })
 
   function setTheme(t) {
     apply(t)

@@ -1,6 +1,6 @@
 <script setup>
 // Hero no formato da saída do neofetch: arte ASCII à esquerda, chave: valor à direita.
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useTheme } from '../composables/useTheme'
 import { useLocale } from '../composables/useLocale'
 // foto em dot art (braille, 100 colunas × 50 linhas), uma versão para cada tema;
@@ -8,8 +8,11 @@ import { useLocale } from '../composables/useLocale'
 import artLight from '../data/dot-art-light.txt?raw'
 import artDark from '../data/dot-art-dark.txt?raw'
 
+// até montar, usa a arte escura (igual ao HTML pré-renderizado); depois segue o tema
 const { isDark } = useTheme()
-const dotArt = computed(() => (isDark.value ? artDark : artLight).trimEnd())
+const mounted = ref(false)
+onMounted(() => (mounted.value = true))
+const dotArt = computed(() => (!mounted.value || isDark.value ? artDark : artLight).trimEnd())
 
 const props = defineProps({
   cv: { type: Object, required: true },

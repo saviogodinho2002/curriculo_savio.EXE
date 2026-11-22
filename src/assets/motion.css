@@ -16,6 +16,11 @@
 
 /* ===== Boot CRT (CrtBoot.vue) ===== */
 
+/* o overlay vem no HTML estático; sem motion-ok (sem JS / menos movimento) nem aparece */
+html:not(.motion-ok) .crt-boot {
+  display: none;
+}
+
 .crt-boot {
   position: fixed;
   inset: 0;

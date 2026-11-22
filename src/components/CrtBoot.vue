@@ -1,9 +1,11 @@
 <script setup>
 // "Liga o monitor": ponto -> linha -> tela cheia -> conteúdo. Roda a cada carregamento.
-// Só existe quando html.motion-ok está presente (há JS e o visitante não pediu menos movimento).
+// Vai no HTML pré-renderizado e só aparece com html.motion-ok (posto pelo script inline
+// do index.html), então a animação começa na primeira pintura, antes mesmo do JS.
+// Depois que o Vue monta, o overlay sai do DOM ao terminar.
 import { onMounted, onUnmounted, ref } from 'vue'
 
-const show = ref(document.documentElement.classList.contains('motion-ok'))
+const show = ref(true)
 let timer
 
 function done() {
@@ -12,8 +14,12 @@ function done() {
 }
 
 onMounted(() => {
-  // rede de segurança: se o animationend não disparar, some mesmo assim
-  if (show.value) timer = setTimeout(done, 1200)
+  if (!document.documentElement.classList.contains('motion-ok')) {
+    done()
+    return
+  }
+  // a animação pode já ter acabado antes da hidratação: rede de segurança
+  timer = setTimeout(done, 1200)
 })
 
 onUnmounted(() => clearTimeout(timer))
