@@ -3,9 +3,14 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import { readFileSync } from 'node:fs'
 import { robotsTxt, sitemapXml } from './src/seo/files.js'
+import { cvMarkdown, llmsFullTxt, llmsTxt } from './src/seo/llms.js'
 
-// Gera sitemap.xml e robots.txt no build a partir de src/seo (nunca ficam desatualizados).
+const readJson = (path) => JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8'))
+
+// Gera no build, a partir de src/seo e dos JSONs do CV (nunca ficam desatualizados):
+// sitemap.xml, robots.txt, llms.txt (+ /llm.txt), llms-full.txt, index.md e en/index.md.
 // Só no build do cliente: o vite-ssg também faz um build de servidor, que não deve emitir arquivos.
 function seoFiles() {
   let isSsrBuild = false
@@ -19,6 +24,20 @@ function seoFiles() {
       if (isSsrBuild) return
       this.emitFile({ type: 'asset', fileName: 'sitemap.xml', source: sitemapXml() })
       this.emitFile({ type: 'asset', fileName: 'robots.txt', source: robotsTxt() })
+
+      const cvPt = readJson('./src/data/curriculum.json')
+      const cvEn = readJson('./src/data/curriculum.en.json')
+      const llms = llmsTxt(cvEn, cvPt)
+      const files = {
+        'llms.txt': llms,
+        'llm.txt': llms, // mesmo conteúdo, para quem procura no singular
+        'llms-full.txt': llmsFullTxt(cvEn, cvPt),
+        'index.md': cvMarkdown(cvPt, 'pt'),
+        'en/index.md': cvMarkdown(cvEn, 'en'),
+      }
+      for (const [fileName, source] of Object.entries(files)) {
+        this.emitFile({ type: 'asset', fileName, source })
+      }
     },
   }
 }

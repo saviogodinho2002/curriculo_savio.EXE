@@ -2,7 +2,7 @@
 
 Portfólio/currículo online de **Sávio Godinho** com estética de terminal antigo: monitor CRT de fósforo verde/âmbar no tema escuro e papel de impressora matricial no tema claro. É um site normal de uma página, sem comandos para digitar.
 
-🔗 https://curriculo-savio-exe.vercel.app
+🔗 https://curriculo-savio-exe.vercel.app (português) · https://curriculo-savio-exe.vercel.app/en/ (English)
 
 ## Visual
 
@@ -13,11 +13,14 @@ Portfólio/currículo online de **Sávio Godinho** com estética de terminal ant
 - **Tema escuro/claro:** escuro por padrão. A troca pelo botão fica salva no navegador.
 - **Acessibilidade:** link "pular para o conteúdo", foco visível e respeito a `prefers-reduced-motion`.
 - **Impressão:** imprime limpo, em papel claro.
+- **Bilíngue:** `/` em português e `/en/` em inglês, com seletor `[pt|en]` na barra.
+- **Animações:** boot do monitor CRT, neofetch "executando", janelas abrindo ao rolar e títulos que decodificam.
 
 ## Tecnologias
 
 - Vue 3 (Composition API) + Vue Router
-- Vite
+- Vite + [vite-ssg](https://github.com/antfu-collective/vite-ssg): o build pré-renderiza cada página em HTML estático
+- [@unhead/vue](https://unhead.unjs.io): `<head>` por idioma
 - CSS puro com tokens (`src/assets/theme.css`), sem framework
 - Fontes: VT323 e IBM Plex Mono (Google Fonts)
 
@@ -28,19 +31,20 @@ git clone https://github.com/saviogodinho2002/curriculo_savio.EXE.git
 cd curriculo_savio.EXE
 npm install
 npm run dev       # http://localhost:5173
-npm run build     # gera dist/
+npm run build     # gera dist/ com o HTML pré-renderizado (/, /en/, /matrix/)
 npm run preview   # serve o build localmente
 ```
 
 ## Editando o conteúdo
 
-Todo o texto vem de **`src/data/curriculum.json`**: nome, resumo, habilidades, afinidades, experiências, formação, projetos, contato e arte ASCII. Basta editar esse arquivo.
+Todo o texto vem de **`src/data/curriculum.json`** (português) e **`src/data/curriculum.en.json`** (inglês), com o mesmo formato: nome, resumo, habilidades, afinidades, experiências, formação, projetos, contato. Edite os dois. Os textos fixos da interface (rótulos, botões, prompts) ficam em `src/i18n/ui.js`.
 
 Convenções que o site entende:
 
 - **`descricao`:** um item por linha, começando com `•`.
 - **Linha `• Tecnologias: A, B, C.`:** dentro de uma experiência, vira tags.
-- **`periodo`:** no formato `Mês de AAAA - Mês de AAAA` (ou `- Presente`), aparece como `[jan/2023 → presente]`.
+- **`periodo`:** `Janeiro de 2023 - Presente` (pt) ou `January 2023 - Present` (en); aparece como `[jan/2023 → presente]`.
+- **`**trecho**`:** destaca o trecho em âmbar (números como `+44%` são destacados sozinhos).
 - **Nome de projeto `Título – subtítulo`:** é separado em título e subtítulo.
 - **Projeto com `"link": "#"`:** fica sem botão de abrir.
 
@@ -51,7 +55,25 @@ Outros campos:
 - **`hackathons`:** prêmios, mostrados numa seção própria, separada dos projetos.
 - **`idiomas`:** aparecem na seção de skills.
 
-A foto em dot art do hero fica em `src/data/dot-art-dark.txt` (tema escuro) e `src/data/dot-art-light.txt` (tema claro). O PDF do botão de download fica em `src/assets/curriculo_savio.pdf`.
+A foto em dot art do hero fica em `src/data/dot-art-dark.txt` (tema escuro) e `src/data/dot-art-light.txt` (tema claro).
+
+Os PDFs ficam em `public/cv/` com URL fixa: `savio-godinho-curriculo.pdf` (pt) e `savio-godinho-resume.pdf` (en).
+
+## SEO e IAs
+
+Tudo é gerado no `npm run build` a partir dos JSONs, então nunca fica desatualizado:
+
+- **HTML estático** de `/` e `/en/` com o conteúdo completo, `title`/`description` por idioma, `canonical`, `hreflang` (pt-BR, en, x-default), Open Graph com imagem e JSON-LD `ProfilePage` + `Person` (`src/seo/head.js`).
+- **`sitemap.xml`** e **`robots.txt`** (`src/seo/files.js`).
+- **`/llms.txt`** (também em `/llm.txt`), **`/llms-full.txt`** e as páginas em Markdown **`/index.md`** e **`/en/index.md`**, no padrão [llmstxt.org](https://llmstxt.org) (`src/seo/llms.js`).
+- A URL do site fica numa constante só: `SITE_URL` em `src/seo/site.js`.
+
+Arquivos gerados por script (rodar de novo quando o conteúdo mudar; precisam do Google Chrome):
+
+```bash
+node scripts/og/build-og.mjs       # public/og/og-{pt,en}.png (imagem de compartilhamento 1200×630)
+node scripts/cv-pdf/build-pdf.mjs  # public/cv/savio-godinho-resume.pdf (currículo em inglês)
+```
 
 ## Estrutura
 
@@ -72,10 +94,17 @@ src/
 │   ├── sections/            # conteúdo de cada seção
 │   ├── MatrixScreen.vue     # jogo /matrix
 │   └── TypeSound.js         # sons do jogo
-├── composables/             # useTheme, useActiveSection
-├── data/                    # curriculum.json, sections.js
+├── composables/             # useTheme, useLocale, useReveal, useActiveSection
+├── data/                    # curriculum.json, curriculum.en.json, sections.js, dot art
+├── i18n/ui.js               # textos da interface (pt/en)
+├── seo/                     # head, sitemap/robots, llms.txt, URLs
 ├── utils/parseCv.js         # transforma os textos do JSON
-└── views/                   # PortfolioView (/), MatrixView (/matrix)
+└── views/                   # PortfolioView (/ e /en/), MatrixView (/matrix)
+public/
+├── cv/                      # PDFs (pt e en)
+├── og/                      # imagens de compartilhamento
+└── 404.html
+scripts/                     # geradores das imagens og e do PDF em inglês
 ```
 
 ## Easter egg

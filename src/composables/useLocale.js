@@ -2,10 +2,8 @@ import { computed, inject, provide } from 'vue'
 import { LOCALE_PATH, UI } from '../i18n/ui'
 import cvPt from '../data/curriculum.json'
 import cvEn from '../data/curriculum.en.json'
-import pdfPt from '../assets/curriculo_savio.pdf'
+import { PDF_NAMES, PDF_PATHS } from '../seo/assets'
 
-// PDF por idioma. Enquanto não existir o PDF em inglês, a versão EN usa o PT.
-const PDF = { pt: pdfPt, en: pdfPt }
 const CV = { pt: cvPt, en: cvEn }
 
 const KEY = Symbol('locale')
@@ -19,8 +17,9 @@ export function provideLocale(localeRef) {
     locale: localeRef,
     t: computed(() => UI[localeRef.value]),
     cv: computed(() => CV[localeRef.value]),
-    pdf: computed(() => PDF[localeRef.value]),
-    pdfName: computed(() => (localeRef.value === 'en' ? 'cv_savio_godinho_en.pdf' : 'curriculo_savio.pdf')),
+    // PDFs ficam em public/cv/ (URL fixa, sem hash)
+    pdf: computed(() => PDF_PATHS[localeRef.value]),
+    pdfName: computed(() => PDF_NAMES[localeRef.value]),
     altLocale: computed(() => (localeRef.value === 'pt' ? 'en' : 'pt')),
     altPath: computed(() => LOCALE_PATH[localeRef.value === 'pt' ? 'en' : 'pt']),
   }

@@ -2,6 +2,7 @@
 // Open Graph, Twitter e dados estruturados (JSON-LD ProfilePage + Person).
 // Tudo sai no HTML pré-renderizado pelo vite-ssg.
 import { LOCALE_PATHS, LOCALE_TAGS, SITE_URL, absUrl } from './site'
+import { MD_PATHS, OG_IMAGES, OG_SIZE } from './assets'
 
 const stripMarks = (s) => (s || '').replace(/\*\*(.+?)\*\*/g, '$1')
 
@@ -81,7 +82,12 @@ export function buildHead(locale, cv) {
       { property: 'og:locale:alternate', content: LOCALE_TAGS[other].og },
       { property: 'profile:first_name', content: firstName },
       { property: 'profile:last_name', content: rest.join(' ') },
-      { name: 'twitter:card', content: 'summary' },
+      { property: 'og:image', content: absUrl(OG_IMAGES[locale].path) },
+      { property: 'og:image:width', content: String(OG_SIZE.width) },
+      { property: 'og:image:height', content: String(OG_SIZE.height) },
+      { property: 'og:image:alt', content: OG_IMAGES[locale].alt },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:image', content: absUrl(OG_IMAGES[locale].path) },
       { name: 'twitter:title', content: title },
       { name: 'twitter:description', content: desc },
     ],
@@ -90,6 +96,9 @@ export function buildHead(locale, cv) {
       { rel: 'alternate', hreflang: LOCALE_TAGS.pt.hreflang, href: absUrl(LOCALE_PATHS.pt) },
       { rel: 'alternate', hreflang: LOCALE_TAGS.en.hreflang, href: absUrl(LOCALE_PATHS.en) },
       { rel: 'alternate', hreflang: 'x-default', href: absUrl(LOCALE_PATHS.pt) },
+      // versões para IAs/agentes (llmstxt.org)
+      { rel: 'alternate', type: 'text/markdown', href: absUrl(MD_PATHS[locale]) },
+      { rel: 'describedby', type: 'text/plain', href: absUrl('/llms.txt') },
     ],
     script: [
       {
