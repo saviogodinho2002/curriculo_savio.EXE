@@ -1,0 +1,63 @@
+/* Tokens de tema do portfólio.
+ * Escuro = monitor CRT de fósforo verde/âmbar.
+ * Claro  = papel de impressora matricial (formulário contínuo).
+ * O atributo data-theme é definido no <html> pelo script do index.html
+ * e pelo composable useTheme.js. Padrão (inclusive sem JS): escuro. */
+
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #0a0f0a;
+  --surface: #0d160f;
+  --fg: #33ff66;
+  --muted: #27b35a;
+  --accent: #ffb000;
+  --border: #1f7a3a;
+
+  --glow: 0 0 6px rgba(51, 255, 102, 0.45);
+  --glow-accent: 0 0 6px rgba(255, 176, 0, 0.45);
+  --selection-bg: #33ff66;
+  --selection-fg: #0a0f0a;
+
+  --scanline: rgba(0, 0, 0, 0.18);
+  --vignette: rgba(0, 0, 0, 0.45);
+  --stripe: transparent;
+  --hole: transparent;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #f4f1e4;
+  --surface: #fbf8ee;
+  --fg: #1d4d2b;
+  --muted: #4a6b52;
+  --accent: #9a5b00;
+  --border: #8fae97;
+
+  --glow: none;
+  --glow-accent: none;
+  --selection-bg: #1d4d2b;
+  --selection-fg: #f4f1e4;
+
+  --scanline: transparent;
+  --vignette: transparent;
+  --stripe: rgba(60, 140, 80, 0.07);
+  --hole: #e3ddc9;
+}
+
+/* Tokens independentes de tema */
+:root {
+  --font-display: 'VT323', ui-monospace, monospace;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.5rem;
+  --space-6: 4rem;
+
+  --maxw: 72rem;
+}

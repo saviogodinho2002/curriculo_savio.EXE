@@ -1,12 +1,46 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8">
     <link rel="icon" href="/src/assets/pc.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>curriculo_savio.EXE</title>
+    <title>Sávio Godinho — Engenheiro de Software</title>
+    <meta name="description" content="Portfólio e currículo de Sávio Godinho, engenheiro de software (PHP, Laravel, Vue, PostgreSQL, IA) em Santarém/PA.">
+    <meta name="author" content="Sávio Godinho">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:url" content="https://curriculo-savio-exe.vercel.app/">
+    <meta property="og:title" content="Sávio Godinho — Engenheiro de Software">
+    <meta property="og:description" content="Portfólio e currículo: experiência, projetos, skills e contato.">
+    <meta name="twitter:card" content="summary">
+    <meta name="theme-color" content="#0a0f0a">
+
+    <!-- Aplica o tema antes do primeiro paint (evita piscar o tema errado).
+         Padrão: escuro. O claro só vale se o visitante escolheu no botão. -->
+    <script>
+      (function () {
+        var t;
+        try { t = localStorage.getItem('theme'); } catch (e) {}
+        if (t !== 'light' && t !== 'dark') t = 'dark';
+        document.documentElement.dataset.theme = t;
+        // libera as animações de entrada só se o visitante não pediu "reduzir movimento"
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.classList.add('motion-ok');
+        }
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=VT323&display=swap">
   </head>
   <body>
+    <noscript>
+      <p style="font-family: monospace; padding: 1rem">
+        Este site precisa de JavaScript. Contato: <a href="https://www.linkedin.com/in/savio-godinho/">LinkedIn</a> ·
+        <a href="https://github.com/saviogodinho2002">GitHub</a>
+      </p>
+    </noscript>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>

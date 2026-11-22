@@ -1,0 +1,153 @@
+/* Sistema de movimento do portfólio (metáforas de terminal/CRT).
+ *
+ * Regra de ouro: nada fica escondido sem a classe html.motion-ok, que o
+ * script do index.html só coloca quando há JS e o visitante NÃO pediu
+ * "reduzir movimento". Sem ela, todo o conteúdo aparece na hora.
+ * As animações usam fill-mode "both": o estado inicial (escondido) vale
+ * só durante o atraso de cada uma. */
+
+:root {
+  --dur-fast: 120ms;
+  --dur: 300ms;
+  --stagger: 60ms;
+  /* momento em que o boot CRT libera a tela e o hero começa */
+  --boot-delay: 550ms;
+}
+
+/* ===== Boot CRT (CrtBoot.vue) ===== */
+
+.crt-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 2000; /* acima dos overlays de scanline (1000) e da TopBar */
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  pointer-events: none;
+  animation: crt-boot-screen 700ms linear both;
+}
+
+.crt-boot__beam {
+  width: 100%;
+  height: 100%;
+  background: var(--fg);
+  box-shadow: 0 0 24px 6px var(--fg);
+  animation: crt-boot-beam 700ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+:root[data-theme='light'] .crt-boot__beam {
+  /* no papel não há fósforo: a "linha" é a cabeça da impressora passando */
+  background: var(--border);
+  box-shadow: none;
+}
+
+/* tela apagada até a imagem estabilizar, depois some */
+@keyframes crt-boot-screen {
+  0%, 55% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ponto -> linha horizontal -> tela cheia (flash) -> apaga */
+@keyframes crt-boot-beam {
+  0% { transform: scale(0, 0.003); opacity: 1; }
+  30% { transform: scale(1, 0.003); opacity: 1; }
+  55% { transform: scale(1, 1); opacity: 0.85; }
+  100% { transform: scale(1, 1); opacity: 0; }
+}
+
+/* ===== Hero: "neofetch" executando ===== */
+
+/* o comando é digitado */
+html.motion-ok .hero__cmd {
+  display: inline-block;
+  vertical-align: bottom;
+  animation: type 420ms steps(8, end) both;
+  animation-delay: var(--boot-delay);
+}
+
+/* a arte é impressa de cima para baixo, em faixas */
+html.motion-ok .hero__ascii {
+  animation: ascii-print 900ms steps(25, end) both;
+  animation-delay: calc(var(--boot-delay) + 200ms);
+}
+
+/* cada linha da saída aparece da esquerda para a direita, em sequência */
+html.motion-ok .hero .seq {
+  animation: line-print 240ms steps(12, end) both;
+  animation-delay: calc(var(--boot-delay) + 450ms + var(--i, 0) * var(--stagger));
+}
+
+/* Os recortes terminam com folga negativa (-1em): o estado final fica preso pelo
+   fill-mode, e um inset(0) cortaria para sempre o ◆ da linha do tempo, o glow
+   do texto e o contorno de foco. */
+@keyframes type {
+  from { clip-path: inset(-1em 100% -1em -1em); }
+  to { clip-path: inset(-1em -1em -1em -1em); }
+}
+
+@keyframes ascii-print {
+  from { clip-path: inset(-1em -1em 100% -1em); }
+  to { clip-path: inset(-1em -1em -1em -1em); }
+}
+
+@keyframes line-print {
+  from { clip-path: inset(-1em 100% -1em -1em); }
+  to { clip-path: inset(-1em -1em -1em -1em); }
+}
+
+/* ===== Seções: janela de TUI abrindo (TermWindow + useReveal) ===== */
+
+/* clip com margem negativa: o título "sobe" na borda e não pode ser cortado */
+html.motion-ok .reveal:not(.is-revealed) {
+  clip-path: inset(-2em -2em 100% -2em);
+}
+
+html.motion-ok .reveal.is-revealed {
+  animation: win-open var(--dur) steps(6, end) both;
+}
+
+@keyframes win-open {
+  from { clip-path: inset(-2em -2em 100% -2em); }
+  to { clip-path: inset(-2em -2em -2em -2em); }
+}
+
+/* Itens dentro da janela: saída impressa linha a linha, depois que a janela abre */
+html.motion-ok .reveal:not(.is-revealed) .reveal-item {
+  opacity: 0;
+}
+
+html.motion-ok .reveal.is-revealed .reveal-item {
+  animation: line-print 260ms steps(12, end) both;
+  /* no máximo 8 degraus de espera: listas longas não ficam lentas */
+  animation-delay: calc(var(--dur) + min(var(--i, 0), 8) * 50ms);
+}
+
+/* ===== Segurança: movimento reduzido e impressão ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .crt-boot {
+    display: none;
+  }
+
+  html.motion-ok *,
+  html.motion-ok *::before,
+  html.motion-ok *::after {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
+@media print {
+  .crt-boot {
+    display: none !important;
+  }
+
+  html.motion-ok * {
+    animation: none !important;
+    clip-path: none !important;
+  }
+
+  html.motion-ok .reveal-item {
+    opacity: 1 !important;
+  }
+}

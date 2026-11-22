@@ -1,117 +1,202 @@
 {
-  "nome": "Sávio Godinho Moia Gaia",
-  "titulo": "Desenvolvedor FullStack",
-  "resumo": "Desenvolvedor FullStack com experiência em projetos SaaS, e-commerce de venda de passagens e sistemas de gestão portuária. Atuo no desenvolvimento de soluções escaláveis e eficientes, com foco na otimização de processos e integrações estratégicas.\n\nMinhas principais contribuições são:\n• Modernização e otimização de processos de venda, proporcionando uma experiência mais eficiente para vendedores e compradores.\n• Desenvolvimento e aprimoramento de relatórios, aumentando a eficiência e a velocidade das consultas, especialmente para grandes volumes de dados.\n• Implementação de melhorias de segurança e consistência, reduzindo anomalias e fortalecendo a confiabilidade do software.\n• Implementação de novas funcionalidades estratégicas, aumentando a eficiência operacional e a receita da empresa.",
+  "nome": "Sávio Godinho",
+  "titulo": "Engenheiro de Software",
+  "empresa_atual": "W3 Companhia",
+  "resumo": "Engenheiro de software construindo SaaS para transporte fluvial e gestão portuária na Amazônia. Faço parte da equipe que projetou e desenvolve um ecossistema que conecta e-commerce de passagens, gestão portuária, controle financeiro e controle de acesso físico, atendendo empresas de navegação, agências, portos e passageiros. Atualmente concilio atuação principal na W3 Companhia com projetos freelance, mantendo entregas técnicas consistentes.\n\nPrincipais contribuições:\n• Modernização dos processos de venda, com uma experiência mais eficiente para vendedores e compradores.\n• Relatórios mais rápidos e eficientes, especialmente com grandes volumes de dados.\n• Melhorias de segurança e consistência que reduziram anomalias e aumentaram a confiabilidade do software.\n• Novas funcionalidades estratégicas que aumentaram a eficiência operacional e a receita.",
   "habilidades": [
-    "PHP",
-    "JavaScript/TypeScript",
-    "Node.js",
-    "Vue.js",
-    "Laravel/Inertia",
-    "CSS",
+    "PHP/Laravel",
+    "Vue 3",
     "MySQL",
-    "APIs REST",
-    "Integrações de sistemas"
+    "PostgreSQL",
+    "React/Next.js",
+    "REST APIs"
+  ],
+  "habilidades_grupos": [
+    {
+      "grupo": "principal",
+      "itens": [
+        "PHP/Laravel",
+        "Vue 3",
+        "MySQL",
+        "PostgreSQL",
+        "React/Next.js",
+        "REST APIs"
+      ]
+    },
+    {
+      "grupo": "trabalho regular",
+      "itens": [
+        "Docker",
+        "Linux",
+        "Git",
+        "Node/TypeScript",
+        "Redis",
+        "Supabase",
+        "MCP",
+        "RAG"
+      ]
+    },
+    {
+      "grupo": "experiência com",
+      "itens": [
+        "Java/SpringBoot",
+        "Python",
+        "Neo4j",
+        "Firebase"
+      ]
+    }
   ],
   "afinidades": [
-  "Desenvolvimento backend",
-  "Criação de soluções criativas e escaláveis",
-  "Otimização e resolução de queries SQL complexas",
-  "Desafios de código com foco em lógica e algoritmos",
-  "Arquitetura de sistemas e design de APIs",
-  "Automação de processos e tarefas repetitivas",
-  "Análise e refatoração de código para melhoria de performance",
-  "Resolução de problemas técnicos de alta complexidade"
-],
+    "Desenvolvimento backend",
+    "Criação de soluções criativas e escaláveis",
+    "Otimização e resolução de queries SQL complexas",
+    "Desafios de código com foco em lógica e algoritmos",
+    "Arquitetura de sistemas e design de APIs",
+    "Automação de processos e tarefas repetitivas",
+    "Análise e refatoração de código para melhoria de performance",
+    "Resolução de problemas técnicos de alta complexidade"
+  ],
+  "idiomas": [
+    {
+      "idioma": "Português",
+      "nivel": "nativo"
+    },
+    {
+      "idioma": "Inglês",
+      "nivel": "intermediário"
+    }
+  ],
   "experiencias": [
     {
-      "empresa": "W3 COMPANHIA, Santarém/PA",
-      "cargo": "Desenvolvedor de Software",
+      "empresa": "O Mentor Concursos, Taboão da Serra/SP",
+      "cargo": "Engenheiro de Software Pleno (freelancer)",
+      "periodo": "Abril de 2026 - Presente",
+      "descricao": "• Reestruturei a arquitetura de ferramentas (tools) do chat com IA do Agente Águia: **busca semântica, geração de flashcards e resumos de estudo**.\n• Desenvolvi o módulo de questões do Agente Águia: banco de questões e provas, **pipeline de extração automática com IA** e comentários pedagógicos gerados por LLM.\n• Integrei o banco de questões do Agente Águia ao Mentor: sessões de estudo livre com filtros e **assuntos pré-marcados pelo histórico do aluno**."
+    },
+    {
+      "empresa": "River FIAM (UFOPA), Santarém/PA",
+      "cargo": "Engenheiro de Software (freelancer)",
+      "periodo": "Abril de 2024 - Presente",
+      "descricao": "• Desenvolvi o fluxo de criação e aprovação de pedidos financeiros (**13 tipos**: diárias, bolsas, aquisições, reembolsos, adiantamentos etc.), com controle automático de saldo por rubrica orçamentária.\n• Implementei recursos de IA para **análise e validação de documentos**, otimizando o microgerenciamento de pedidos.\n• Implementei uma API de integração institucional com autenticação própria e **rotação de chaves sem interrupção do serviço**.\n• Desenvolvi a conciliação bancária (importação de extratos, conciliação em massa e exportação contábil), evoluindo para **integração direta com as APIs do Banco do Brasil e do Sicredi**."
+    },
+    {
+      "empresa": "W3 Companhia, Santarém/PA",
+      "cargo": "Engenheiro de Software",
       "periodo": "Janeiro de 2023 - Presente",
-      "descricao": "• Desenvolvimento Web FullStack utilizando JavaScript e PHP.\n• Análise e desenvolvimento de funcionalidades Web/Mobile.\n• Desenvolvimento e otimização de banco de dados para melhorar eficiência das consultas.\n• Desenvolvimento de APIs REST.\n• Desenvolvimento de sistema de gerenciamento de catracas.\n• Desenvolvimento de integrações com sistemas como Dropbox, BP-e SEFAZ, Safe2Pay e Sicredi.\n• Tecnologias: PHP, JavaScript, TypeScript, Node, Vue, Laravel, Inertia, CSS, MySQL."
+      "descricao": "• Arquitetei o TechRios (ERP SaaS para transporte fluvial): reestruturei os módulos de viagens, trechos e pipelines de dados, gerando +36,7% em movimentações vs. 2024.\n• Construí o Porto Fácil, API REST de gestão portuária consumida por múltiplos sistemas e catracas físicas, reduzindo a conciliação de taxas de horas para minutos.\n• Colaborei na reestruturação do Yjara Viagens (e-commerce de passagens): redesenho de APIs, modelagem e serviços. Go-live em jun/2025, com +44% no volume transacionado.\n• Embarquei IA no fluxo de operação do TechRios: assistência à venda com base no histórico do passageiro e **servidor MCP próprio** para consultas de negócio em linguagem natural.\n• Integrei sistemas externos como **Dropbox, BP-e (SEFAZ), Safe2Pay e Sicredi**.\n• Tecnologias: PHP, JavaScript, TypeScript, Node, Vue, Laravel, Inertia, CSS, MySQL."
     },
     {
       "empresa": "WebFarma, Santarém/PA",
       "cargo": "Desenvolvedor de Software (estágio)",
       "periodo": "Novembro de 2022 - Fevereiro de 2023",
-      "descricao": "• Desenvolvimento Web FullStack utilizando JavaScript e PHP.\n• Análise e desenvolvimento de funcionalidades Web.\n• Desenvolvimento e otimização de banco de dados para melhorar eficiência das consultas.\n• Tecnologias: PHP, JavaScript, TypeScript, Jquery, Ajax, Node, Vue, Laravel, Inertia, CSS, MySQL."
+      "descricao": "• Desenvolvi funcionalidades web full stack com PHP e JavaScript.\n• Otimizei consultas e estruturas de banco de dados para ganhar eficiência.\n• Tecnologias: PHP, JavaScript, TypeScript, jQuery, Ajax, Node, Vue, Laravel, Inertia, CSS, MySQL."
     }
   ],
   "formacao": [
     {
       "instituicao": "Universidade Federal do Oeste do Pará, Santarém/PA",
-      "curso": "Bacharelado em Ciência da Computação",
-      "periodo": "Fevereiro de 2020 - Outubro de 2024",
-      "descricao": "• Monitor acadêmico nas disciplinas de Banco de Dados e Laboratório de Programação.\n• Vice-presidente do Centro Acadêmico de Ciência da Computação, promovendo melhorias e representando os estudantes.\n• Monitor do Laboratório de Informática, auxiliando na gestão e suporte técnico."
+      "curso": "Mestrado em Computação",
+      "periodo": "Agosto de 2026 - Presente",
+      "descricao": "• Pesquisa em segurança de integrações de sistemas com LLMs."
     },
     {
-      "instituicao": "Universidade Federal do Pampa, Alegrete/RS",
-      "curso": "Mestrado",
-      "periodo": "Março de 2025 (Previsão de início)",
-      "descricao": ""
+      "instituicao": "Universidade Federal do Oeste do Pará, Santarém/PA",
+      "curso": "Bacharelado em Ciência da Computação",
+      "periodo": "Fevereiro de 2020 - Outubro de 2024",
+      "descricao": "• Monitor acadêmico de Banco de Dados e de Laboratório de Programação.\n• Vice-presidente do Centro Acadêmico de Ciência da Computação.\n• Monitor do Laboratório de Informática (gestão e suporte técnico)."
     }
   ],
- "projetos": [
-  {
-    "nome": "1º Lugar no Hackathon CIAT Santarém",
-    "descricao": "Projeto vencedor da maratona promovida pelo Centro de Inovação Aces Tapajós (CIAT), com foco em desenvolver uma solução tecnológica para conectar empresas locais com estudantes em busca de oportunidades de emprego, promovendo integração entre o setor produtivo e o jovem talento regional.",
-    "link": "#"
-  },
-  {
-    "nome": "3º Lugar no Hackatour Alter do Chão",
-    "descricao": "Solução premiada na competição voltada para fomentar o turismo durante o período de cheias dos rios na região amazônica. O projeto propôs estratégias criativas e tecnológicas para valorizar a cultura local e atrair visitantes mesmo fora da alta temporada.",
-    "link": "#"
-  },
-  {
-    "nome": "River FIAM – Sistema de Gestão para Fundação FIAM (UFOPA)",
-    "descricao": "Sistema desenvolvido em parceria com os colaboradores da Fundação FIAM, responsável por gerenciar recursos de projetos da UFOPA. O River FIAM foi criado para otimizar a organização de documentos como notas fiscais e pedidos de compra, tornando os processos administrativos mais intuitivos, eficientes e automatizados.",
-    "link": "#"
-  },
-  {
-    "nome": "Concrettec – Sistema de Agendamento de Entregas de Concreto",
-    "descricao": "Plataforma criada para uma empresa de análise de concreto, com foco em controle logístico e comunicação. O sistema permite cadastro de clientes, solicitações via web ou WhatsApp e geração de relatórios operacionais e gerenciais, visando reduzir falhas e organizar os pedidos de forma centralizada.",
-    "link": "#"
-  },
-  {
-    "nome": "Yjara Viagens – Modernização de Plataforma de Passagens Fluviais",
-    "descricao": "Atuação no backend da plataforma Yjara Viagens, facilitadora da compra de passagens fluviais na Amazônia. O projeto envolveu otimização de performance, revisão da estrutura de código, definição de regras de negócio e integração com novas funcionalidades, melhorando a experiência do usuário e preparando a plataforma para escalabilidade.",
-    "link": "https://yjaraviagens.com/"
-  }
-],
-"projetos_codigo": [
-  {
-    "nome": "Bomberman Multiplayer via Socket",
-    "descricao": "Implementação de uma versão multiplayer do clássico jogo Bomberman utilizando Java e sockets. O jogo permite partidas em rede local, demonstrando domínio de threads, comunicação cliente-servidor e lógica de jogos em tempo real.",
-    "link": "https://github.com/saviogodinho2002/bomberman-socketmultiplayer"
-  },
-  {
-    "nome": "Cópia do KS Simulator (JavaScript)",
-    "descricao": "Recriação do simulador KS usando HTML, CSS e JavaScript puro, com foco na fidelidade da interface e funcionalidades. Exercício prático em manipulação do DOM e construção de UI responsiva.",
-    "link": "https://github.com/saviogodinho2002/copia-ks-javascript"
-  },
-  {
-    "nome": "Corta Fácil – Editor de Vídeo Simples",
-    "descricao": "Aplicação em Python com interface gráfica (Tkinter) para cortar e juntar vídeos de forma prática, utilizando FFmpeg como motor de processamento. Foco em automação de tarefas comuns de edição.",
-    "link": "https://github.com/saviogodinho2002/corta-facil"
-  },
-  {
-    "nome": "Analisador de Expressões Matemáticas",
-    "descricao": "Desenvolvido em Kotlin, esse projeto interpreta expressões matemáticas usando apenas recursividade e expressões regulares. Exemplo de lógica algorítmica e manipulação de strings.",
-    "link": "https://github.com/saviogodinho2002/Analisador-de-expressao"
-  },
-  {
-    "nome": "Calculadora em Brainfuck",
-    "descricao": "Calculadora simples desenvolvida na linguagem esotérica Brainfuck, com suporte a operações básicas. Demonstra habilidade com lógica pura e compreensão de baixo nível computacional.",
-    "link": "https://github.com/saviogodinho2002/calculadora-brainfuck"
-  },
-  {
-    "nome": "Vizinho Mais Próximo – Algoritmo em C",
-    "descricao": "Implementação do algoritmo do vizinho mais próximo para grafos, utilizando matriz de adjacência em C. Projeto foca na aplicação de algoritmos clássicos e estruturas de dados.",
-    "link": "https://github.com/saviogodinho2002/vizinho-mais-proximo-grafos"
-  }
-]
-
-,
+  "projetos": [
+    {
+      "nome": "TechRios – ERP SaaS de transporte fluvial",
+      "descricao": "ERP SaaS para empresas de navegação: empresas, agências, viagens, trechos, relatórios e emissão fiscal (BP-e/SEFAZ), com IA de assistência à venda e servidor MCP para consultas em linguagem natural. +36,7% em movimentações vs. 2024.",
+      "link": "https://techrios.online/"
+    },
+    {
+      "nome": "Yjara Viagens – E-commerce de passagens fluviais",
+      "descricao": "Atuação no backend: redesenho de APIs, modelagem e serviços. Go-live em jun/2025, com +44% no volume transacionado.",
+      "link": "https://yjaraviagens.com/"
+    },
+    {
+      "nome": "Agente Águia – Estudo para concursos com IA",
+      "descricao": "Plataforma de estudo com IA: banco de questões e provas com extração automática e comentários pedagógicos gerados por LLM, além de chat com busca semântica, flashcards e resumos.",
+      "link": "https://agenteaguia.omentorconcursos.com.br/"
+    },
+    {
+      "nome": "O Mentor App – Gestão de rotina e estudos para concurseiros",
+      "descricao": "Plataforma de mentoria para concursos que faz parte do ecossistema do Agente Águia: onboarding do aluno, Planejamento de Rotina, Ciclo de Estudos semanal com cronômetro, Edital Verticalizado com progresso e estudo livre com o banco de questões. Atuei no backend (Laravel) e no frontend (Next.js) desses módulos.",
+      "link": "https://omentorconcursos.com.br"
+    },
+    {
+      "nome": "River FIAM – Gestão financeira de projetos da UFOPA",
+      "descricao": "Pedidos financeiros de 13 tipos com controle de saldo por rubrica orçamentária, validação de documentos com IA e conciliação bancária integrada ao Banco do Brasil e ao Sicredi.",
+      "link": "https://app.portalfiam.org/transparency-portal"
+    },
+    {
+      "nome": "Porto Fácil – API de gestão portuária",
+      "descricao": "API REST de gestão portuária consumida por múltiplos sistemas e por catracas físicas de controle de acesso, que reduziu a conciliação de taxas de horas para minutos.",
+      "link": "https://portofacil.online/"
+    },
+    {
+      "nome": "W3Zap – CRM de atendimento via WhatsApp",
+      "descricao": "CRM e helpdesk de atendimento via WhatsApp baseado no Ticketz (open source), adaptado às operações da W3: quadro Kanban de tickets com coluna de finalizados, API para fechar tickets, mudança automática de status ao aceitar um atendimento e retorno à fila correta após suspensão, além de uma interface mais limpa.",
+      "link": "https://app.w3zap.net/"
+    },
+    {
+      "nome": "RIBBA – Rede de Inovação da Bioeconomia do Baixo Amazonas",
+      "descricao": "Plataforma institucional da rede que conecta empreendedores, pesquisadores, instituições públicas e privadas e a comunidade para impulsionar a bioeconomia amazônica, com apresentação da rede e dos parceiros e formulário de adesão ao ecossistema.",
+      "link": "https://rederibba.org"
+    },
+    {
+      "nome": "BjMarmitaria – Pedidos de refeições universitárias",
+      "descricao": "Sistema de pedidos de marmitas para a alimentação universitária nos campi da UFOPA: cardápios semanais por campus, pedidos online de almoço e janta com prazo de encerramento, opção ovolactovegetariana, pedidos para dependentes e pagamento via PIX.",
+      "link": "https://bjmarmitaria.com"
+    }
+  ],
+  "projetos_codigo": [
+    {
+      "nome": "Bomberman Multiplayer – Java e sockets",
+      "descricao": "Versão multiplayer do clássico Bomberman em Java: partidas em rede local via sockets, com threads e comunicação cliente-servidor em tempo real.",
+      "link": "https://github.com/saviogodinho2002/bomberman-socketmultiplayer"
+    },
+    {
+      "nome": "Knob & Switch Computer – Simulador em JavaScript",
+      "descricao": "Simulador em HTML/JS do Knob & Switch Computer: memória de 32 endereços, registradores R0–R3, barramentos A/B/C e ALU, com execução contínua ou passo a passo e novas instruções e flags.",
+      "link": "https://github.com/saviogodinho2002/copia-The-Knob-e-Switch-Computer"
+    },
+    {
+      "nome": "Corta Fácil – Editor de vídeo em Python",
+      "descricao": "Interface gráfica em Python (ttkbootstrap + MoviePy) que divide vídeos em partes por intervalo e duração e junta os clipes em um único arquivo, mantendo a qualidade original, com o FFmpeg por baixo.",
+      "link": "https://github.com/saviogodinho2002/corta-facil"
+    },
+    {
+      "nome": "Analisador de Expressões – Kotlin",
+      "descricao": "Interpreta expressões com decimais, parênteses e os quatro operadores usando só recursão e regex, respeitando a precedência e corrigindo parênteses desbalanceados e sinais repetidos (-- → +).",
+      "link": "https://github.com/saviogodinho2002/Analisador-de-expressao"
+    },
+    {
+      "nome": "Calculadora em Brainfuck – Linguagem esotérica",
+      "descricao": "Experimento de lógica em baixo nível: lê dois operandos de um dígito e um operador (+ ou −) em ASCII e devolve o resultado como um único dígito.",
+      "link": "https://github.com/saviogodinho2002/calculadora-brainfuck"
+    },
+    {
+      "nome": "Vizinho Mais Próximo – Algoritmo em C",
+      "descricao": "Heurística Nearest-Neighbor para o Problema do Caixeiro Viajante em grafos completos ponderados, testando cada vértice como ponto de partida e exibindo o caminho e a distância total.",
+      "link": "https://github.com/saviogodinho2002/vizinho-mais-proximo-grafos"
+    }
+  ],
+  "hackathons": [
+    {
+      "nome": "1º lugar – Hackathon CIAT Santarém",
+      "descricao": "Solução para conectar empresas locais a estudantes em busca de emprego, na maratona do Centro de Inovação Aces Tapajós (CIAT).",
+      "link": "#"
+    },
+    {
+      "nome": "3º lugar – Hackatour Alter do Chão",
+      "descricao": "Estratégias tecnológicas para fomentar o turismo na região durante a cheia dos rios, valorizando a cultura local.",
+      "link": "#"
+    }
+  ],
   "contato": {
     "email": "saviogmoiagaia.2001@gmail.com",
     "telefone": "(93) 99212-1329",
@@ -120,4 +205,4 @@
     "localizacao": "Santarém, Pará"
   },
   "asciiArt": "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠋⠛⠛⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⠇⡀⡀⡀⣠⣀⡀⡀⡀⠹⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣏⡀⡀⡀⢼⣿⣿⣄⡀⡀⡀⢿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⠆⢀⣀⣀⣼⠁⡀⡀⡀⡀⢼⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⣤⣿⠛⣟⡛⢸⣿⠗⡀⢀⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣷⣾⣿⣤⡶⠐⣠⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⢷⠈⠉⠉⠁⡀⢦⣿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⠿⠟⠛⠋⠉⡀⠁⡀⡀⡀⡀⡀⡀⠈⠉⠛⠻⢿⣿⣿\n"
-} 
+}
