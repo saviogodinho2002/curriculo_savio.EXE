@@ -10,6 +10,14 @@ const router = createRouter({
       path: '/',
       name: 'portfolio',
       component: () => import('../views/PortfolioView.vue'),
+      meta: { locale: 'pt' },
+    },
+    {
+      path: '/en/',
+      alias: '/en',
+      name: 'portfolio-en',
+      component: () => import('../views/PortfolioView.vue'),
+      meta: { locale: 'en' },
     },
     {
       path: '/matrix',

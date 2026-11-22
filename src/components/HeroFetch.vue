@@ -1,8 +1,8 @@
 <script setup>
 // Hero no formato da saída do neofetch: arte ASCII à esquerda, chave: valor à direita.
 import { computed } from 'vue'
-import pdf from '../assets/curriculo_savio.pdf'
 import { useTheme } from '../composables/useTheme'
+import { useLocale } from '../composables/useLocale'
 // foto em dot art (braille, 100 colunas × 50 linhas), uma versão para cada tema;
 // cai para o asciiArt do JSON se faltar
 import artLight from '../data/dot-art-light.txt?raw'
@@ -15,15 +15,18 @@ const props = defineProps({
   cv: { type: Object, required: true },
 })
 
+const { t, pdf, pdfName } = useLocale()
+
 const info = computed(() => {
   const { cv } = props
+  const k = t.value.hero.keys
   return [
-    { key: 'cargo', value: cv.titulo },
-    { key: 'empresa', value: cv.empresa_atual ?? cv.experiencias?.[0]?.empresa.split(',')[0] },
-    { key: 'local', value: cv.contato.localizacao },
-    { key: 'formação', value: cv.formacao?.[0]?.curso },
-    { key: 'stack', value: cv.habilidades.slice(0, 5).join(' · ') },
-    { key: 'email', value: cv.contato.email, href: `mailto:${cv.contato.email}` },
+    { key: k.cargo, value: cv.titulo },
+    { key: k.empresa, value: cv.empresa_atual ?? cv.experiencias?.[0]?.empresa.split(',')[0] },
+    { key: k.local, value: cv.contato.localizacao },
+    { key: k.formacao, value: cv.formacao?.[0]?.curso },
+    { key: k.stack, value: cv.habilidades.slice(0, 5).join(' · ') },
+    { key: k.email, value: cv.contato.email, href: `mailto:${cv.contato.email}` },
   ].filter((row) => row.value)
 })
 
@@ -32,7 +35,7 @@ const swatches = ['--fg', '--muted', '--accent', '--border', '--surface', '--bg'
 </script>
 
 <template>
-  <section id="top" class="hero" aria-label="Apresentação">
+  <section id="top" class="hero" :aria-label="t.hero.aria">
     <pre class="hero__ascii" aria-hidden="true">{{ dotArt || cv.asciiArt }}</pre>
 
     <div class="hero__info">
@@ -61,7 +64,7 @@ const swatches = ['--fg', '--muted', '--accent', '--border', '--surface', '--bg'
       </div>
 
       <div class="hero__ctas seq" :style="{ '--i': info.length + 3 }">
-        <a class="btn btn--accent" :href="pdf" download="curriculo_savio.pdf">↓ baixar cv.pdf</a>
+        <a class="btn btn--accent" :href="pdf" :download="pdfName">↓ {{ t.pdf.cta }}</a>
         <a class="btn" :href="cv.contato.github" target="_blank" rel="noopener">github ↗</a>
         <a class="btn" :href="cv.contato.linkedin" target="_blank" rel="noopener">linkedin ↗</a>
       </div>

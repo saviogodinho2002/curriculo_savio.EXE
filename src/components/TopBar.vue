@@ -1,24 +1,31 @@
 <script setup>
 // Barra superior fixa no estilo da status bar do tmux:
-// [sessão]  0:~ 1:sobre* 2:experiência ...        [tema] [↓ cv.pdf]
+// [sessão]  0:~ 1:sobre* 2:experiência ...   [pt|en] [tema] [↓ cv.pdf]
+import { computed } from 'vue'
 import { SECTIONS } from '../data/sections'
+import { useLocale } from '../composables/useLocale'
 import ThemeToggle from './ThemeToggle.vue'
-import pdf from '../assets/curriculo_savio.pdf'
+import LangSwitch from './LangSwitch.vue'
 
 defineProps({
   active: { type: String, default: 'top' },
 })
 
-const windows = [{ id: 'top', label: '~' }, ...SECTIONS]
+const { t, pdf, pdfName } = useLocale()
+
+const windows = computed(() => [
+  { id: 'top', label: '~' },
+  ...SECTIONS.map((s) => ({ id: s.id, label: t.value.sections[s.id] })),
+])
 </script>
 
 <template>
   <header class="topbar">
-    <a href="#top" class="topbar__session kbd-inv" aria-label="Ir para o início">
+    <a href="#top" class="topbar__session kbd-inv" :aria-label="t.nav.home">
       [savio<span class="topbar__wide">@godinho</span>]
     </a>
 
-    <nav class="topbar__nav" aria-label="Seções">
+    <nav class="topbar__nav" :aria-label="t.nav.aria">
       <a
         v-for="(w, i) in windows"
         :key="w.id"
@@ -30,9 +37,10 @@ const windows = [{ id: 'top', label: '~' }, ...SECTIONS]
     </nav>
 
     <div class="topbar__actions">
+      <LangSwitch />
       <ThemeToggle />
-      <a class="btn btn--accent" :href="pdf" download="curriculo_savio.pdf">
-        ↓ <span class="topbar__wide">cv.</span>pdf
+      <a class="btn btn--accent" :href="pdf" :download="pdfName">
+        ↓ <span class="topbar__wide">{{ t.pdf.wide }}</span>{{ t.pdf.short }}
       </a>
     </div>
   </header>

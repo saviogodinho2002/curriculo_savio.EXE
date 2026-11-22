@@ -1,0 +1,72 @@
+// Textos fixos da interface, por idioma. O conteúdo do CV fica em data/curriculum*.json.
+export const LOCALES = ['pt', 'en']
+
+export const LOCALE_PATH = { pt: '/', en: '/en/' }
+
+export const UI = {
+  pt: {
+    htmlLang: 'pt-BR',
+    langName: 'português',
+    skip: 'pular para o conteúdo',
+    sections: {
+      sobre: 'sobre',
+      experiencia: 'experiência',
+      projetos: 'projetos',
+      skills: 'skills',
+      formacao: 'formação',
+      hackathons: 'hackathons',
+      contato: 'contato',
+    },
+    nav: { aria: 'Seções', home: 'Ir para o início' },
+    theme: { dark: 'escuro', light: 'claro', toDark: 'Mudar para tema escuro', toLight: 'Mudar para tema claro' },
+    lang: { aria: 'Idioma', switchTo: 'Read this page in English' },
+    pdf: { short: 'pdf', wide: 'cv.', cta: 'baixar cv.pdf' },
+    hero: {
+      aria: 'Apresentação',
+      keys: { cargo: 'cargo', empresa: 'empresa', local: 'local', formacao: 'formação', stack: 'stack', email: 'email' },
+    },
+    about: { cmd: 'cat sobre.md' },
+    projects: { professional: 'profissional', code: 'código no github', open: 'abrir ↗' },
+    skills: { stack: 'stack', stackCmd: 'ls -R stack/', interests: 'afinidades', interestsCmd: 'cat afinidades.txt', languages: 'idiomas' },
+    awards: { cmd: 'cat premios.log' },
+    contact: {
+      cmd: 'cat contato.txt',
+      keys: { email: 'email', telefone: 'telefone', linkedin: 'linkedin', github: 'github', local: 'local' },
+      send: 'enviar email',
+    },
+    status: { top: ':0 ↑ topo' },
+  },
+
+  en: {
+    htmlLang: 'en',
+    langName: 'english',
+    skip: 'skip to content',
+    sections: {
+      sobre: 'about',
+      experiencia: 'experience',
+      projetos: 'projects',
+      skills: 'skills',
+      formacao: 'education',
+      hackathons: 'hackathons',
+      contato: 'contact',
+    },
+    nav: { aria: 'Sections', home: 'Go to top' },
+    theme: { dark: 'dark', light: 'light', toDark: 'Switch to dark theme', toLight: 'Switch to light theme' },
+    lang: { aria: 'Language', switchTo: 'Ler esta página em português' },
+    pdf: { short: 'pdf', wide: 'cv.', cta: 'download cv.pdf' },
+    hero: {
+      aria: 'Introduction',
+      keys: { cargo: 'role', empresa: 'company', local: 'location', formacao: 'education', stack: 'stack', email: 'email' },
+    },
+    about: { cmd: 'cat about.md' },
+    projects: { professional: 'professional', code: 'code on github', open: 'open ↗' },
+    skills: { stack: 'stack', stackCmd: 'ls -R stack/', interests: 'interests', interestsCmd: 'cat interests.txt', languages: 'languages' },
+    awards: { cmd: 'cat awards.log' },
+    contact: {
+      cmd: 'cat contact.txt',
+      keys: { email: 'email', telefone: 'phone', linkedin: 'linkedin', github: 'github', local: 'location' },
+      send: 'send email',
+    },
+    status: { top: ':0 ↑ top' },
+  },
+}

@@ -71,7 +71,6 @@ defineProps({
 }
 
 .log__bullets {
-  max-width: 78ch;
   margin-top: var(--space-3);
 }
 

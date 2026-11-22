@@ -1,9 +1,12 @@
 <script setup>
 import { hasLink, highlight, linkLabel, splitTitle } from '../../utils/parseCv'
+import { useLocale } from '../../composables/useLocale'
 
 const props = defineProps({
   cv: { type: Object, required: true },
 })
+
+const { t } = useLocale()
 
 const toCard = (p) => ({
   ...splitTitle(p.nome),
@@ -14,8 +17,8 @@ const toCard = (p) => ({
 })
 
 const groups = [
-  { id: 'profissional', title: 'profissional', items: props.cv.projetos || [] },
-  { id: 'codigo', title: 'código no github', items: props.cv.projetos_codigo || [] },
+  { id: 'profissional', title: t.value.projects.professional, items: props.cv.projetos || [] },
+  { id: 'codigo', title: t.value.projects.code, items: props.cv.projetos_codigo || [] },
 ]
   .filter((g) => g.items.length)
   .map((g) => ({ ...g, items: g.items.map(toCard) }))
@@ -45,7 +48,7 @@ const groups = [
         </p>
 
         <footer v-if="p.link" class="pcard__foot">
-          <a class="btn btn--accent" :href="p.link" target="_blank" rel="noopener">abrir ↗</a>
+          <a class="btn btn--accent" :href="p.link" target="_blank" rel="noopener">{{ t.projects.open }}</a>
           <span class="pcard__url muted">{{ p.linkText }}</span>
         </footer>
       </article>

@@ -2,9 +2,11 @@
 import '../assets/theme.css'
 import '../assets/portfolio.css'
 import '../assets/motion.css'
-import cv from '../data/curriculum.json'
 import CrtBoot from '../components/CrtBoot.vue'
+import { computed, watchEffect } from 'vue'
+import { useRoute } from 'vue-router'
 import { SECTIONS } from '../data/sections'
+import { provideLocale } from '../composables/useLocale'
 import { useActiveSection } from '../composables/useActiveSection'
 import TopBar from '../components/TopBar.vue'
 import HeroFetch from '../components/HeroFetch.vue'
@@ -29,6 +31,17 @@ const CONTENT = {
   contato: ContactSection,
 }
 
+// idioma vem da rota ('/' = pt, '/en/' = en) e é repassado a todos os componentes
+const route = useRoute()
+const { t, cv } = provideLocale(computed(() => route.meta.locale ?? 'pt'))
+
+// título e lang do documento por idioma (na etapa de SEO isso passa para o useHead)
+watchEffect(() => {
+  if (typeof document === 'undefined') return
+  document.documentElement.lang = t.value.htmlLang
+  document.title = `${cv.value.nome} — ${cv.value.titulo}`
+})
+
 const activeId = useActiveSection(['top', ...SECTIONS.map((s) => s.id)])
 
 const pad = (n) => String(n).padStart(2, '0')
@@ -37,7 +50,7 @@ const pad = (n) => String(n).padStart(2, '0')
 <template>
   <CrtBoot />
 
-  <a class="skip-link" href="#conteudo">pular para o conteúdo</a>
+  <a class="skip-link" href="#conteudo">{{ t.skip }}</a>
 
   <TopBar :active="activeId" />
 
@@ -50,7 +63,7 @@ const pad = (n) => String(n).padStart(2, '0')
         :id="s.id"
         :key="s.id"
         :index="pad(i + 1)"
-        :title="s.label"
+        :title="t.sections[s.id]"
       >
         <component :is="CONTENT[s.id]" :cv="cv" />
       </TermWindow>

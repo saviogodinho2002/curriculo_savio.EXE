@@ -1,9 +1,12 @@
 <script setup>
 import { hasLink, linkLabel, splitTitle } from '../../utils/parseCv'
+import { useLocale } from '../../composables/useLocale'
 
 const props = defineProps({
   cv: { type: Object, required: true },
 })
+
+const { t } = useLocale()
 
 // "1º lugar – Hackathon CIAT Santarém" -> colocação em destaque + nome do evento
 const awards = (props.cv.hackathons || []).map((h) => {
@@ -20,7 +23,7 @@ const awards = (props.cv.hackathons || []).map((h) => {
 
 <template>
   <p class="prompt reveal-item" style="--i: 0">
-    <span class="prompt__user">~</span>cat premios.log
+    <span class="prompt__user">~</span>{{ t.awards.cmd }}
   </p>
 
   <ul class="awards">
@@ -87,7 +90,6 @@ const awards = (props.cv.hackathons || []).map((h) => {
 
 .award__desc {
   margin-top: var(--space-1);
-  max-width: 75ch;
   font-size: 0.95rem;
 }
 

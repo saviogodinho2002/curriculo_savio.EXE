@@ -1,9 +1,12 @@
 <script setup>
 import { computed } from 'vue'
+import { useLocale } from '../../composables/useLocale'
 
 const props = defineProps({
   cv: { type: Object, required: true },
 })
+
+const { t } = useLocale()
 
 // usa os níveis (principal / trabalho regular / experiência com) se existirem
 const groups = computed(() =>
@@ -16,8 +19,8 @@ const groups = computed(() =>
 <template>
   <div class="skills">
     <div>
-      <h3 class="subhead">stack</h3>
-      <p class="prompt"><span class="prompt__user">~</span>ls -R stack/</p>
+      <h3 class="subhead">{{ t.skills.stack }}</h3>
+      <p class="prompt"><span class="prompt__user">~</span>{{ t.skills.stackCmd }}</p>
       <div v-for="g in groups" :key="g.grupo" class="tier">
         <p class="tier__name">{{ g.grupo }}/</p>
         <div class="chips">
@@ -32,8 +35,8 @@ const groups = computed(() =>
     </div>
 
     <div>
-      <h3 class="subhead">afinidades</h3>
-      <p class="prompt"><span class="prompt__user">~</span>cat afinidades.txt</p>
+      <h3 class="subhead">{{ t.skills.interests }}</h3>
+      <p class="prompt"><span class="prompt__user">~</span>{{ t.skills.interestsCmd }}</p>
       <ul class="checklist">
         <li
           v-for="(a, i) in cv.afinidades"
@@ -44,7 +47,7 @@ const groups = computed(() =>
       </ul>
 
       <template v-if="cv.idiomas?.length">
-        <h3 class="subhead idiomas__head">idiomas</h3>
+        <h3 class="subhead idiomas__head">{{ t.skills.languages }}</h3>
         <dl class="kv idiomas">
           <template v-for="i in cv.idiomas" :key="i.idioma">
             <dt>{{ i.idioma }}</dt>

@@ -14,6 +14,19 @@ const MONTHS = {
   outubro: 'out',
   novembro: 'nov',
   dezembro: 'dez',
+  // inglês (curriculum.en.json)
+  january: 'jan',
+  february: 'feb',
+  march: 'mar',
+  april: 'apr',
+  may: 'may',
+  june: 'jun',
+  july: 'jul',
+  august: 'aug',
+  september: 'sep',
+  october: 'oct',
+  november: 'nov',
+  december: 'dec',
 }
 
 /** "• a\n• b" -> ["a", "b"] */
@@ -24,10 +37,10 @@ export function bullets(text) {
     .filter(Boolean)
 }
 
-/** Separa a linha "Tecnologias: a, b, c." dos demais bullets. */
+/** Separa a linha "Tecnologias: a, b, c." (ou "Technologies:") dos demais bullets. */
 export function splitTech(text) {
   const lines = bullets(text)
-  const re = /^tecnologias\s*:\s*/i
+  const re = /^(?:tecnologias|technologies)\s*:\s*/i
   const techLine = lines.find((l) => re.test(l))
   const techs = techLine
     ? techLine
@@ -42,15 +55,16 @@ export function splitTech(text) {
 
 function formatDatePart(part) {
   const t = part.trim()
-  if (/^presente$/i.test(t)) return 'presente'
-  const m = t.match(/^(\S+)\s+de\s+(\d{4})(.*)$/i)
+  if (/^(presente|atual|present|current)$/i.test(t)) return t.toLowerCase()
+  // "Janeiro de 2023" (pt) ou "January 2023" (en)
+  const m = t.match(/^(\S+)\s+(?:de\s+)?(\d{4})(.*)$/i)
   if (!m) return t.toLowerCase()
   const month = MONTHS[m[1].toLowerCase()] ?? m[1].slice(0, 3).toLowerCase()
   const rest = m[3].trim().toLowerCase()
   return `${month}/${m[2]}${rest ? ` ${rest}` : ''}`
 }
 
-/** "Janeiro de 2023 - Presente" -> "jan/2023 → presente" */
+/** "Janeiro de 2023 - Presente" -> "jan/2023 → presente"; "January 2023 - Present" -> "jan/2023 → present" */
 export function formatPeriod(period) {
   if (!period) return ''
   return period.split(/\s+-\s+/).map(formatDatePart).join(' → ')
@@ -90,8 +104,8 @@ export function linkLabel(url) {
  * e, manualmente, qualquer trecho marcado no JSON com **assim**.
  * "gerando +36,7% em…" -> [{ text: 'gerando ' }, { text: '+36,7%', metric: true }, { text: ' em…' }]
  */
-const METRIC_RE = /([+-]?\d+(?:[.,]\d+)?%|de horas para minutos)/g
-const IS_METRIC = /^(?:[+-]?\d+(?:[.,]\d+)?%|de horas para minutos)$/
+const METRIC_RE = /([+-]?\d+(?:[.,]\d+)?%|de horas para minutos|from hours to minutes)/g
+const IS_METRIC = /^(?:[+-]?\d+(?:[.,]\d+)?%|de horas para minutos|from hours to minutes)$/
 const MARK_RE = /\*\*(.+?)\*\*/g
 
 export function highlight(text) {
@@ -115,7 +129,9 @@ export function stripMarks(text) {
   return (text || '').replace(MARK_RE, '$1')
 }
 
-/** "(93) 99212-1329" -> "+5593992121329" */
+/** "(93) 99212-1329" ou "+55 93 99212-1329" -> "tel:+5593992121329" */
 export function telHref(phone) {
-  return `tel:+55${(phone || '').replace(/\D/g, '')}`
+  const digits = (phone || '').replace(/\D/g, '')
+  const withCountry = (phone || '').trim().startsWith('+') ? digits : `55${digits}`
+  return `tel:+${withCountry}`
 }

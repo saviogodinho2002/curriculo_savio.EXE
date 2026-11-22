@@ -1,17 +1,19 @@
 <script setup>
 import { computed } from 'vue'
 import { splitResumo } from '../../utils/parseCv'
+import { useLocale } from '../../composables/useLocale'
 
 const props = defineProps({
   cv: { type: Object, required: true },
 })
 
+const { t } = useLocale()
 const resumo = computed(() => splitResumo(props.cv.resumo))
 </script>
 
 <template>
   <p class="prompt reveal-item" style="--i: 0">
-    <span class="prompt__user">~</span>cat sobre.md
+    <span class="prompt__user">~</span>{{ t.about.cmd }}
   </p>
 
   <p class="about__intro reveal-item" style="--i: 1">{{ resumo.intro }}</p>
@@ -32,7 +34,6 @@ const resumo = computed(() => splitResumo(props.cv.resumo))
 <style scoped>
 .about__intro {
   margin-top: var(--space-3);
-  max-width: 70ch;
 }
 
 .about__label {

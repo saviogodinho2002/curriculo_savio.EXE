@@ -1,24 +1,27 @@
 <script setup>
 import { linkLabel, telHref } from '../../utils/parseCv'
-import pdf from '../../assets/curriculo_savio.pdf'
+import { useLocale } from '../../composables/useLocale'
 
 const props = defineProps({
   cv: { type: Object, required: true },
 })
 
+const { t, pdf, pdfName } = useLocale()
+const k = t.value.contact.keys
+
 const c = props.cv.contato
 const rows = [
-  { key: 'email', value: c.email, href: `mailto:${c.email}` },
-  { key: 'telefone', value: c.telefone, href: telHref(c.telefone) },
-  { key: 'linkedin', value: c.linkedin && linkLabel(c.linkedin), href: c.linkedin, external: true },
-  { key: 'github', value: c.github && linkLabel(c.github), href: c.github, external: true },
-  { key: 'local', value: c.localizacao },
+  { key: k.email, value: c.email, href: `mailto:${c.email}` },
+  { key: k.telefone, value: c.telefone, href: telHref(c.telefone) },
+  { key: k.linkedin, value: c.linkedin && linkLabel(c.linkedin), href: c.linkedin, external: true },
+  { key: k.github, value: c.github && linkLabel(c.github), href: c.github, external: true },
+  { key: k.local, value: c.localizacao },
 ].filter((r) => r.value)
 </script>
 
 <template>
   <p class="prompt reveal-item" style="--i: 0">
-    <span class="prompt__user">~</span>cat contato.txt
+    <span class="prompt__user">~</span>{{ t.contact.cmd }}
   </p>
 
   <dl class="kv contact__kv">
@@ -37,8 +40,8 @@ const rows = [
   </dl>
 
   <div class="contact__ctas reveal-item" :style="{ '--i': rows.length + 1 }">
-    <a class="btn btn--accent" :href="`mailto:${c.email}`">enviar email</a>
-    <a class="btn" :href="pdf" download="curriculo_savio.pdf">↓ cv.pdf</a>
+    <a class="btn btn--accent" :href="`mailto:${c.email}`">{{ t.contact.send }}</a>
+    <a class="btn" :href="pdf" :download="pdfName">↓ cv.pdf</a>
   </div>
 </template>
 

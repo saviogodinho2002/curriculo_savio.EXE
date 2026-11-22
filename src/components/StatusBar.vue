@@ -1,5 +1,8 @@
 <script setup>
 // Rodapé no estilo da modeline do vim + linha de comando com o easter egg :matrix.
+import { useLocale } from '../composables/useLocale'
+
+const { t } = useLocale()
 const year = new Date().getFullYear()
 </script>
 
@@ -13,7 +16,7 @@ const year = new Date().getFullYear()
       <div class="statusbar__right muted">
         <span>utf-8</span>
         <span aria-hidden="true">│</span>
-        <span>pt-BR</span>
+        <span>{{ t.htmlLang }}</span>
         <span aria-hidden="true">│</span>
         <span>© {{ year }} Sávio Godinho</span>
       </div>
@@ -22,7 +25,7 @@ const year = new Date().getFullYear()
     <div class="statusbar__cmd">
       <!-- link comum (recarrega a página) para o CSS do jogo não se misturar com o do portfólio -->
       <a href="/matrix" title="?">:matrix</a>
-      <a href="#top">:0 ↑ topo</a>
+      <a href="#top">{{ t.status.top }}</a>
     </div>
   </footer>
 </template>

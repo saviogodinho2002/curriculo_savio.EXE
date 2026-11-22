@@ -134,7 +134,15 @@ p,
 li,
 dd {
   text-wrap: pretty;
-  hyphens: auto;
+}
+
+/* hifenização só em tela estreita, onde evita buracos; no desktop quebra palavra à toa */
+@media (max-width: 480px) {
+  p,
+  li,
+  dd {
+    hyphens: auto;
+  }
 }
 
 p + p {
