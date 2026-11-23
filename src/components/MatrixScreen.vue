@@ -381,7 +381,7 @@ onUnmounted(() => {
           <!-- Cabeçalho com controles e instruções -->
           <header class="matrix-header">
             <div class="header-left">
-              <a :href="backHref" class="back-button" title="Voltar ao portfólio">← portfólio</a>
+              <a :href="backHref" class="game-btn-back" title="Voltar ao portfólio">← portfólio</a>
               <h1 class="matrix-title">naves<span>.exe</span></h1>
               <span class="matrix-subtitle">batalha em ASCII</span>
             </div>
@@ -391,10 +391,10 @@ onUnmounted(() => {
                 <span><kbd class="control-key">espaço</kbd> {{ state.isPaused ? 'continuar' : 'pausar' }}</span>
               </div>
               <div class="header-buttons">
-                <button @click="toggleSpeedMenu" class="speed-button" title="Ajustar velocidade">
+                <button @click="toggleSpeedMenu" class="game-btn-speed" title="Ajustar velocidade">
                   vel: {{ SPEED_LABELS[state.currentSpeed] || state.currentSpeed }}
                 </button>
-                <button @click="state.isSoundEnabled = !state.isSoundEnabled" class="sound-button" title="Ligar/desligar som">
+                <button @click="state.isSoundEnabled = !state.isSoundEnabled" class="game-btn-sound" title="Ligar/desligar som">
                   som: {{ state.isSoundEnabled ? 'on' : 'off' }}
                 </button>
               </div>
@@ -403,10 +403,10 @@ onUnmounted(() => {
           <p class="touch-hint">Este jogo precisa de teclado: ← → para mover e espaço para pausar.</p>
           
           <!-- Menu de velocidade -->
-          <div v-if="state.speedMenuVisible" class="speed-dropdown">
+          <div v-if="state.speedMenuVisible" class="speed-menu">
             <div class="speed-header">
               <h4>velocidade</h4>
-              <button @click="toggleSpeedMenu" class="close-button">×</button>
+              <button @click="toggleSpeedMenu" class="speed-menu-close">×</button>
             </div>
             <ul>
               <li 
@@ -535,9 +535,9 @@ onUnmounted(() => {
 }
 
 /* botões no formato [ texto ], como no portfólio */
-.back-button,
-.speed-button,
-.sound-button {
+.game-btn-back,
+.game-btn-speed,
+.game-btn-sound {
   display: inline-flex;
   align-items: center;
   gap: 0.5ch;
@@ -552,28 +552,28 @@ onUnmounted(() => {
   cursor: pointer;
 }
 
-.back-button {
+.game-btn-back {
   color: var(--amber);
 }
 
-.back-button::before,
-.speed-button::before,
-.sound-button::before {
+.game-btn-back::before,
+.game-btn-speed::before,
+.game-btn-sound::before {
   content: '[';
 }
 
-.back-button::after,
-.speed-button::after,
-.sound-button::after {
+.game-btn-back::after,
+.game-btn-speed::after,
+.game-btn-sound::after {
   content: ']';
 }
 
-.back-button:hover,
-.speed-button:hover,
-.sound-button:hover,
-.back-button:focus-visible,
-.speed-button:focus-visible,
-.sound-button:focus-visible {
+.game-btn-back:hover,
+.game-btn-speed:hover,
+.game-btn-sound:hover,
+.game-btn-back:focus-visible,
+.game-btn-speed:focus-visible,
+.game-btn-sound:focus-visible {
   background: var(--amber);
   color: #000;
   text-shadow: none;
@@ -641,7 +641,7 @@ onUnmounted(() => {
 }
 
 /* ---- menu de velocidade ---- */
-.speed-dropdown {
+.speed-menu {
   position: absolute;
   top: 64px;
   right: 20px;
@@ -667,7 +667,7 @@ onUnmounted(() => {
   font: 400 1.4rem/1 'VT323', monospace;
 }
 
-.close-button {
+.speed-menu-close {
   background-color: transparent;
   border: none;
   color: var(--yellow);
@@ -681,39 +681,39 @@ onUnmounted(() => {
   justify-content: center;
 }
 
-.close-button:hover {
+.speed-menu-close:hover {
   background: var(--amber);
   color: #000;
 }
 
-.speed-dropdown ul {
+.speed-menu ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.speed-dropdown li {
+.speed-menu li {
   padding: 6px 10px;
   cursor: pointer;
   color: var(--yellow);
   font-size: 0.9rem;
 }
 
-.speed-dropdown li::before {
+.speed-menu li::before {
   content: '  ';
   white-space: pre;
   color: var(--amber);
 }
 
-.speed-dropdown li:hover {
+.speed-menu li:hover {
   background-color: rgba(255, 176, 0, 0.15);
 }
 
-.speed-dropdown li.active::before {
+.speed-menu li.active::before {
   content: '> ';
 }
 
-.speed-dropdown li.active {
+.speed-menu li.active {
   color: var(--amber);
 }
 
@@ -731,7 +731,7 @@ onUnmounted(() => {
     padding: 10px;
   }
 
-  .speed-dropdown {
+  .speed-menu {
     top: auto;
     bottom: 20px;
     right: 12px;
