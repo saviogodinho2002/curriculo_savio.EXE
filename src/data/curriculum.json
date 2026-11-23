@@ -77,7 +77,7 @@
       "empresa": "River FIAM (UFOPA), Santarém/PA",
       "cargo": "Engenheiro de Software (freelancer)",
       "periodo": "Abril de 2024 - Presente",
-      "descricao": "• Desenvolvi o **Boto**, assistente de IA da equipe FIAM que responde em linguagem natural sobre projetos, saldos e pagamentos, com **camadas de segurança NL2ORM e allowlist de AST** nas consultas, validadas por uma bateria de testes adversariais.\n• Implementei a **análise automática de documentos com IA** nos pedidos: confere a coerência dos anexos com o pedido (com OCR) e abre pendência para o favorecido quando algo não bate.\n• Criei o \"Analisar e preencher\": a IA lê o **contrato e o plano de trabalho** e preenche o cadastro do projeto, incluindo as rubricas.\n• Desenvolvi o fluxo de criação e aprovação de pedidos financeiros (**13 tipos**: diárias, bolsas, aquisições, reembolsos, adiantamentos etc.), com controle automático de saldo por rubrica orçamentária.\n• Construí a conciliação bancária (importação de extratos, conciliação em massa e exportação contábil) e a **integração direta com o Banco do Brasil**, incluindo investimentos e resgates via API de Fundos, e com o Sicredi.\n• Implementei a API de integração institucional com **rotação de chaves sem interrupção do serviço**, relatórios gerenciais em PDF/Excel e backups automáticos de documentos."
+      "descricao": "• Projetei e implementei o **Boto**, assistente de IA (Gemini) que converte perguntas em linguagem natural em consultas Eloquent, com **segurança em camadas**: allowlist de AST no código gerado, escopo por posse de projeto, execução somente leitura com rollback e bloqueio por padrão (fail-closed).\n• Validei o Boto com uma **suíte de testes de segurança reproduzível**: 40 perguntas legítimas em 3 perfis de acesso e uma bateria adversarial com 6 classes de ataque (jailbreak, escalada de papel, acesso a projeto alheio, extração de prompt) e 20 vetores gerados por outro modelo, comparando execuções com e sem as camadas para detectar vazamento de dados.\n• Automatizei a **triagem de documentos com IA**: OCR + LLM checam, em fila assíncrona, se os anexos condizem com cada pedido e abrem pendência para o favorecido. O cadastro de projetos passou a ser preenchido a partir do contrato e do plano de trabalho, com as rubricas.\n• Desenvolvi com a equipe o **motor financeiro dos pedidos** (Laravel): aprovação por etapas e perfis, com **débito e estorno idempotentes** no saldo da rubrica e da conta bancária, consistentes mesmo ao trocar rubrica ou valor, e contratos que geram automaticamente os pedidos de cada parcela.\n• Integrei a conciliação bancária às **APIs do Banco do Brasil** (extratos, investimentos e resgates via API de Fundos), com operações idempotentes, e ao Sicredi. Também criei a API institucional com **rotação de chaves sem downtime**."
     },
     {
       "empresa": "W3 Companhia, Santarém/PA",
@@ -129,7 +129,7 @@
     },
     {
       "nome": "River FIAM – Gestão financeira de projetos da UFOPA",
-      "descricao": "Sistema da fundação de apoio da UFOPA que cobre o ciclo financeiro dos projetos de pesquisa: rubricas, pedidos de 13 tipos, contratos com parcelas, relatórios e portal da transparência. Inclui o Boto, assistente de IA com consultas em linguagem natural protegidas por allowlist de AST, análise de documentos com IA e conciliação bancária integrada ao Banco do Brasil.",
+      "descricao": "Plataforma de gestão financeira dos projetos de pesquisa da fundação de apoio da UFOPA (Laravel + Vue/Inertia): orçamento por rubrica com saldo consistente a cada aprovação, aprovação por perfil, contratos com parcelas e portal da transparência. Destaques: o **Boto**, assistente de IA com consultas blindadas por allowlist de AST e validadas por testes adversariais, a triagem de documentos com IA e a conciliação integrada às APIs do Banco do Brasil.",
       "link": "https://app.portalfiam.org/transparency-portal"
     },
     {
@@ -155,9 +155,9 @@
   ],
   "projetos_codigo": [
     {
-      "nome": "Bomberman Multiplayer – Java e sockets",
-      "descricao": "Versão multiplayer do clássico Bomberman em Java: partidas em rede local via sockets, com threads e comunicação cliente-servidor em tempo real.",
-      "link": "https://github.com/saviogodinho2002/bomberman-socketmultiplayer"
+      "nome": "DriftGuard – Pacote Laravel com IA (Packagist)",
+      "descricao": "Pacote open source publicado no Packagist que mantém um catálogo dos models Eloquent sincronizado com o código: detecta mudanças via git diff, extrai a estrutura (tabela, campos, relações) por reflection, nunca pela IA, e usa um LLM para propor o conhecimento de negócio, que só é aplicado depois da revisão humana do diff (fluxo analyze → revisar → apply).",
+      "link": "https://github.com/saviogodinho2002/driftguard"
     },
     {
       "nome": "Knob & Switch Computer – Simulador em JavaScript",
