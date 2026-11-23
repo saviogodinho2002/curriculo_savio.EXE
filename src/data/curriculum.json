@@ -71,7 +71,7 @@
       "empresa": "O Mentor Concursos, Taboão da Serra/SP",
       "cargo": "Engenheiro de Software Pleno (freelancer)",
       "periodo": "Abril de 2026 - Presente",
-      "descricao": "• Participei do lançamento da nova versão do Mentor, em novembro de 2026, para uma base de quase 8 mil alunos.\n• Desenvolvi as etapas finais do onboarding, o planejamento da rotina e a montagem do ciclo de estudos. Dos alunos que entraram no app, 82% concluíram o onboarding.\n• Criei o Ciclo de Estudos, que monta a semana de cada aluno a partir da rotina que ele informou e se renova sozinho toda semana.\n• Reestruturei as ferramentas do chat com IA do Agente Águia, incluindo busca semântica, geração de flashcards e resumos de estudo.\n• Desenvolvi o módulo de questões do Agente Águia, com banco de questões e provas, extração automática com IA e comentários pedagógicos gerados por LLM.\n• Integrei o banco de questões ao Mentor, criando sessões de estudo livre com filtros e assuntos pré-marcados pelo histórico do aluno."
+      "descricao": "• Participei do lançamento da nova versão do Mentor, em novembro de 2026, para uma base de quase 8 mil alunos.\n• Criei o Ciclo de Estudos, que monta a semana de cada aluno a partir da rotina que ele informou e se renova sozinho toda semana.\n• Reestruturei as ferramentas do chat com IA do Agente Águia, incluindo busca semântica, geração de flashcards e resumos de estudo.\n• Desenvolvi o módulo de questões do Agente Águia, com banco de questões e provas, extração automática com IA e comentários pedagógicos gerados por LLM.\n• Integrei o banco de questões ao Mentor, criando sessões de estudo livre com filtros e assuntos pré-marcados pelo histórico do aluno."
     },
     {
       "empresa": "River FIAM (UFOPA), Santarém/PA",
