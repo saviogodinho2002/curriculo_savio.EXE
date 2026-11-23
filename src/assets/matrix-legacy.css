@@ -1,6 +1,7 @@
 /* Estilos globais herdados pelo jogo /matrix.
  * Cópia literal do antigo assets/main.css + bloco <style> do antigo App.vue.
- * Carregado só pela rota /matrix (MatrixView.vue). Não editar sem testar o jogo. */
+ * Carregado só pela rota /matrix (MatrixView.vue). Não editar sem testar o jogo.
+ * No fim do arquivo: ajustes de layout (molduras) no estilo do portfólio. */
 
 /* ===== antigo assets/main.css ===== */
 /* Reset de CSS para o terminal retrô */
@@ -184,4 +185,69 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #00aa00;
   border-radius: 4px;
+}
+
+/* ===== Ajustes de layout no estilo do portfólio =====
+ * Uma tela só, cantos retos e brilho âmbar no lugar das molduras arredondadas
+ * aninhadas (container verde + monitor cinza). Só aparência; a lógica do jogo não muda. */
+html, body,
+#app {
+  background-color: #000;
+}
+
+.terminal-container {
+  width: calc(100% - 24px);
+  height: calc(100vh - 24px);
+  height: calc(100dvh - 24px);
+  border-radius: 0;
+  border: 3px double #9a6a00;
+  box-shadow: 0 0 30px rgba(255, 176, 0, 0.12);
+}
+
+.terminal-screen {
+  padding: 0;
+}
+
+.terminal-screen::before {
+  /* scanlines mais leves: o jogo já tem as dele */
+  opacity: 0.5;
+}
+
+.crt-monitor {
+  padding: 0;
+  border-radius: 0;
+  background-color: #000;
+  box-shadow: none;
+}
+
+.crt-frame,
+.crt-screen,
+.crt-glow,
+.crt-reflection,
+.crt-screen::before {
+  border-radius: 0;
+}
+
+.crt-frame {
+  background-color: #000;
+  box-shadow: none;
+}
+
+.crt-reflection {
+  /* reflexo de vidro mais discreto */
+  opacity: 0.35;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #9a6a00;
+  border-radius: 0;
+}
+
+@media (max-width: 768px) {
+  .terminal-container {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    border: 0;
+  }
 }

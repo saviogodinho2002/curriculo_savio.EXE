@@ -3,6 +3,19 @@ import { ref, onMounted, reactive, onUnmounted, watch } from 'vue';
 import typeSound from './TypeSound';
 import '../assets/crt.css';
 
+// Layout: botão de voltar e rótulos dos controles (a lógica do jogo não muda).
+// Volta para a versão do site de onde a pessoa veio (/en/ ou /).
+const backHref = ref('/');
+const SPEED_LABELS = { normal: 'normal', fast: 'rápida', instant: 'instantânea' };
+onMounted(() => {
+  try {
+    const from = new URL(document.referrer);
+    if (from.origin === location.origin && from.pathname.startsWith('/en')) backHref.value = '/en/';
+  } catch {
+    // sem referrer: volta para o português
+  }
+});
+
 // Estado da matriz
 const state = reactive({
   matrix: [], // Matriz atual
@@ -366,56 +379,50 @@ onUnmounted(() => {
       <div class="crt-screen">
         <div class="matrix-layout">
           <!-- Cabeçalho com controles e instruções -->
-          <div class="matrix-header">
+          <header class="matrix-header">
             <div class="header-left">
-              <button @click="() => window.location.href = '/'" class="back-button" title="Voltar ao terminal">
-                ⬅️ Terminal
-              </button>
-              <h3>Naves em batalha ASCII </h3>
+              <a :href="backHref" class="back-button" title="Voltar ao portfólio">← portfólio</a>
+              <h1 class="matrix-title">naves<span>.exe</span></h1>
+              <span class="matrix-subtitle">batalha em ASCII</span>
             </div>
             <div class="header-controls">
               <div class="controls-info">
-                <span class="control-key">←</span> Mover Esquerda
-                <span class="control-key">→</span> Mover Direita
-                <span class="control-key">Espaço</span> {{ state.isPaused ? 'Continuar' : 'Pausar' }}
+                <span><kbd class="control-key">←</kbd><kbd class="control-key">→</kbd> mover</span>
+                <span><kbd class="control-key">espaço</kbd> {{ state.isPaused ? 'continuar' : 'pausar' }}</span>
               </div>
               <div class="header-buttons">
                 <button @click="toggleSpeedMenu" class="speed-button" title="Ajustar velocidade">
-                  <span v-if="state.currentSpeed === 'normal'">⏱️</span>
-                  <span v-else-if="state.currentSpeed === 'fast'">⚡</span>
-                  <span v-else>🚀</span>
+                  vel: {{ SPEED_LABELS[state.currentSpeed] || state.currentSpeed }}
                 </button>
-                <button @click="state.isSoundEnabled = !state.isSoundEnabled" class="sound-button">
-                  {{ state.isSoundEnabled ? '🔊' : '🔇' }}
+                <button @click="state.isSoundEnabled = !state.isSoundEnabled" class="sound-button" title="Ligar/desligar som">
+                  som: {{ state.isSoundEnabled ? 'on' : 'off' }}
                 </button>
               </div>
             </div>
-          </div>
+          </header>
+          <p class="touch-hint">Este jogo precisa de teclado: ← → para mover e espaço para pausar.</p>
           
           <!-- Menu de velocidade -->
           <div v-if="state.speedMenuVisible" class="speed-dropdown">
             <div class="speed-header">
-              <h4>Velocidade de Digitação:</h4>
+              <h4>velocidade</h4>
               <button @click="toggleSpeedMenu" class="close-button">×</button>
             </div>
             <ul>
               <li 
                 @click="changeSpeed('normal')" 
                 :class="{ 'active': state.currentSpeed === 'normal' }">
-                <span class="speed-icon">⏱️</span>
-                <span class="speed-label">Normal</span>
+                <span class="speed-label">normal</span>
               </li>
               <li 
                 @click="changeSpeed('fast')" 
                 :class="{ 'active': state.currentSpeed === 'fast' }">
-                <span class="speed-icon">⚡</span>
-                <span class="speed-label">Rápida</span>
+                <span class="speed-label">rápida</span>
               </li>
               <li 
                 @click="changeSpeed('instant')" 
                 :class="{ 'active': state.currentSpeed === 'instant' }">
-                <span class="speed-icon">🚀</span>
-                <span class="speed-label">Instantânea</span>
+                <span class="speed-label">instantânea</span>
               </li>
             </ul>
           </div>
@@ -445,40 +452,144 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+/* Layout no estilo do portfólio: cantos retos, borda dupla, botões [ ], VT323 + IBM Plex Mono.
+   As linhas do jogo (.matrix-line) mantêm fonte, cor e espaçamento originais. */
 .matrix-layout {
+  --amber: #ffb000;
+  --amber-dim: #9a6a00;
+  --yellow: #ffee00;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 20px;
+  padding: 16px 20px 20px;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
-  filter: sepia(10%) hue-rotate(15deg) saturate(130%) brightness(110%);
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
 }
 
+/* ---- cabeçalho (barra estilo tmux) ---- */
 .matrix-header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #ffaa00;
+  gap: 10px 24px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 3px double var(--amber-dim);
 }
 
-.matrix-header h3 {
-  color: #ffdd00;
-  text-shadow: 0 0 5px rgba(255, 221, 0, 0.5);
+.header-left {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}
+
+.matrix-title {
   margin: 0;
+  font: 400 2rem/1 'VT323', monospace;
+  color: var(--yellow);
+  text-shadow: 0 0 6px rgba(255, 221, 0, 0.5);
 }
 
+.matrix-title span {
+  color: var(--amber);
+}
+
+.matrix-subtitle {
+  color: var(--amber-dim);
+  font-size: 0.85rem;
+}
+
+.header-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 20px;
+}
+
+.controls-info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+  color: var(--yellow);
+  font-size: 0.85rem;
+}
+
+.control-key {
+  display: inline-block;
+  margin-right: 4px;
+  padding: 0 6px;
+  border: 1px solid var(--amber-dim);
+  color: var(--amber);
+  font: 700 0.8rem/1.6 'IBM Plex Mono', monospace;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+/* botões no formato [ texto ], como no portfólio */
+.back-button,
+.speed-button,
+.sound-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5ch;
+  padding: 4px 8px;
+  border: 0;
+  background: transparent;
+  color: var(--yellow);
+  font: 500 0.9rem/1.4 'IBM Plex Mono', monospace;
+  text-decoration: none;
+  text-shadow: 0 0 5px rgba(255, 238, 0, 0.35);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.back-button {
+  color: var(--amber);
+}
+
+.back-button::before,
+.speed-button::before,
+.sound-button::before {
+  content: '[';
+}
+
+.back-button::after,
+.speed-button::after,
+.sound-button::after {
+  content: ']';
+}
+
+.back-button:hover,
+.speed-button:hover,
+.sound-button:hover,
+.back-button:focus-visible,
+.speed-button:focus-visible,
+.sound-button:focus-visible {
+  background: var(--amber);
+  color: #000;
+  text-shadow: none;
+  outline: none;
+}
+
+/* ---- área do jogo ---- */
 .matrix-content {
   flex: 1;
-  overflow-y: auto;
+  display: grid;
+  justify-content: center;
+  align-content: start;
+  overflow: auto;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  border: 2px solid #ffaa00;
+  background-color: rgba(0, 0, 0, 0.35);
+  border: 3px double var(--amber-dim);
   font-family: 'Courier New', monospace;
   letter-spacing: 0;
 }
@@ -499,13 +610,12 @@ onUnmounted(() => {
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.8);
-  color: #ffee00;
-  border: 1px solid #ffee00;
-  padding: 8px 15px;
-  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: var(--yellow);
+  border: 1px solid var(--amber);
+  padding: 6px 14px;
   z-index: 100;
-  box-shadow: 0 0 10px rgba(255, 238, 0, 0.3);
+  font-size: 0.85rem;
   animation: pulse 1.5s infinite;
 }
 
@@ -514,41 +624,30 @@ onUnmounted(() => {
   50% { opacity: 1; }
 }
 
-/* Estilos para os botões de controle */
-.header-buttons {
-  display: flex;
-  gap: 10px;
+/* aviso só em telas de toque (o jogo depende de teclado) */
+.touch-hint {
+  display: none;
+  margin: 0 0 12px;
+  padding: 6px 10px;
+  border: 1px dashed var(--amber-dim);
+  color: var(--amber);
+  font-size: 0.8rem;
 }
 
-.speed-button, .sound-button {
-  background-color: transparent;
-  border: 2px solid #ffaa00;
-  color: #ffee00;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 18px;
-  transition: all 0.3s ease;
+@media (hover: none) and (pointer: coarse) {
+  .touch-hint {
+    display: block;
+  }
 }
 
-.speed-button:hover, .sound-button:hover {
-  background-color: rgba(255, 170, 0, 0.2);
-  transform: scale(1.1);
-}
-
-/* Estilos para o menu de velocidade */
+/* ---- menu de velocidade ---- */
 .speed-dropdown {
   position: absolute;
-  top: 60px;
+  top: 64px;
   right: 20px;
-  background-color: rgba(0, 0, 0, 0.9);
-  border: 2px solid #ffaa00;
-  border-radius: 8px;
-  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.95);
+  border: 3px double var(--amber);
+  padding: 12px 14px;
   z-index: 1000;
   min-width: 200px;
 }
@@ -557,21 +656,22 @@ onUnmounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ffaa00;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--amber-dim);
 }
 
 .speed-header h4 {
   margin: 0;
-  color: #ffee00;
+  color: var(--amber);
+  font: 400 1.4rem/1 'VT323', monospace;
 }
 
 .close-button {
   background-color: transparent;
   border: none;
-  color: #ffee00;
-  font-size: 24px;
+  color: var(--yellow);
+  font-size: 22px;
   cursor: pointer;
   padding: 0;
   width: 24px;
@@ -581,6 +681,11 @@ onUnmounted(() => {
   justify-content: center;
 }
 
+.close-button:hover {
+  background: var(--amber);
+  color: #000;
+}
+
 .speed-dropdown ul {
   list-style: none;
   padding: 0;
@@ -588,97 +693,49 @@ onUnmounted(() => {
 }
 
 .speed-dropdown li {
-  padding: 10px;
+  padding: 6px 10px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  color: #ffee00;
-  transition: background-color 0.2s;
+  color: var(--yellow);
+  font-size: 0.9rem;
+}
+
+.speed-dropdown li::before {
+  content: '  ';
+  white-space: pre;
+  color: var(--amber);
 }
 
 .speed-dropdown li:hover {
-  background-color: rgba(255, 170, 0, 0.2);
+  background-color: rgba(255, 176, 0, 0.15);
+}
+
+.speed-dropdown li.active::before {
+  content: '> ';
 }
 
 .speed-dropdown li.active {
-  background-color: rgba(255, 170, 0, 0.3);
-  border-left: 3px solid #ffaa00;
+  color: var(--amber);
 }
 
-.speed-icon {
-  margin-right: 10px;
-}
-
-/* Responsividade */
+/* ---- responsivo ---- */
 @media (max-width: 768px) {
-  .matrix-line {
-    font-size: 14px;
+  .matrix-layout {
+    padding: 12px;
   }
-  
+
+  .matrix-line {
+    font-size: 13px;
+  }
+
   .matrix-content {
     padding: 10px;
   }
-}
 
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.back-button {
-  background-color: transparent;
-  border: 2px solid #ffaa00;
-  color: #ffee00;
-  padding: 5px 15px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 16px;
-  transition: all 0.3s ease;
-}
-
-.back-button:hover {
-  background-color: rgba(255, 170, 0, 0.2);
-  transform: scale(1.05);
-}
-
-.header-controls {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.controls-info {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  color: #ffee00;
-  font-size: 14px;
-}
-
-.control-key {
-  background-color: rgba(255, 170, 0, 0.2);
-  border: 1px solid #ffaa00;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: monospace;
-  font-weight: bold;
-}
-
-/* Responsividade para os controles */
-@media (max-width: 768px) {
-  .header-controls {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .controls-info {
-    font-size: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
+  .speed-dropdown {
+    top: auto;
+    bottom: 20px;
+    right: 12px;
+    left: 12px;
   }
 }
 </style> 
