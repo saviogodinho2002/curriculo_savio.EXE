@@ -77,13 +77,13 @@
       "empresa": "River FIAM (UFOPA), Santarém/PA",
       "cargo": "Engenheiro de Software (freelancer)",
       "periodo": "Abril de 2024 - Presente",
-      "descricao": "• Desenvolvi o fluxo de criação e aprovação de pedidos financeiros (**13 tipos**: diárias, bolsas, aquisições, reembolsos, adiantamentos etc.), com controle automático de saldo por rubrica orçamentária.\n• Implementei recursos de IA para **análise e validação de documentos**, otimizando o microgerenciamento de pedidos.\n• Implementei uma API de integração institucional com autenticação própria e **rotação de chaves sem interrupção do serviço**.\n• Desenvolvi a conciliação bancária (importação de extratos, conciliação em massa e exportação contábil), evoluindo para **integração direta com as APIs do Banco do Brasil e do Sicredi**."
+      "descricao": "• Desenvolvi o **Boto**, assistente de IA da equipe FIAM que responde em linguagem natural sobre projetos, saldos e pagamentos, com **camadas de segurança NL2ORM e allowlist de AST** nas consultas, validadas por uma bateria de testes adversariais.\n• Implementei a **análise automática de documentos com IA** nos pedidos: confere a coerência dos anexos com o pedido (com OCR) e abre pendência para o favorecido quando algo não bate.\n• Criei o \"Analisar e preencher\": a IA lê o **contrato e o plano de trabalho** e preenche o cadastro do projeto, incluindo as rubricas.\n• Desenvolvi o fluxo de criação e aprovação de pedidos financeiros (**13 tipos**: diárias, bolsas, aquisições, reembolsos, adiantamentos etc.), com controle automático de saldo por rubrica orçamentária.\n• Construí a conciliação bancária (importação de extratos, conciliação em massa e exportação contábil) e a **integração direta com o Banco do Brasil**, incluindo investimentos e resgates via API de Fundos, e com o Sicredi.\n• Implementei a API de integração institucional com **rotação de chaves sem interrupção do serviço**, relatórios gerenciais em PDF/Excel e backups automáticos de documentos."
     },
     {
       "empresa": "W3 Companhia, Santarém/PA",
       "cargo": "Engenheiro de Software",
       "periodo": "Janeiro de 2023 - Presente",
-      "descricao": "• Arquitetei o TechRios (ERP SaaS para transporte fluvial): reestruturei os módulos de viagens, trechos e pipelines de dados, gerando +36,7% em movimentações vs. 2024.\n• Construí o Porto Fácil, API REST de gestão portuária consumida por múltiplos sistemas e catracas físicas, reduzindo a conciliação de taxas de horas para minutos.\n• Colaborei na reestruturação do Yjara Viagens (e-commerce de passagens): redesenho de APIs, modelagem e serviços. Go-live em jun/2025, com +44% no volume transacionado.\n• Embarquei IA no fluxo de operação do TechRios: assistência à venda com base no histórico do passageiro e **servidor MCP próprio** para consultas de negócio em linguagem natural.\n• Integrei sistemas externos como **Dropbox, BP-e (SEFAZ), Safe2Pay e Sicredi**.\n• Tecnologias: PHP, JavaScript, TypeScript, Node, Vue, Laravel, Inertia, CSS, MySQL."
+      "descricao": "• Arquitetei o TechRios (ERP SaaS para transporte fluvial): reestruturei os módulos de viagens, trechos e pipelines de dados, gerando +36,7% em movimentações vs. 2024.\n• Construí o Porto Fácil, API REST de gestão portuária consumida por múltiplos sistemas e catracas físicas, reduzindo a conciliação de taxas de horas para minutos.\n• Colaborei na reestruturação do Yjara Viagens (e-commerce de passagens): redesenho de APIs, modelagem e serviços. Go-live em jun/2025, com +44% no volume transacionado.\n• Embarquei IA no fluxo de operação do TechRios: assistência à venda com base no histórico do passageiro e **servidor MCP próprio** para consultas de negócio em linguagem natural.\n• Evoluí o **W3Zap**, CRM omnichannel (WhatsApp, Instagram e Messenger) baseado no Ticketz: API oficial do WhatsApp, campanhas com templates, **agentes de IA nas automações** e chamadas de voz com gerenciamento multiusuário.\n• Integrei sistemas externos como **Dropbox, BP-e (SEFAZ), Safe2Pay e Sicredi**.\n• Tecnologias: PHP, JavaScript, TypeScript, Node, Vue, Laravel, Inertia, CSS, MySQL."
     },
     {
       "empresa": "WebFarma, Santarém/PA",
@@ -129,7 +129,7 @@
     },
     {
       "nome": "River FIAM – Gestão financeira de projetos da UFOPA",
-      "descricao": "Pedidos financeiros de 13 tipos com controle de saldo por rubrica orçamentária, validação de documentos com IA e conciliação bancária integrada ao Banco do Brasil e ao Sicredi.",
+      "descricao": "Sistema da fundação de apoio da UFOPA que cobre o ciclo financeiro dos projetos de pesquisa: rubricas, pedidos de 13 tipos, contratos com parcelas, relatórios e portal da transparência. Inclui o Boto, assistente de IA com consultas em linguagem natural protegidas por allowlist de AST, análise de documentos com IA e conciliação bancária integrada ao Banco do Brasil.",
       "link": "https://app.portalfiam.org/transparency-portal"
     },
     {
@@ -138,8 +138,8 @@
       "link": "https://portofacil.online/"
     },
     {
-      "nome": "W3Zap – CRM de atendimento via WhatsApp",
-      "descricao": "CRM e helpdesk de atendimento via WhatsApp baseado no Ticketz (open source), adaptado às operações da W3: quadro Kanban de tickets com coluna de finalizados, API para fechar tickets, mudança automática de status ao aceitar um atendimento e retorno à fila correta após suspensão, além de uma interface mais limpa.",
+      "nome": "W3Zap – CRM omnichannel de atendimento com IA",
+      "descricao": "CRM de atendimento por WhatsApp, Instagram e Messenger construído sobre o Ticketz (open source) e evoluído para as operações da W3: **API oficial do WhatsApp (Cloud API)** junto com Baileys, campanhas de marketing e utilidade com templates segmentadas por interesse e produto, **automações com agentes de IA** que leem arquivos, resumem o atendimento e transferem para humano, **chamadas de voz pelo WhatsApp**, formulários, mensagens interativas, Kanban e webhooks processados em filas.",
       "link": "https://app.w3zap.net/"
     },
     {

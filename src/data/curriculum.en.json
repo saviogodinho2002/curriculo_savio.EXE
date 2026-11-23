@@ -77,13 +77,13 @@
       "empresa": "River FIAM (UFOPA), Santarém/PA",
       "cargo": "Software Engineer (freelancer)",
       "periodo": "April 2024 - Present",
-      "descricao": "• Built the creation and approval flow for financial requests (**13 types**: per diems, grants, purchases, reimbursements, advances, etc.), with automatic balance control per budget line.\n• Implemented AI features for **document analysis and validation**, streamlining the fine-grained management of requests.\n• Implemented an institutional integration API with its own authentication and **key rotation with zero downtime**.\n• Built bank reconciliation (statement import, bulk reconciliation and accounting export), evolving into **direct integration with the Banco do Brasil and Sicredi APIs**."
+      "descricao": "• Built **Boto**, the FIAM team's AI assistant that answers natural-language questions about projects, balances and payments, with **NL2ORM security layers and an AST allowlist** on its queries, validated by an adversarial test suite.\n• Implemented **AI document analysis** for requests: checks that attachments match the request (with OCR) and opens a pending issue for the beneficiary when something doesn't add up.\n• Created \"Analyze and fill\": AI reads the **contract and work plan** and fills in the project record, including its budget lines.\n• Built the creation and approval flow for financial requests (**13 types**: per diems, grants, purchases, reimbursements, advances, etc.), with automatic balance control per budget line.\n• Built bank reconciliation (statement import, bulk reconciliation and accounting export) and **direct integration with Banco do Brasil**, including investments and redemptions via its Funds API, plus Sicredi.\n• Implemented the institutional integration API with **key rotation with zero downtime**, management reports in PDF/Excel and automated document backups."
     },
     {
       "empresa": "W3 Companhia, Santarém/PA",
       "cargo": "Software Engineer",
       "periodo": "January 2023 - Present",
-      "descricao": "• Architected TechRios (SaaS ERP for river transportation): restructured the trips, routes and data pipeline modules, driving +36.7% in transactions vs. 2024.\n• Built Porto Fácil, a port management REST API consumed by multiple systems and physical turnstiles, cutting fee reconciliation from hours to minutes.\n• Helped restructure Yjara Viagens (ticket e-commerce): API redesign, data modeling and services. Went live in Jun/2025 with +44% in transaction volume.\n• Embedded AI into TechRios operations: sales assistance based on the passenger's history and an **in-house MCP server** for natural-language business queries.\n• Integrated external systems such as **Dropbox, BP-e (SEFAZ), Safe2Pay and Sicredi**.\n• Technologies: PHP, JavaScript, TypeScript, Node, Vue, Laravel, Inertia, CSS, MySQL."
+      "descricao": "• Architected TechRios (SaaS ERP for river transportation): restructured the trips, routes and data pipeline modules, driving +36.7% in transactions vs. 2024.\n• Built Porto Fácil, a port management REST API consumed by multiple systems and physical turnstiles, cutting fee reconciliation from hours to minutes.\n• Helped restructure Yjara Viagens (ticket e-commerce): API redesign, data modeling and services. Went live in Jun/2025 with +44% in transaction volume.\n• Embedded AI into TechRios operations: sales assistance based on the passenger's history and an **in-house MCP server** for natural-language business queries.\n• Evolved **W3Zap**, an omnichannel CRM (WhatsApp, Instagram and Messenger) based on Ticketz: official WhatsApp API, template campaigns, **AI agents in automations** and voice calls with multi-user management.\n• Integrated external systems such as **Dropbox, BP-e (SEFAZ), Safe2Pay and Sicredi**.\n• Technologies: PHP, JavaScript, TypeScript, Node, Vue, Laravel, Inertia, CSS, MySQL."
     },
     {
       "empresa": "WebFarma, Santarém/PA",
@@ -129,7 +129,7 @@
     },
     {
       "nome": "River FIAM – Financial management for UFOPA projects",
-      "descricao": "Financial requests of 13 types with balance control per budget line, AI document validation and bank reconciliation integrated with Banco do Brasil and Sicredi.",
+      "descricao": "System for UFOPA's research support foundation covering the full financial cycle of research projects: budget lines, 13 request types, contracts with installments, reports and a transparency portal. Includes Boto, an AI assistant with natural-language queries guarded by an AST allowlist, AI document analysis and bank reconciliation integrated with Banco do Brasil.",
       "link": "https://app.portalfiam.org/transparency-portal"
     },
     {
@@ -138,8 +138,8 @@
       "link": "https://portofacil.online/"
     },
     {
-      "nome": "W3Zap – WhatsApp customer service CRM",
-      "descricao": "CRM and helpdesk for WhatsApp customer service based on Ticketz (open source), adapted to W3's operations: Kanban ticket board with a closed column, an API to close tickets, automatic status change when a conversation is accepted and return to the right queue after suspension, plus a cleaner interface.",
+      "nome": "W3Zap – AI-powered omnichannel customer service CRM",
+      "descricao": "Customer service CRM for WhatsApp, Instagram and Messenger built on Ticketz (open source) and evolved for W3's operations: **official WhatsApp API (Cloud API)** alongside Baileys, marketing and utility campaigns with templates segmented by interest and product, **automations with AI agents** that read files, summarize conversations and hand off to humans, **WhatsApp voice calls**, forms, interactive messages, Kanban and queue-based webhook processing.",
       "link": "https://app.w3zap.net/"
     },
     {
