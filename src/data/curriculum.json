@@ -71,13 +71,13 @@
       "empresa": "O Mentor Concursos, Taboão da Serra/SP",
       "cargo": "Engenheiro de Software Pleno (freelancer)",
       "periodo": "Abril de 2026 - Presente",
-      "descricao": "• Reestruturei as ferramentas do chat com IA do Agente Águia, incluindo busca semântica, geração de flashcards e resumos de estudo.\n• Desenvolvi o módulo de questões do Agente Águia, com banco de questões e provas, extração automática com IA e comentários pedagógicos gerados por LLM.\n• Integrei o banco de questões ao Mentor, criando sessões de estudo livre com filtros e assuntos pré-marcados pelo histórico do aluno."
+      "descricao": "• Participei do lançamento da nova versão do Mentor, em novembro de 2026, para uma base de quase 8 mil alunos.\n• Desenvolvi as etapas finais do onboarding, o planejamento da rotina e a montagem do ciclo de estudos. Dos alunos que entraram no app, 82% concluíram o onboarding.\n• Criei o Ciclo de Estudos, que monta a semana de cada aluno a partir da rotina que ele informou e se renova sozinho toda semana."
     },
     {
       "empresa": "River FIAM (UFOPA), Santarém/PA",
       "cargo": "Engenheiro de Software (freelancer)",
       "periodo": "Abril de 2024 - Presente",
-      "descricao": "• Criei o **Boto**, assistente de IA que responde perguntas da equipe sobre projetos, saldos e pagamentos consultando o banco de dados, mostrando a cada pessoa só os projetos que ela coordena.\n• Desenvolvi a API de integração usada por outros sistemas para consultar os projetos, com autenticação própria e rotação de chaves sem tirar o serviço do ar.\n• Implementei a conferência de documentos com IA, que avisa o favorecido quando um anexo não corresponde ao pedido e preenche o cadastro de projetos a partir do contrato.\n• Integrei a conciliação bancária às APIs do Banco do Brasil e do Sicredi e trabalhei com a equipe no controle de saldo dos pedidos por rubrica."
+      "descricao": "• Criei o **Boto**, assistente de IA que responde perguntas da equipe sobre projetos, saldos e pagamentos consultando o banco de dados. Cada pessoa só vê os projetos que coordena.\n• Integrei a conciliação bancária às APIs do Banco do Brasil e do Sicredi. Os extratos chegam direto dos bancos e cada lançamento é cruzado com os pagamentos aprovados no sistema, o que acabou com a importação manual de arquivos de extrato.\n• Automatizei a sincronização dos extratos com conferência diária do saldo. Quando um dia não bate, o sistema reprocessa esse período e pega estornos e tarifas lançados com atraso.\n• Integrei as aplicações e os resgates dos projetos à API de Fundos do Banco do Brasil. Uma mesma operação nunca é lançada duas vezes.\n• Implementei a conferência de documentos com IA. Quando um anexo não corresponde ao pedido, o favorecido é avisado, e a IA também lê o contrato de um projeto novo para preencher o cadastro.\n• Desenvolvi a API que entrega projetos, rubricas, contratos e relatórios a outros sistemas. As chamadas são assinadas com HMAC, e cada chave tem permissões próprias e pode ser trocada sem interromper as integrações."
     },
     {
       "empresa": "W3 Companhia, Santarém/PA",
@@ -124,12 +124,12 @@
     },
     {
       "nome": "O Mentor App – Gestão de rotina e estudos para concurseiros",
-      "descricao": "Plataforma de mentoria para concurseiros, integrada ao Agente Águia, com onboarding do aluno, planejamento de rotina, ciclo de estudos semanal e edital verticalizado. Atuei no backend em Laravel e no frontend em Next.js.",
+      "descricao": "Plataforma de mentoria para concurseiros, integrada ao Agente Águia e lançada em novembro de 2026 para quase 8 mil alunos. Atuei no backend em Laravel e no frontend em Next.js, no onboarding, no planejamento de rotina e no ciclo de estudos.",
       "link": "https://omentorconcursos.com.br"
     },
     {
       "nome": "River FIAM – Gestão financeira de projetos da UFOPA",
-      "descricao": "Sistema de gestão financeira dos projetos de pesquisa da fundação de apoio da UFOPA, do orçamento à prestação de contas, com o Boto, conferência de documentos com IA e conciliação com o Banco do Brasil.",
+      "descricao": "Sistema de gestão financeira dos projetos de pesquisa da fundação de apoio da UFOPA, do orçamento à prestação de contas. Inclui o Boto, a conferência de documentos com IA e a conciliação integrada ao Banco do Brasil e ao Sicredi.",
       "link": "https://app.portalfiam.org/transparency-portal"
     },
     {

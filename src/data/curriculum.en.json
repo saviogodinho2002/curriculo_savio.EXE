@@ -71,13 +71,13 @@
       "empresa": "O Mentor Concursos, Taboão da Serra/SP",
       "cargo": "Mid-level Software Engineer (freelancer)",
       "periodo": "April 2026 - Present",
-      "descricao": "• Restructured the tools behind Agente Águia's AI chat, including semantic search, flashcard generation and study summaries.\n• Built Agente Águia's question module, with a question and exam bank, AI-powered automatic extraction and LLM-generated teaching comments.\n• Integrated the question bank into Mentor, creating free-study sessions with filters and topics pre-selected from the student's history."
+      "descricao": "• Took part in the launch of the new Mentor in November 2026, for a base of almost 8,000 students.\n• Built the final onboarding steps: routine planning and study cycle setup. Of the students who entered the app, 82% completed onboarding.\n• Built the Study Cycle, which plans each student's week from the routine they entered and renews itself every week."
     },
     {
       "empresa": "River FIAM (UFOPA), Santarém/PA",
       "cargo": "Software Engineer (freelancer)",
       "periodo": "April 2024 - Present",
-      "descricao": "• Built **Boto**, an AI assistant that answers the team's questions about projects, balances and payments by querying the database, showing each person only the projects they coordinate.\n• Built the integration API other systems use to read project data, with its own authentication and key rotation without taking the service down.\n• Implemented AI document checks that notify the beneficiary when an attachment doesn't match the request and fill in project records from the contract.\n• Integrated bank reconciliation with the Banco do Brasil and Sicredi APIs and worked with the team on per-budget-line balance control for requests."
+      "descricao": "• Built **Boto**, an AI assistant that answers the team's questions about projects, balances and payments by querying the database. Each person only sees the projects they coordinate.\n• Integrated bank reconciliation with the Banco do Brasil and Sicredi APIs. Statements come straight from the banks and each entry is matched against the payments approved in the system, which ended the manual import of statement files.\n• Automated statement syncing with a daily balance check. When a day doesn't match, the system reprocesses that period and catches reversals and fees posted late.\n• Integrated the projects' investments and redemptions with Banco do Brasil's Funds API. The same operation is never recorded twice.\n• Implemented AI document checks. When an attachment doesn't match the request, the beneficiary is notified, and the AI also reads a new project's contract to fill in its record.\n• Built the API that serves projects, budget lines, contracts and reports to other systems. Calls are signed with HMAC, and each key has its own permissions and can be rotated without interrupting the integrations."
     },
     {
       "empresa": "W3 Companhia, Santarém/PA",
@@ -124,12 +124,12 @@
     },
     {
       "nome": "O Mentor App – Routine and study management for exam candidates",
-      "descricao": "Mentoring platform for public-service exam candidates, integrated with Agente Águia, with student onboarding, routine planning, a weekly study cycle and a verticalized syllabus. I worked on the Laravel backend and the Next.js frontend.",
+      "descricao": "Mentoring platform for public-service exam candidates, integrated with Agente Águia and launched in November 2026 for almost 8,000 students. I worked on the Laravel backend and the Next.js frontend for onboarding, routine planning and the study cycle.",
       "link": "https://omentorconcursos.com.br"
     },
     {
       "nome": "River FIAM – Financial management for UFOPA projects",
-      "descricao": "Financial management system for research projects at UFOPA's support foundation, from budget to accountability, with Boto, AI document checks and reconciliation with Banco do Brasil.",
+      "descricao": "Financial management system for research projects at UFOPA's support foundation, from budget to accountability. It includes Boto, AI document checks and reconciliation integrated with Banco do Brasil and Sicredi.",
       "link": "https://app.portalfiam.org/transparency-portal"
     },
     {
