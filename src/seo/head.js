@@ -57,14 +57,31 @@ export function buildHead(locale, cv) {
   const desc = description(cv, locale)
   const [firstName, ...rest] = cv.nome.split(' ')
 
+  // WebSite é o principal sinal que o Google usa para o nome do site nos resultados
+  // (sem ele, num subdomínio *.vercel.app, aparece "Vercel" no lugar do nome).
+  const website = {
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    url: absUrl(LOCALE_PATHS.pt),
+    name: cv.nome,
+    alternateName: ['Savio Godinho', 'savio@godinho'],
+    inLanguage: [LOCALE_TAGS.pt.hreflang, LOCALE_TAGS.en.hreflang],
+  }
+
   const ld = {
     '@context': 'https://schema.org',
-    '@type': 'ProfilePage',
-    url,
-    name: title,
-    inLanguage: tag.hreflang,
-    dateModified: new Date().toISOString().slice(0, 10),
-    mainEntity: personLd(cv, locale),
+    '@graph': [
+      website,
+      {
+        '@type': 'ProfilePage',
+        url,
+        name: title,
+        inLanguage: tag.hreflang,
+        dateModified: new Date().toISOString().slice(0, 10),
+        isPartOf: { '@id': website['@id'] },
+        mainEntity: personLd(cv, locale),
+      },
+    ],
   }
 
   return {
