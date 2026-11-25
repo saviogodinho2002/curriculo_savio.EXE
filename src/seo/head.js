@@ -80,6 +80,14 @@ export function buildHead(locale, cv) {
         dateModified: new Date().toISOString().slice(0, 10),
         isPartOf: { '@id': website['@id'] },
         mainEntity: personLd(cv, locale),
+        // páginas de projeto ligadas ao perfil
+        hasPart: (cv.projetos || [])
+          .filter((p) => p.slug && p.pagina)
+          .map((p) => ({
+            '@type': 'WebPage',
+            url: absUrl(projectPath(locale, p.slug)),
+            name: p.nome.split(/\s+[–—]\s+/)[0],
+          })),
       },
     ],
   }
@@ -204,6 +212,8 @@ export function buildProjectHead(locale, cv, project, { title: name, subtitle })
       { rel: 'alternate', hreflang: LOCALE_TAGS.pt.hreflang, href: absUrl(projectPath('pt', project.slug)) },
       { rel: 'alternate', hreflang: LOCALE_TAGS.en.hreflang, href: absUrl(projectPath('en', project.slug)) },
       { rel: 'alternate', hreflang: 'x-default', href: absUrl(projectPath('pt', project.slug)) },
+      // versão em Markdown da página, para IAs/agentes
+      { rel: 'alternate', type: 'text/markdown', href: `${url}index.md` },
       { rel: 'describedby', type: 'text/plain', href: absUrl('/llms.txt') },
     ],
     script: [{ type: 'application/ld+json', innerHTML: JSON.stringify(ld) }],

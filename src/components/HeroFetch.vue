@@ -108,10 +108,21 @@ onUnmounted(() => {
   artObserver?.disconnect()
 })
 
-function scramble(text, amount) {
+// embaralha o braille; colunas fora de [c0, c1) viram o braille vazio (mesma largura),
+// e assim a arte "encolhe" junto com a moldura da foto
+const BLANK = String.fromCharCode(BRAILLE_START)
+function scramble(text, amount, c0 = 0, c1 = Infinity) {
   let out = ''
+  let col = 0
   for (const ch of text) {
-    out += ch === '\n' || Math.random() >= amount ? ch : String.fromCharCode(BRAILLE_START + ((Math.random() * 256) | 0))
+    if (ch === '\n') {
+      out += ch
+      col = 0
+      continue
+    }
+    if (col < c0 || col >= c1) out += BLANK
+    else out += Math.random() >= amount ? ch : String.fromCharCode(BRAILLE_START + ((Math.random() * 256) | 0))
+    col++
   }
   return out
 }
@@ -124,8 +135,29 @@ function containRect(iw, ih, w, h) {
   return [(w - dw) / 2, (h - dh) / 2, dw, dh]
 }
 
+const easeInOutCubic = (x) => (x < 0.5 ? 4 * x * x * x : 1 - (-2 * x + 2) ** 3 / 2)
+const clamp01 = (x) => Math.min(1, Math.max(0, x))
+const lerp = (a, b, t) => a + (b - a) * t
+
+// moldura no estilo dos cards: borda fina + cantos em destaque (igual à .hero__photo-box)
+const CORNER = 10
+function drawFrame(ctx, x, y, w, h, border, accent, alpha) {
+  ctx.save()
+  ctx.globalAlpha = alpha
+  ctx.strokeStyle = border
+  ctx.lineWidth = 1
+  ctx.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1)
+  ctx.fillStyle = accent
+  const c = Math.min(CORNER, w / 4, h / 4)
+  for (const [cx, cy, sx, sy] of [[x, y, 1, 1], [x + w, y, -1, 1], [x, y + h, 1, -1], [x + w, y + h, -1, -1]]) {
+    ctx.fillRect(sx > 0 ? cx : cx - c, sy > 0 ? cy : cy - 2, c, 2)
+    ctx.fillRect(sx > 0 ? cx : cx - 2, sy > 0 ? cy : cy - c, 2, c)
+  }
+  ctx.restore()
+}
+
 const BLOCKS = [40, 28, 20, 14, 10, 7, 5, 3, 2, 1]
-const DURATION = 1400
+const DURATION = 1500
 
 function runDecrypt(forward) {
   const canvas = canvasRef.value
@@ -138,9 +170,14 @@ function runDecrypt(forward) {
   ctx.scale(dpr, dpr)
   const off = document.createElement('canvas')
   const octx = off.getContext('2d')
-  const [dx, dy, dw, dh] = containRect(photo.naturalWidth, photo.naturalHeight, w, h)
-  const fg = getComputedStyle(document.documentElement).getPropertyValue('--fg').trim() || '#33ff66'
+  // retângulo final da foto (quadrada, mais estreita que a arte)
+  const [fx, fy, fw, fh] = containRect(photo.naturalWidth, photo.naturalHeight, w, h)
+  const css = getComputedStyle(document.documentElement)
+  const fg = css.getPropertyValue('--fg').trim() || '#33ff66'
+  const border = css.getPropertyValue('--border').trim() || '#1f7a3a'
+  const accent = css.getPropertyValue('--accent').trim() || '#ffb000'
   const base = dotArt.value || props.cv.asciiArt
+  const cols = Math.max(...base.split('\n').map((l) => [...l].length))
 
   return new Promise((resolve) => {
     const start = performance.now()
@@ -149,45 +186,59 @@ function runDecrypt(forward) {
       const t = Math.min(1, (now - start) / DURATION)
       const p = forward ? t : 1 - t // 0 = dot art, 1 = foto
 
-      // braille embaralhando (troca a ~20fps, cara de terminal)
+      // a moldura fecha do bloco inteiro até o quadrado da foto (termina antes do fim,
+      // para a imagem assentar nítida já no tamanho final)
+      const s = easeInOutCubic(clamp01((p - 0.05) / 0.8))
+      const rx = lerp(0, fx, s)
+      const ry = lerp(0, fy, s)
+      const rw = lerp(w, fw, s)
+      const rh = lerp(h, fh, s)
+
+      // braille: embaralha e apaga as colunas que ficaram fora da moldura
       if (now - lastText > 50 || t === 1) {
-        asciiOverride.value = scramble(base, Math.min(1, p * 2.2))
+        const c0 = Math.floor((rx / w) * cols)
+        const c1 = Math.ceil(((rx + rw) / w) * cols)
+        asciiOverride.value = scramble(base, Math.min(1, p * 2.2), c0, c1)
         lastText = now
       }
 
       ctx.clearRect(0, 0, w, h)
-      const q = Math.max(0, (p - 0.15) / 0.85) // a foto só começa depois do embaralhamento
+      drawFrame(ctx, rx, ry, rw, rh, border, accent, clamp01(p * 6))
+
+      const q = clamp01((p - 0.15) / 0.85) // a foto só começa depois do embaralhamento
       if (q > 0) {
         const block = BLOCKS[Math.min(BLOCKS.length - 1, Math.floor(q * BLOCKS.length))]
-        const sw = Math.max(1, Math.ceil(dw / block))
-        const sh = Math.max(1, Math.ceil(dh / block))
+        const sw = Math.max(1, Math.ceil(rw / block))
+        const sh = Math.max(1, Math.ceil(rh / block))
         off.width = sw
         off.height = sh
         octx.drawImage(photo, 0, 0, sw, sh)
-        const sweep = h * Math.min(1, q * 1.4)
+        const sweep = ry + rh * Math.min(1, q * 1.4)
 
         ctx.save()
         ctx.beginPath()
-        ctx.rect(0, 0, w, sweep)
+        ctx.rect(rx, ry, rw, sweep - ry)
         ctx.clip()
         ctx.imageSmoothingEnabled = false
-        ctx.drawImage(off, 0, 0, sw, sh, dx, dy, dw, dh)
+        ctx.drawImage(off, 0, 0, sw, sh, rx, ry, rw, rh)
         // tinta de fósforo que some conforme a imagem "decifra"
         ctx.globalCompositeOperation = 'color'
         ctx.globalAlpha = 1 - q
         ctx.fillStyle = fg
-        ctx.fillRect(dx, dy, dw, dh)
+        ctx.fillRect(rx, ry, rw, rh)
         ctx.restore()
 
-        // linha de varredura
-        if (sweep < h) {
+        // linha de varredura, só dentro da moldura
+        if (sweep < ry + rh) {
           ctx.save()
           ctx.fillStyle = fg
           ctx.shadowColor = fg
           ctx.shadowBlur = 12
-          ctx.fillRect(0, sweep - 2, w, 2)
+          ctx.fillRect(rx, sweep - 2, rw, 2)
           ctx.restore()
         }
+        // a moldura fica por cima da imagem
+        drawFrame(ctx, rx, ry, rw, rh, border, accent, 1)
       }
 
       if (t < 1) requestAnimationFrame(frame)
@@ -236,15 +287,17 @@ async function togglePortrait() {
       <span class="hero__frame">
         <span ref="preRef" class="hero__ascii" aria-hidden="true">{{ shownArt }}</span>
         <canvas ref="canvasRef" class="hero__decrypt" aria-hidden="true"></canvas>
-        <img
-          class="hero__photo"
-          :src="PHOTO"
-          :alt="portraitLabels.alt"
-          width="800"
-          height="800"
-          loading="lazy"
-          decoding="async"
-        />
+        <span class="hero__photo-box">
+          <img
+            class="hero__photo"
+            :src="PHOTO"
+            :alt="portraitLabels.alt"
+            width="800"
+            height="800"
+            loading="lazy"
+            decoding="async"
+          />
+        </span>
       </span>
       <span class="hero__hint" aria-hidden="true">[ {{ showPhoto ? portraitLabels.hintHide : portraitLabels.hintShow }} ]</span>
     </button>
@@ -339,8 +392,7 @@ async function togglePortrait() {
   display: block;
 }
 
-.hero__decrypt,
-.hero__photo {
+.hero__decrypt {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -349,9 +401,41 @@ async function togglePortrait() {
   opacity: 0;
 }
 
+/* caixa com o tamanho exato da foto (quadrada, centralizada), igual ao último quadro
+   da transição no canvas: mesma borda e mesmos cantos em destaque */
+.hero__photo-box {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border: 1px solid var(--border);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.hero__photo-box::after {
+  --c: var(--accent);
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background:
+    linear-gradient(var(--c), var(--c)) top left / 10px 2px no-repeat,
+    linear-gradient(var(--c), var(--c)) top left / 2px 10px no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / 10px 2px no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / 2px 10px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / 10px 2px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / 2px 10px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / 10px 2px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / 2px 10px no-repeat;
+}
+
 .hero__photo {
-  /* a dot art veio da foto quadrada inteira; contain mostra a foto toda, sem zoom */
-  object-fit: contain;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* durante a transição: canvas por cima do braille embaralhado */
@@ -364,7 +448,7 @@ async function togglePortrait() {
   visibility: hidden;
 }
 
-.hero__portrait.is-photo .hero__photo {
+.hero__portrait.is-photo .hero__photo-box {
   opacity: 1;
 }
 

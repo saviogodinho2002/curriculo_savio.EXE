@@ -17,6 +17,10 @@ const L = {
     code: 'Projetos de código (GitHub)',
     page: 'Página',
     pdf: 'Currículo em PDF',
+    projectPage: 'página do projeto',
+    caseStudies: 'Projetos em detalhe',
+    screens: 'Telas',
+    system: 'Sistema',
   },
   en: {
     langName: 'English',
@@ -26,6 +30,10 @@ const L = {
     code: 'Code projects (GitHub)',
     page: 'Page',
     pdf: 'CV (PDF)',
+    projectPage: 'project page',
+    caseStudies: 'Project case studies',
+    screens: 'Screens',
+    system: 'System',
   },
 }
 
@@ -64,7 +72,7 @@ export function cvMarkdown(cv, locale) {
   }
 
   out.push(`## ${cap(s.projetos)}`, '')
-  for (const p of cv.projetos) out.push(projectLine(p))
+  for (const p of cv.projetos) out.push(projectLine(p, locale))
   out.push('')
 
   out.push(`## ${cap(s.skills)}`, '')
@@ -75,7 +83,7 @@ export function cvMarkdown(cv, locale) {
   }
 
   out.push(`## ${cap(s.codigo)}`, '')
-  for (const p of cv.projetos_codigo || []) out.push(projectLine(p))
+  for (const p of cv.projetos_codigo || []) out.push(projectLine(p, locale))
   out.push('')
 
   out.push(`## ${cap(s.formacao)}`, '')
@@ -98,11 +106,43 @@ export function cvMarkdown(cv, locale) {
   return out.join('\n')
 }
 
-function projectLine(p) {
+function projectLine(p, locale) {
   const { title, subtitle } = splitTitle(p.nome)
   const name = hasLink(p.link) ? `[${title}](${p.link})` : `**${title}**`
-  return `- ${name}${subtitle ? ` — ${subtitle}` : ''}: ${clean(p.descricao)}`
+  const page = p.slug && p.pagina ? ` · [${L[locale].projectPage}](${absUrl(projectPath(locale, p.slug))})` : ''
+  return `- ${name}${subtitle ? ` — ${subtitle}` : ''}: ${clean(p.descricao)}${page}`
 }
+
+/**
+ * Página de um projeto em Markdown (/projetos/<slug>/index.md e /en/projects/<slug>/index.md):
+ * o mesmo conteúdo da página HTML, vindo do campo "pagina" do JSON.
+ */
+export function projectMarkdown(cv, locale, p) {
+  const l = L[locale]
+  const sec = UI[locale].project.sections
+  const pg = p.pagina
+  const { title, subtitle } = splitTitle(p.nome)
+  const out = [`# ${title}${subtitle ? ` — ${subtitle}` : ''}`, '']
+  if (pg.subtitulo) out.push(`> ${clean(pg.subtitulo)}`, '')
+  const meta = [pg.periodo, ...(pg.tags || []), pg.status].filter(Boolean).join(' · ')
+  if (meta) out.push(meta, '')
+  const links = [
+    hasLink(p.link) ? `${l.system}: ${p.link}` : null,
+    `${l.page}: ${absUrl(projectPath(locale, p.slug))}`,
+    `${cv.nome}: ${absUrl(LOCALE_PATHS[locale])}`,
+  ].filter(Boolean)
+  out.push(links.join(' · '), '')
+  const list = (items) => items.map((i) => `- ${clean(i)}`)
+  if (pg.visao?.length) out.push(`## ${cap(sec.visao)}`, '', ...pg.visao.map((v) => `${clean(v)}\n`))
+  if (pg.stack?.length) out.push(`## ${cap(sec.stack)}`, '', ...pg.stack.map((g) => `- **${g.grupo}**: ${g.itens.join(', ')}`), '')
+  if (pg.fiz?.length) out.push(`## ${cap(sec.fiz)}`, '', ...list(pg.fiz), '')
+  if (pg.resultados?.length) out.push(`## ${cap(sec.resultados)}`, '', ...pg.resultados.map((r) => `- **${r.valor}** ${r.rotulo}`), '')
+  if (pg.funcionalidades?.length) out.push(`## ${cap(sec.funcionalidades)}`, '', ...list(pg.funcionalidades), '')
+  if (pg.prints?.length) out.push(`## ${l.screens}`, '', ...pg.prints.map((s) => `![${clean(s.legenda)}](${absUrl(s.src)})`), '')
+  return out.join('\n')
+}
+
+const projectPages = (cv) => (cv.projetos || []).filter((p) => p.slug && p.pagina)
 
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1)
 
@@ -153,7 +193,10 @@ export function llmsTxt(cvEn, cvPt) {
   for (const p of cvEn.projetos.filter((x) => hasLink(x.link))) {
     const { title, subtitle } = splitTitle(p.nome)
     out.push(`- [${title}](${p.link}): ${subtitle ? `${subtitle}. ` : ''}${firstSentence(p.descricao)}`)
-    if (p.pagina) out.push(`  - [${title} case study](${absUrl(projectPath('en', p.slug))}): screenshots, what I did, results and stack`)
+    if (p.pagina) {
+      const page = absUrl(projectPath('en', p.slug))
+      out.push(`  - [${title} case study](${page}): screenshots, what I did, results and stack ([Markdown](${page}index.md))`)
+    }
   }
   out.push('')
 
@@ -174,12 +217,13 @@ export function llmsTxt(cvEn, cvPt) {
 
 /** /llms-full.txt — currículo completo, EN e depois PT. */
 export function llmsFullTxt(cvEn, cvPt) {
-  return [
-    cvMarkdown(cvEn, 'en'),
-    '---',
-    '',
-    '<!-- Versão em português (pt-BR) -->',
-    '',
-    cvMarkdown(cvPt, 'pt'),
-  ].join('\n')
+  // currículo + páginas de projeto, em cada idioma (títulos de projeto descem um nível)
+  const full = (cv, locale) =>
+    [
+      cvMarkdown(cv, locale),
+      `## ${L[locale].caseStudies}`,
+      '',
+      ...projectPages(cv).map((p) => projectMarkdown(cv, locale, p).replace(/^(#+) /gm, '##$1 ')),
+    ].join('\n')
+  return [full(cvEn, 'en'), '---', '', '<!-- Versão em português (pt-BR) -->', '', full(cvPt, 'pt')].join('\n')
 }

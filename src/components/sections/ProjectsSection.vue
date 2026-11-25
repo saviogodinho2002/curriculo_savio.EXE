@@ -1,4 +1,5 @@
 <script setup>
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { hasLink, highlight, linkLabel, splitTitle } from '../../utils/parseCv'
 import { useLocale } from '../../composables/useLocale'
 import { projectPath } from '../../seo/site'
@@ -29,11 +30,59 @@ const groups = [
 ]
   .filter((g) => g.id === props.group && g.items.length)
   .map((g) => ({ ...g, items: g.items.map(toCard) }))
+
+// ===== Cards "corrompidos" fechando a última linha do grid =====
+// Decorativos: preenchem os buracos que sobram ao lado do último projeto,
+// conforme quantas colunas o grid tem na largura atual (recalcula no resize).
+const gridEl = ref(null)
+const fillers = ref(0)
+let resizeObs = null
+
+// ref dentro de v-for vira lista no Vue: pega o grid (só há um grupo por seção)
+const gridNode = () => (Array.isArray(gridEl.value) ? gridEl.value[0] : gridEl.value)
+
+function measureFillers() {
+  const el = gridNode()
+  if (!el || props.group !== 'profissional') return
+  const cols = getComputedStyle(el).gridTemplateColumns.split(' ').filter(Boolean).length
+  const n = groups[0]?.items.length ?? 0
+  fillers.value = cols > 1 ? (cols - (n % cols)) % cols : 0
+}
+
+onMounted(() => {
+  const el = gridNode()
+  if (props.group !== 'profissional' || !el) return
+  measureFillers()
+  resizeObs = new ResizeObserver(measureFillers)
+  resizeObs.observe(el)
+})
+
+onUnmounted(() => resizeObs?.disconnect())
+
+const GLITCH = '▓▒░█▚▞▙▟'
+const noise = (len) => Array.from({ length: len }, () => GLITCH[(Math.random() * GLITCH.length) | 0]).join('')
+const hex = () => '0x' + ((Math.random() * 0xffff) | 0).toString(16).toUpperCase().padStart(4, '0')
+
+const corrupted = computed(() =>
+  Array.from({ length: fillers.value }, (_, k) => {
+    const en = locale.value === 'en'
+    return {
+      key: `corrupt-${k}`,
+      title: `${noise(4)}_${noise(3)}.bin`,
+      signal: en ? 'NO SIGNAL' : 'SEM SINAL',
+      desc: en
+        ? `READ ERROR at sector ${hex()}. This project could not be recovered: ${noise(10)}`
+        : `ERRO DE LEITURA no setor ${hex()}. Não foi possível recuperar este projeto: ${noise(10)}`,
+      status: en ? 'checksum mismatch' : 'checksum inválido',
+      dead: en ? 'open ✗' : 'abrir ✗',
+    }
+  }),
+)
 </script>
 
 <template>
   <div v-for="g in groups" :key="g.id" class="group">
-    <div class="grid">
+    <div ref="gridEl" class="grid">
       <article
         v-for="(p, i) in g.items"
         :key="p.key"
@@ -74,6 +123,27 @@ const groups = [
           <RouterLink v-if="p.page" class="btn btn--accent" :to="p.page">{{ t.projects.details }}</RouterLink>
           <a v-if="p.link" class="btn" :class="{ 'btn--accent': !p.page }" :href="p.link" target="_blank" rel="noopener">{{ t.projects.open }}</a>
           <span v-if="p.link" class="pcard__url muted">{{ p.linkText }}</span>
+        </footer>
+      </article>
+
+      <!-- cards corrompidos: só enfeite, fecham a última linha do grid -->
+      <article
+        v-for="(c, k) in corrupted"
+        :key="c.key"
+        class="pcard pcard--shot pcard--corrupt"
+        :style="{ '--i': g.items.length + k + 1 }"
+        aria-hidden="true"
+      >
+        <div class="pcard__shot pcard__static">
+          <span class="pcard__nosignal">{{ c.signal }}</span>
+        </div>
+        <header class="pcard__head">
+          <h4 class="pcard__title pcard__title--glitch">{{ c.title }}</h4>
+        </header>
+        <p class="pcard__desc pcard__desc--corrupt">{{ c.desc }}</p>
+        <footer class="pcard__foot">
+          <span class="btn pcard__dead">{{ c.dead }}</span>
+          <span class="pcard__url muted">{{ c.status }}</span>
         </footer>
       </article>
     </div>
@@ -184,5 +254,89 @@ const groups = [
   min-width: 0;
   font-size: 0.8rem;
   overflow-wrap: anywhere;
+}
+
+/* ===== card corrompido ===== */
+.pcard--corrupt {
+  border-style: dashed;
+  opacity: 0.75;
+  user-select: none;
+}
+
+.pcard--corrupt:hover {
+  border-color: var(--border);
+}
+
+/* estática de TV no lugar do print */
+.pcard__static {
+  display: grid;
+  place-items: center;
+  background:
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--fg) 10%, transparent) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--fg) 14%, transparent) 0 1px, transparent 1px 4px),
+    var(--surface);
+}
+
+.pcard__nosignal {
+  padding: 0.1rem 0.6ch;
+  border: 1px solid var(--muted);
+  background: var(--bg);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+  text-shadow: none;
+}
+
+.pcard__title--glitch {
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.pcard__title--glitch::before {
+  content: '✗ ';
+  color: var(--muted);
+  text-shadow: none;
+}
+
+.pcard__desc--corrupt {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.pcard__dead {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-shadow: none;
+  cursor: not-allowed;
+}
+
+.pcard__dead:hover {
+  background: none;
+  color: var(--muted);
+}
+
+/* chiado da estática e glitch do título (só com movimento liberado) */
+html.motion-ok .pcard__static {
+  animation: tv-static 0.35s steps(3) infinite;
+}
+
+html.motion-ok .pcard__title--glitch {
+  animation: title-glitch 2.6s steps(1) infinite;
+}
+
+@keyframes tv-static {
+  0% { background-position: 0 0, 0 0, 0 0; }
+  33% { background-position: 3px 1px, 0 2px, 0 0; }
+  66% { background-position: -2px 0, 0 -1px, 0 0; }
+  100% { background-position: 1px -1px, 0 1px, 0 0; }
+}
+
+@keyframes title-glitch {
+  0%, 100% { transform: none; text-shadow: none; }
+  41% { transform: translateX(2px); text-shadow: -2px 0 var(--accent); }
+  42% { transform: none; text-shadow: none; }
+  73% { transform: translateX(-1px); text-shadow: 1px 0 var(--fg); }
+  74% { transform: none; text-shadow: none; }
 }
 </style>
