@@ -89,8 +89,9 @@ async function openCdp() {
   return { send, evaluate, close }
 }
 
-// esconde banners de cookies e widgets flutuantes de chat, que tapariam o print
-const CLEAN = `document.querySelectorAll('[id*="cookie" i], [class*="cookie" i], [class*="consent" i], #lgpd, .lgpd').forEach((e) => e.remove())`
+// recusa (ou esconde) banners de cookies e widgets flutuantes de chat, que tapariam o print
+const CLEAN = `[...document.querySelectorAll('button')].find((b) => /^(recusar|rejeitar)$/i.test(b.innerText.trim()))?.click();
+  document.querySelectorAll('[id*="cookie" i], [class*="cookie" i], [class*="consent" i], #lgpd, .lgpd').forEach((e) => e.remove())`
 
 async function shoot(slug, site, tmp) {
   const cdp = await openCdp()
@@ -114,6 +115,7 @@ async function shoot(slug, site, tmp) {
         await sleep(1500)
       }
       await cdp.evaluate(CLEAN)
+      await sleep(600)
       const { result } = await cdp.send('Page.captureScreenshot', { format: 'png' })
       const png = join(tmp, `${slug}-${i + 1}.png`)
       writeFileSync(png, Buffer.from(result.data, 'base64'))

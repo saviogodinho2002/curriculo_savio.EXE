@@ -144,6 +144,36 @@ const FLOWS = {
       { wait: 2500 },
     ],
   }),
+  // Yjara Viagens: site público (só navegação, nenhum dado preenchido)
+  'yjara-busca': () => ({
+    slug: 'yjara-viagens',
+    file: 'yjara-viagens/2',
+    steps: [
+      { goto: 'https://yjaraviagens.com/escolher-passagem/santarem/obidos/somente-ida/2026-11-26' },
+      { wait: 15000 },
+      // banner de cookies: recusa os não essenciais
+      { js: `[...document.querySelectorAll('button')].find((b) => b.innerText.trim() === 'Recusar')?.click()` },
+      { wait: 1000 },
+      { log: 'document.body.innerText.replace(/\\s+/g, " ").slice(300, 900)' },
+      { log: '[...document.querySelectorAll("button")].map((b) => b.innerText.trim()).filter(Boolean).slice(0, 40).join(" | ")' },
+    ],
+  }),
+  'yjara-assento': () => ({
+    slug: 'yjara-viagens',
+    file: 'yjara-viagens/3',
+    steps: [
+      { goto: 'https://yjaraviagens.com/escolher-passagem/santarem/obidos/somente-ida/2026-11-26' },
+      { wait: 15000 },
+      // banner de cookies: recusa os não essenciais
+      { js: `[...document.querySelectorAll('button')].find((b) => b.innerText.trim() === 'Recusar')?.click()` },
+      { wait: 1000 },
+      { js: `[...document.querySelectorAll('button')].find((b) => /^(Comprar|Selecionar) passagem$/.test(b.innerText.trim()))?.click()` },
+      { wait: 10000 },
+      // só rola até as acomodações: clicar num assento reservaria o lugar em produção
+      { js: `[...document.querySelectorAll('*')].filter((e) => e.children.length === 0 && e.textContent.trim() === 'Escolha sua Acomodação').pop()?.scrollIntoView({ block: 'center' })` },
+      { wait: 2500 },
+    ],
+  }),
   'fiam-relatorio': (c) => ({
     slug: 'river-fiam',
     file: 'river-fiam/2',

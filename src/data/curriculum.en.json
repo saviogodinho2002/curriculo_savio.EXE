@@ -83,7 +83,7 @@
       "empresa": "W3 Companhia, Santarém/PA",
       "cargo": "Software Engineer",
       "periodo": "January 2023 - Present",
-      "descricao": "• Architected TechRios (SaaS ERP for river transportation): restructured the trips, routes and data pipeline modules, driving +36.7% in transactions vs. 2024.\n• Built Porto Fácil, a port management REST API consumed by multiple systems and physical turnstiles, cutting fee reconciliation from hours to minutes.\n• Helped restructure Yjara Viagens (ticket e-commerce): API redesign, data modeling and services. Went live in Jun/2025 with +44% in transaction volume.\n• Embedded AI into TechRios operations: sales assistance based on the passenger's history and an **in-house MCP server** for natural-language business queries.\n• Evolved **W3Zap**, an omnichannel CRM (WhatsApp, Instagram and Messenger) based on Ticketz: official WhatsApp API, template campaigns, **AI agents in automations** and voice calls with multi-user management.\n• Integrated external systems such as **Dropbox, BP-e (SEFAZ), Safe2Pay and Sicredi**.\n• Technologies: PHP, JavaScript, TypeScript, Node, Vue, Laravel, Inertia, CSS, MySQL."
+      "descricao": "• Architected TechRios (SaaS ERP for river transportation): restructured the trips, routes and data pipeline modules, driving +36.7% in transactions vs. 2024.\n• Built Porto Fácil, a port management REST API consumed by multiple systems and physical turnstiles, cutting fee reconciliation from hours to minutes.\n• Architected the whole Yjara Viagens API (ticket e-commerce), including online payments. Went live in Jun/2025 with +44% in transaction volume.\n• Embedded AI into TechRios operations: sales assistance based on the passenger's history and an **in-house MCP server** for natural-language business queries.\n• Evolved **W3Zap**, an omnichannel CRM (WhatsApp, Instagram and Messenger) based on Ticketz: official WhatsApp API, template campaigns, **AI agents in automations** and voice calls with multi-user management.\n• Integrated external systems such as **Dropbox, BP-e (SEFAZ), Safe2Pay and Sicredi**.\n• Technologies: PHP, JavaScript, TypeScript, Node, Vue, Laravel, Inertia, CSS, MySQL."
     },
     {
       "empresa": "WebFarma, Santarém/PA",
@@ -150,7 +150,7 @@
           "Architected the restructuring of the trips, routes and data pipeline modules, the basis of +36.7% growth in transactions vs. 2024.",
           "Brought AI into the operation: sales assistance based on passenger history and an **in-house MCP server** for business queries in natural language.",
           "Integrated external systems such as **BP-e (SEFAZ), Safe2Pay, Sicredi and Dropbox**.",
-          "Collaborated on the rebuild of Yjara Viagens, the e-commerce that sells through the TechRios API: API redesign, data modeling and services. Go-live in Jun/2025, with +44% in transaction volume."
+          "Architected the whole API of Yjara Viagens, the e-commerce that sells through TechRios, including online payments. Go-live in Jun/2025, with +44% in transaction volume."
         ],
         "resultados": [
           {
@@ -213,9 +213,96 @@
     {
       "slug": "yjara-viagens",
       "nome": "Yjara Viagens – River ticket e-commerce",
-      "descricao": "Backend work: API redesign, data modeling and services. Went live in Jun/2025 with +44% in transaction volume.",
+      "descricao": "River and bus ticket e-commerce built on the TechRios API. I architected the whole API, including online payments. Went live in Jun/2025 with +44% in transaction volume.",
       "link": "https://yjaraviagens.com/",
-      "imagem": "/projects/yjara-viagens"
+      "imagem": "/projects/yjara-viagens",
+      "pagina": {
+        "periodo": "2024 – present",
+        "tags": [
+          "e-commerce",
+          "river tickets",
+          "REST API",
+          "payments"
+        ],
+        "status": "in production",
+        "subtitulo": "Online store for boat and bus tickets in the Amazon, selling the trips of TechRios companies with PIX or card payments.",
+        "links": [
+          {
+            "rotulo": "open website",
+            "url": "https://yjaraviagens.com/"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/yjara-viagens.webp",
+            "legenda": "Home: trip search and super deals."
+          },
+          {
+            "src": "/projects/yjara-viagens/2.webp",
+            "legenda": "Search results: the day’s trips per vessel, with time, duration and price."
+          },
+          {
+            "src": "/projects/yjara-viagens/3.webp",
+            "legenda": "Choosing the accommodation, with free and sold seats in real time."
+          }
+        ],
+        "visao": [
+          "Yjara Viagens is the online store for the region’s river and bus trips: passengers search the route, pick the trip and accommodation, fill in their details and pay with PIX or card, without going to the port.",
+          "The whole catalog comes from the **TechRios API**: the same trips, prices and seats that companies sell at the counter show up on the site, and the same API serves agency sites, affiliates and apps."
+        ],
+        "fiz": [
+          "Architected the whole e-commerce API that took TechRios ticket sales online, from search to ticket issuing. After going live in June 2025, transaction volume grew 44%.",
+          "Made a single API serve many stores, such as agency sites, affiliates and apps, with public OpenAPI docs for partners to integrate.",
+          "Integrated online payment by PIX and card through Safe2Pay and Mercado Pago, with saved cards so customers can buy again without re-entering their details.",
+          "Put **ClickBus** bus tickets in the same cart as boat trips, so customers buy both in one purchase."
+        ],
+        "resultados": [
+          {
+            "valor": "+44%",
+            "rotulo": "in transaction volume after go-live (Jun/2025)"
+          }
+        ],
+        "funcionalidades": [
+          "Trip search by origin, destination and date, filtered by time, accommodation and company.",
+          "Accommodation choice (seat, hammock, cabin) with free and sold places in real time.",
+          "Cart with boat and bus trips.",
+          "PIX or card payment, with saved cards.",
+          "Travel insurance and partnerships at checkout.",
+          "Super deals, events and most searched destinations.",
+          "Customer area with orders and tickets."
+        ],
+        "stack": [
+          {
+            "grupo": "api",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "MySQL",
+              "Sanctum",
+              "OpenAPI (Scramble)"
+            ]
+          },
+          {
+            "grupo": "store",
+            "itens": [
+              "Vue 3",
+              "Vuetify",
+              "Tailwind CSS",
+              "Pinia"
+            ]
+          },
+          {
+            "grupo": "payments and integrations",
+            "itens": [
+              "PIX",
+              "Safe2Pay",
+              "Mercado Pago",
+              "ClickBus",
+              "BP-e (SEFAZ)"
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "agente-aguia",
@@ -257,10 +344,10 @@
           "In the chat, students ask for summaries, get answers through **semantic search** over the materials and turn the conversation into flashcards that go into spaced repetition."
         ],
         "fiz": [
-          "Developed the questions module: question and exam bank, **AI-powered extraction** and LLM-generated teaching comments.",
-          "Restructured the AI chat tools: semantic search over the materials, flashcard generation and study summaries.",
-          "Built question approval with filters and an **AI-computed difficulty from 1 to 10** based on the materials.",
-          "Modeled parent and child questions and the handling of annulled and cancelled questions."
+          "Automated filling the question bank with AI, which extracts the questions straight from the exam PDF instead of typing them one by one.",
+          "Built the AI-generated teacher comment, which explains how to solve each question by searching the web and reading the images in the question.",
+          "Built the flow where the teaching team reviews and approves each question before it reaches students, with a 1–10 difficulty suggested by AI from the course materials.",
+          "Restructured the AI study chat, which now searches the course materials only when the question needs it and creates summaries and flashcards inside the conversation."
         ],
         "funcionalidades": [
           "Question and exam bank with filters.",
@@ -340,11 +427,10 @@
           "The new version launched in November 2026 to a base of almost 8,000 students and brings in the **Agente Águia** question bank."
         ],
         "fiz": [
-          "Developed the Study Cycle, which spreads each student’s subjects across the week based on the routine from onboarding and **renews automatically through a queue** (Redis + Horizon), with the business rules validated by mutation testing.",
-          "Built routine planning: the student marks work, sleep, obligations and shift schedules on the calendar, and the system fits in the study blocks.",
-          "Integrated the Agente Águia question bank into Mentor, with free practice sessions, filters and topics pre-selected from the student’s history.",
-          "Removed N+1 queries from the onboarding, cycle and study plan endpoints.",
-          "Took part in launching the new version in November 2026 to almost 8,000 students."
+          "Got the new version ready for its launch to almost 8,000 students in November 2026, removing the N+1 queries Sentry flagged on the most used endpoints.",
+          "Developed the Study Cycle, which turns each student’s routine into a weekly subject plan and renews itself at the turn of the week.",
+          "Built the routine calendar where students log work, sleep and shift schedules, and study blocks fit in without conflicts.",
+          "Integrated the Agente Águia question bank into Mentor, with free practice sessions that suggest topics from the student’s history."
         ],
         "resultados": [
           {
@@ -521,11 +607,10 @@
           "The **REST API** is used by TechRios, Yjara Viagens and other sales systems, and also by **physical turnstiles**, which validate the ticket at the boarding gate."
         ],
         "fiz": [
-          "Built Porto Fácil: port fee billing per company, vessel and route, with exemptions and financial reports.",
-          "Developed the **REST API** used by TechRios, other sales systems and the physical turnstiles, which validate tickets and sync fees.",
-          "Created the agent that runs on the turnstile and **works offline** (SQLite), validating the fee and marking it as used.",
-          "Automated company billing through WhatsApp and email.",
-          "Developed the Navegante module, with agency sales per city and access for the Navy."
+          "Have developed Porto Fácil since 2023, which cities and port operators use to charge port fees per company, vessel and route, taking fee reconciliation from hours to minutes.",
+          "Kept boarding working **without internet**: the turnstile agent validates tickets offline and syncs when the connection is back.",
+          "Designed the API that connects Porto Fácil to TechRios, other ticket sales systems and the turnstiles, accepting the codes each integrator already uses.",
+          "Built the Navegante module, which gathers agencies’ daily sales by city and channel and gives the Navy access to trip dispatch."
         ],
         "resultados": [
           {
@@ -620,9 +705,11 @@
           "It was built on top of the open-source **Ticketz** and adapted to W3 operations, with the official WhatsApp API, segmented campaigns, AI agents in the automations and voice calls."
         ],
         "fiz": [
-          "Integrated the **official WhatsApp API**, with segmented campaigns and approved templates.",
-          "Added **AI agents to the service automations**.",
-          "Implemented **voice calls** with multi-user management."
+          "Deployed AI bots per connection that answer from each client company’s own documents, query external systems and hand the conversation to an agent with the ticket summary ready.",
+          "Built an onboarding assistant over **MCP** that reads the client’s documentation and sets up the service automations on its own.",
+          "Gave clients the option of the official WhatsApp connection by integrating the **Meta API** alongside the unofficial one, and moved incoming messages to queues so webhooks respond faster.",
+          "Unified WhatsApp, Instagram and Messenger in a single inbox, so the team handles every channel without switching tools.",
+          "Built WhatsApp marketing and notification campaigns with Meta-approved templates, segmenting the audience by interest, product or spreadsheet."
         ],
         "funcionalidades": [
           "WhatsApp, Instagram and Messenger in a single inbox.",
@@ -632,7 +719,10 @@
           "Bulk campaigns and messages with approved templates.",
           "Full customer history in every conversation.",
           "AI agent that triages and hands off to a human when needed.",
-          "Real-time service metrics."
+          "Real-time service metrics.",
+          "Assistant that reads the client’s documentation and sets up the automations.",
+          "Products and space rentals, with an API for external systems.",
+          "Self-service plan sign-up with online payment."
         ],
         "stack": [
           {
@@ -644,7 +734,8 @@
               "Sequelize",
               "PostgreSQL",
               "Bull",
-              "Socket.IO"
+              "Socket.IO",
+              "Redis"
             ]
           },
           {
@@ -662,7 +753,11 @@
               "MCP",
               "WhatsApp Cloud API",
               "Instagram",
-              "Messenger"
+              "Messenger",
+              "Gemini",
+              "OpenRouter",
+              "WebRTC",
+              "Mercado Pago"
             ]
           }
         ]
@@ -712,7 +807,8 @@
           "Pre-registration form for new members.",
           "Blog and events calendar.",
           "Photo album gallery.",
-          "Admin area with login."
+          "Admin area with login.",
+          "Forms and questionnaires with answers and metrics in the panel."
         ],
         "stack": [
           {
@@ -721,7 +817,8 @@
               "PHP",
               "Laravel",
               "Sanctum",
-              "Spatie Permission"
+              "Spatie Permission",
+              "PostgreSQL"
             ]
           },
           {
@@ -738,6 +835,11 @@
               "Google Drive"
             ]
           }
+        ],
+        "fiz": [
+          "Was the lead developer of the platform in a team of three: a public site for the network to promote its work and an admin panel where the team itself publishes news, events and partners.",
+          "Built the form builder the network uses to create member sign-ups and questionnaires, shared by link, with answers and metrics in the panel.",
+          "Developed the photo and video gallery served from **Google Drive** through a proxy, so the collection can grow without weighing on server storage or paying for a file service."
         ]
       }
     },
@@ -781,6 +883,35 @@
           "PIX payment with automatic confirmation.",
           "Real-time order tracking.",
           "Student sign-up and login."
+        ],
+        "fiz": [
+          "Took part in designing the system in a team of three, turning the business rules into a simple ordering flow for students, with a weekly menu per campus and order deadlines for lunch and dinner.",
+          "Built **QR code** delivery: staff scan the order at pickup and the meal already shows as delivered in the report."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "Spatie Permission"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Vue 3",
+              "Inertia",
+              "Tailwind CSS"
+            ]
+          },
+          {
+            "grupo": "integrations",
+            "itens": [
+              "QR Code",
+              "WhatsApp (Evolution API)"
+            ]
+          }
         ]
       }
     }

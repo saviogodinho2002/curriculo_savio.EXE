@@ -83,7 +83,7 @@
       "empresa": "W3 Companhia, Santarém/PA",
       "cargo": "Engenheiro de Software",
       "periodo": "Janeiro de 2023 - Presente",
-      "descricao": "• Arquitetei o TechRios (ERP SaaS para transporte fluvial): reestruturei os módulos de viagens, trechos e pipelines de dados, gerando +36,7% em movimentações vs. 2024.\n• Construí o Porto Fácil, API REST de gestão portuária consumida por múltiplos sistemas e catracas físicas, reduzindo a conciliação de taxas de horas para minutos.\n• Colaborei na reestruturação do Yjara Viagens (e-commerce de passagens): redesenho de APIs, modelagem e serviços. Go-live em jun/2025, com +44% no volume transacionado.\n• Embarquei IA no fluxo de operação do TechRios: assistência à venda com base no histórico do passageiro e **servidor MCP próprio** para consultas de negócio em linguagem natural.\n• Evoluí o **W3Zap**, CRM omnichannel (WhatsApp, Instagram e Messenger) baseado no Ticketz: API oficial do WhatsApp, campanhas com templates, **agentes de IA nas automações** e chamadas de voz com gerenciamento multiusuário.\n• Integrei sistemas externos como **Dropbox, BP-e (SEFAZ), Safe2Pay e Sicredi**.\n• Tecnologias: PHP, JavaScript, TypeScript, Node, Vue, Laravel, Inertia, CSS, MySQL."
+      "descricao": "• Arquitetei o TechRios (ERP SaaS para transporte fluvial): reestruturei os módulos de viagens, trechos e pipelines de dados, gerando +36,7% em movimentações vs. 2024.\n• Construí o Porto Fácil, API REST de gestão portuária consumida por múltiplos sistemas e catracas físicas, reduzindo a conciliação de taxas de horas para minutos.\n• Arquitetei toda a API do Yjara Viagens (e-commerce de passagens), incluindo pagamentos online. Go-live em jun/2025, com +44% no volume transacionado.\n• Embarquei IA no fluxo de operação do TechRios: assistência à venda com base no histórico do passageiro e **servidor MCP próprio** para consultas de negócio em linguagem natural.\n• Evoluí o **W3Zap**, CRM omnichannel (WhatsApp, Instagram e Messenger) baseado no Ticketz: API oficial do WhatsApp, campanhas com templates, **agentes de IA nas automações** e chamadas de voz com gerenciamento multiusuário.\n• Integrei sistemas externos como **Dropbox, BP-e (SEFAZ), Safe2Pay e Sicredi**.\n• Tecnologias: PHP, JavaScript, TypeScript, Node, Vue, Laravel, Inertia, CSS, MySQL."
     },
     {
       "empresa": "WebFarma, Santarém/PA",
@@ -150,7 +150,7 @@
           "Arquitetei a reestruturação dos módulos de viagens, trechos e pipelines de dados, base do crescimento de +36,7% em movimentações vs. 2024.",
           "Embarquei IA no fluxo de operação: assistência à venda com base no histórico do passageiro e **servidor MCP próprio** para consultas de negócio em linguagem natural.",
           "Integrei sistemas externos como **BP-e (SEFAZ), Safe2Pay, Sicredi e Dropbox**.",
-          "Colaborei na reestruturação do Yjara Viagens, o e-commerce que vende pela API do TechRios: redesenho de APIs, modelagem e serviços. Go-live em jun/2025, com +44% no volume transacionado."
+          "Arquitetei toda a API do Yjara Viagens, o e-commerce que vende pelo TechRios, incluindo pagamentos online. Go-live em jun/2025, com +44% no volume transacionado."
         ],
         "resultados": [
           {
@@ -213,9 +213,96 @@
     {
       "slug": "yjara-viagens",
       "nome": "Yjara Viagens – E-commerce de passagens fluviais",
-      "descricao": "Atuação no backend: redesenho de APIs, modelagem e serviços. Go-live em jun/2025, com +44% no volume transacionado.",
+      "descricao": "E-commerce de passagens fluviais e rodoviárias sobre a API do TechRios. Arquitetei toda a API, incluindo pagamentos online. Go-live em jun/2025, com +44% no volume transacionado.",
       "link": "https://yjaraviagens.com/",
-      "imagem": "/projects/yjara-viagens"
+      "imagem": "/projects/yjara-viagens",
+      "pagina": {
+        "periodo": "2024 – hoje",
+        "tags": [
+          "e-commerce",
+          "passagens fluviais",
+          "API REST",
+          "pagamentos"
+        ],
+        "status": "em produção",
+        "subtitulo": "E-commerce de passagens de barco e de ônibus da Amazônia, que vende as viagens das empresas do TechRios com pagamento por PIX ou cartão.",
+        "links": [
+          {
+            "rotulo": "abrir site",
+            "url": "https://yjaraviagens.com/"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/yjara-viagens.webp",
+            "legenda": "Home: busca de viagens e super ofertas."
+          },
+          {
+            "src": "/projects/yjara-viagens/2.webp",
+            "legenda": "Resultados da busca: viagens do dia por embarcação, com horário, duração e preço."
+          },
+          {
+            "src": "/projects/yjara-viagens/3.webp",
+            "legenda": "Escolha da acomodação, com lugares livres e vendidos em tempo real."
+          }
+        ],
+        "visao": [
+          "O Yjara Viagens é a loja online das viagens fluviais e rodoviárias da região: o passageiro busca o trecho, escolhe a viagem e a acomodação, informa os dados e paga por PIX ou cartão, sem ir ao porto.",
+          "Todo o catálogo vem da **API do TechRios**: as mesmas viagens, preços e lugares que as empresas vendem no balcão aparecem no site, e a mesma API atende sites de agência, afiliados e aplicativos."
+        ],
+        "fiz": [
+          "Arquitetei toda a API do e-commerce que levou a venda de passagens do TechRios para a internet, da busca à emissão do bilhete. Após a entrada no ar, em junho de 2025, o volume de transações cresceu 44%.",
+          "Fiz uma única API atender várias lojas, como sites de agências, afiliados e apps, com documentação OpenAPI pública para os parceiros se integrarem.",
+          "Integrei o pagamento online por PIX e cartão via Safe2Pay e Mercado Pago, com cartão salvo para o cliente recomprar sem digitar os dados de novo.",
+          "Coloquei as passagens de ônibus da **ClickBus** no mesmo carrinho das viagens de barco, para o cliente comprar os dois numa compra só."
+        ],
+        "resultados": [
+          {
+            "valor": "+44%",
+            "rotulo": "no volume transacionado após o go-live (jun/2025)"
+          }
+        ],
+        "funcionalidades": [
+          "Busca de viagens por origem, destino e data, com filtros por horário, acomodação e empresa.",
+          "Escolha de acomodação (poltrona, rede, camarote) com lugares livres e vendidos em tempo real.",
+          "Carrinho com viagens de barco e de ônibus.",
+          "Pagamento por PIX ou cartão, com cartão salvo.",
+          "Seguro viagem e convênios na compra.",
+          "Super ofertas, eventos e destinos mais procurados.",
+          "Área do cliente com pedidos e passagens."
+        ],
+        "stack": [
+          {
+            "grupo": "api",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "MySQL",
+              "Sanctum",
+              "OpenAPI (Scramble)"
+            ]
+          },
+          {
+            "grupo": "loja",
+            "itens": [
+              "Vue 3",
+              "Vuetify",
+              "Tailwind CSS",
+              "Pinia"
+            ]
+          },
+          {
+            "grupo": "pagamentos e integrações",
+            "itens": [
+              "PIX",
+              "Safe2Pay",
+              "Mercado Pago",
+              "ClickBus",
+              "BP-e (SEFAZ)"
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "agente-aguia",
@@ -257,10 +344,10 @@
           "No chat, o aluno pede resumos, tira dúvidas com **busca semântica** nos materiais e transforma a conversa em flashcards, que entram na repetição espaçada."
         ],
         "fiz": [
-          "Desenvolvi o módulo de questões: banco de questões e provas, **extração automática com IA** e comentários pedagógicos gerados por LLM.",
-          "Reestruturei as ferramentas do chat com IA: busca semântica nos materiais, geração de flashcards e resumos de estudo.",
-          "Criei a aprovação de questões com filtros e a **dificuldade de 1 a 10 calculada por IA** a partir dos materiais.",
-          "Modelei questões-mãe e questões-filha e o tratamento de questões anuladas e canceladas."
+          "Automatizei a alimentação do banco de questões com IA, que extrai as questões direto do PDF da prova em vez de digitá-las uma a uma.",
+          "Criei o comentário do professor gerado por IA, que explica ao aluno a resolução de cada questão consultando a web e lendo as imagens do enunciado.",
+          "Criei o fluxo em que a equipe pedagógica revisa e aprova cada questão antes de ela chegar ao aluno, com a dificuldade de 1 a 10 sugerida pela IA a partir dos materiais.",
+          "Reestruturei o chat de estudo com IA, que passou a buscar nos materiais do curso só quando a pergunta exige e a gerar resumos e flashcards na própria conversa."
         ],
         "funcionalidades": [
           "Banco de questões e provas com filtros.",
@@ -340,11 +427,10 @@
           "A nova versão foi lançada em novembro de 2026 para uma base de quase 8 mil alunos e traz o banco de questões do **Agente Águia**."
         ],
         "fiz": [
-          "Desenvolvi o Ciclo de Estudos, que distribui as matérias de cada aluno ao longo da semana conforme a rotina informada no onboarding e se **renova automaticamente via fila** (Redis + Horizon), com a regra de negócio validada por testes de mutação.",
-          "Construí o planejamento de rotina: o aluno marca trabalho, sono, obrigações e escala de plantão no calendário, e o sistema encaixa os blocos de estudo.",
-          "Integrei o banco de questões do Agente Águia ao Mentor, criando sessões de estudo livre com filtros e assuntos pré-marcados pelo histórico do aluno.",
-          "Tirei consultas N+1 dos endpoints do onboarding, do ciclo e do plano de estudos.",
-          "Participei do lançamento da nova versão, em novembro de 2026, para quase 8 mil alunos."
+          "Preparei a nova versão para o lançamento a quase 8 mil alunos, em novembro de 2026, eliminando as consultas N+1 que o Sentry apontava nos endpoints mais usados.",
+          "Desenvolvi o Ciclo de Estudos, que transforma a rotina de cada aluno num plano semanal de matérias e se renova sozinho na virada da semana.",
+          "Criei o calendário de rotina em que o aluno registra trabalho, sono e escalas de plantão, e os blocos de estudo se encaixam sem conflito.",
+          "Integrei o banco de questões do Agente Águia ao Mentor, com sessões de prática livre que já sugerem os assuntos pelo histórico do aluno."
         ],
         "resultados": [
           {
@@ -521,11 +607,10 @@
           "A **API REST** é consumida pelo TechRios, pelo Yjara Viagens e por outros sistemas de venda, e também pelas **catracas físicas**, que validam o bilhete na entrada do embarque."
         ],
         "fiz": [
-          "Construí o Porto Fácil: cobrança das taxas portuárias por empresa, embarcação e trecho, com isenções e relatórios financeiros.",
-          "Desenvolvi a **API REST** consumida pelo TechRios, por outros sistemas de venda e pelas catracas físicas, que validam o bilhete e sincronizam as tarifas.",
-          "Criei o agente que roda na catraca e **funciona offline** (SQLite), validando a tarifa e marcando como usada.",
-          "Automatizei a cobrança das empresas por WhatsApp e e-mail.",
-          "Desenvolvi o módulo Navegante, com as vendas das agências por cidade e acesso para a Marinha."
+          "Desenvolvi desde 2023 o Porto Fácil, com que prefeituras e gestoras de porto cobram as taxas portuárias por empresa, embarcação e trecho, o que levou a conciliação das taxas de horas para minutos.",
+          "Garanti o embarque mesmo **sem internet**: o agente da catraca valida o bilhete offline e sincroniza quando a conexão volta.",
+          "Projetei a API que integra o Porto Fácil ao TechRios, a outros sistemas de venda de passagens e às catracas, aceitando os códigos que cada integrador já usa.",
+          "Criei o módulo Navegante, que reúne as vendas diárias das agências por cidade e canal e dá à Marinha acesso ao despacho das viagens."
         ],
         "resultados": [
           {
@@ -620,9 +705,11 @@
           "Foi construído sobre o **Ticketz**, de código aberto, e adaptado às operações da W3, com API oficial do WhatsApp, campanhas segmentadas, agentes de IA nas automações e chamadas de voz."
         ],
         "fiz": [
-          "Integrei a **API oficial do WhatsApp**, com campanhas segmentadas e templates aprovados.",
-          "Coloquei **agentes de IA nas automações** de atendimento.",
-          "Implementei **chamadas de voz** com gerenciamento multiusuário."
+          "Implantei bots de IA por conexão, que respondem com base nos documentos de cada empresa cliente, consultam sistemas externos e passam a conversa a um atendente já com o resumo do ticket.",
+          "Criei um assistente de implantação via **MCP** que lê a documentação do cliente e já monta as automações do atendimento.",
+          "Dei aos clientes a opção da conexão oficial do WhatsApp, integrando a **API da Meta** ao lado da não oficial, e passei o recebimento das mensagens para filas, para os webhooks responderem mais rápido.",
+          "Unifiquei WhatsApp, Instagram e Messenger numa só caixa de entrada, para a equipe atender todos os canais sem trocar de ferramenta.",
+          "Criei o disparo de campanhas de marketing e de avisos pelo WhatsApp com templates aprovados pela Meta, segmentando o público por interesse, produto ou planilha."
         ],
         "funcionalidades": [
           "WhatsApp, Instagram e Messenger numa caixa de entrada só.",
@@ -632,7 +719,10 @@
           "Campanhas e mensagens em massa com templates aprovados.",
           "Histórico completo do cliente em qualquer atendimento.",
           "Agente de IA que faz a triagem e transfere para um humano quando precisa.",
-          "Métricas de atendimento em tempo real."
+          "Métricas de atendimento em tempo real.",
+          "Assistente que lê a documentação do cliente e configura as automações.",
+          "Produtos e locação de espaços, com API para sistemas externos.",
+          "Planos com autocadastro e pagamento online."
         ],
         "stack": [
           {
@@ -644,7 +734,8 @@
               "Sequelize",
               "PostgreSQL",
               "Bull",
-              "Socket.IO"
+              "Socket.IO",
+              "Redis"
             ]
           },
           {
@@ -662,7 +753,11 @@
               "MCP",
               "WhatsApp Cloud API",
               "Instagram",
-              "Messenger"
+              "Messenger",
+              "Gemini",
+              "OpenRouter",
+              "WebRTC",
+              "Mercado Pago"
             ]
           }
         ]
@@ -712,7 +807,8 @@
           "Formulário de pré-cadastro para novos membros.",
           "Blog e agenda de eventos.",
           "Galeria de álbuns de fotos.",
-          "Área administrativa com login."
+          "Área administrativa com login.",
+          "Formulários e questionários com respostas e métricas no painel."
         ],
         "stack": [
           {
@@ -721,7 +817,8 @@
               "PHP",
               "Laravel",
               "Sanctum",
-              "Spatie Permission"
+              "Spatie Permission",
+              "PostgreSQL"
             ]
           },
           {
@@ -738,6 +835,11 @@
               "Google Drive"
             ]
           }
+        ],
+        "fiz": [
+          "Fui o principal desenvolvedor da plataforma numa equipe de três: um site público para a rede divulgar suas ações e um painel em que a própria equipe publica notícias, eventos e parceiros.",
+          "Criei o construtor de formulários com que a própria rede monta inscrições de membros e questionários, publicados por link e com respostas e métricas no painel.",
+          "Desenvolvi a galeria de fotos e vídeos servida pelo **Google Drive** através de um proxy, o que deixa o acervo crescer sem pesar no armazenamento do servidor e sem o custo de um serviço de arquivos."
         ]
       }
     },
@@ -781,6 +883,35 @@
           "Pagamento via PIX com confirmação automática.",
           "Acompanhamento do pedido em tempo real.",
           "Cadastro e login do aluno."
+        ],
+        "fiz": [
+          "Participei da concepção do sistema numa equipe de três, traduzindo as regras da marmitaria em um fluxo de compra simples para o aluno, com cardápio semanal por campus e prazo de pedido para almoço e janta.",
+          "Criei a entrega por **QR code**, em que a equipe escaneia o pedido na retirada e a marmita já aparece como entregue no relatório."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "Spatie Permission"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Vue 3",
+              "Inertia",
+              "Tailwind CSS"
+            ]
+          },
+          {
+            "grupo": "integrações",
+            "itens": [
+              "QR Code",
+              "WhatsApp (Evolution API)"
+            ]
+          }
         ]
       }
     }
