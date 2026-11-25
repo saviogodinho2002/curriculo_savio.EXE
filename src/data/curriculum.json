@@ -568,6 +568,92 @@
       }
     },
     {
+      "slug": "navegante",
+      "nome": "Navegante – Gestão portuária e fluvial da Prefeitura de Santarém",
+      "descricao": "Plataforma multi-tenant para prefeituras gerirem o transporte fluvial e os portos: armadores, embarcações, atracações, licenças, vistorias e autuações. Em uso em Santarém, integrada ao Porto Fácil.",
+      "link": "#",
+      "imagem": "/projects/navegante",
+      "pagina": {
+        "periodo": "2023 – hoje",
+        "tags": [
+          "multi-tenant",
+          "gestão portuária",
+          "setor público"
+        ],
+        "status": "em produção",
+        "subtitulo": "Plataforma multi-tenant de gestão do transporte fluvial e dos portos, em uso pela Prefeitura de Santarém/PA e pronta para outros municípios.",
+        "links": [],
+        "prints": [
+          {
+            "src": "/projects/navegante/1.webp",
+            "legenda": "Painel administrativo: calendário de vistorias e atracações do dia (nomes desfocados)."
+          },
+          {
+            "src": "/projects/navegante/2.webp",
+            "legenda": "Relatório de licenças: embarcações e portos por situação da licença."
+          }
+        ],
+        "visao": [
+          "O Navegante é o sistema da Secretaria Municipal de Portos e Transporte Aquaviário (SEMPTA) de Santarém/PA para controlar o transporte fluvial e a atividade nos portos. Ele reúne armadores, embarcações, portos e atracações, além de licenças, vistorias com checklist e calendário, ordens de serviço, notificações e autuações, emissão de DAM da prefeitura, isenções e relatórios.",
+          "A plataforma é **multi-tenant**: cada cidade tem seus dados isolados, então outros gestores públicos de portos e transporte aquaviário podem usar o mesmo sistema. A equipe da secretaria usa o sistema no escritório; em campo, um app Android funciona sem internet e imprime em impressora térmica. Qualquer pessoa consulta uma embarcação ou um porto pelo QR code."
+        ],
+        "fiz": [
+          "Iniciei o sistema como principal desenvolvedor e o desenhei como **multi-tenant**: cada município tem seus dados isolados na mesma plataforma, o que permite levar o Navegante a outras prefeituras e gestores portuários sem uma nova instalação.",
+          "Na segunda fase, a partir de nov/2025, fui o **tech lead** da equipe que levou ao sistema as licenças, as vistorias com checklist, a cobrança por DAM da prefeitura e as autuações.",
+          "Construí os dois lados da integração com o **Porto Fácil**, que entrega à secretaria todo dia as vendas das agências e os embarques feitos direto nas embarcações; em julho de 2026 foram quase 36 mil em Santarém.",
+          "Digitalizei o direito de defesa nas autuações: o autuado apresenta defesa e recurso pela internet, por um link exclusivo, sem precisar ir à secretaria, e a equipe jurídica analisa e decide no próprio sistema, com todo o processo registrado.",
+          "Criei o documento da embarcação com **QR code**, que abre uma página pública onde qualquer pessoa confere o cadastro dela sem precisar entrar no sistema.",
+          "Montei os painéis e relatórios da secretaria, com o movimento por porto, por embarcação, por dia da semana e por viagens intermunicipais e interestaduais, exportados em PDF e Excel."
+        ],
+        "funcionalidades": [
+          "Cadastro de armadores, embarcações, portos e atracações.",
+          "Licenças de embarcações e portos.",
+          "Vistorias com checklist e calendário.",
+          "Ordens de serviço.",
+          "Notificações e autuações, com defesa e recurso on-line.",
+          "Cobrança por DAM da prefeitura e protocolos de isenção.",
+          "App de campo para Android que funciona offline e imprime em impressora térmica.",
+          "Consulta pública de embarcações e portos por QR code.",
+          "Relatórios e painéis exportados em PDF e Excel.",
+          "Vários municípios na mesma plataforma, com dados isolados."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "MySQL",
+              "Redis",
+              "Sanctum",
+              "Spatie Permission"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Vue 3",
+              "TypeScript",
+              "Inertia",
+              "Tailwind CSS",
+              "FullCalendar",
+              "Chart.js"
+            ]
+          },
+          {
+            "grupo": "documentos e integrações",
+            "itens": [
+              "PDF",
+              "Excel",
+              "QR Code",
+              "OpenAPI",
+              "Porto Fácil"
+            ]
+          }
+        ]
+      }
+    },
+    {
       "slug": "porto-facil",
       "nome": "Porto Fácil – API de gestão portuária",
       "descricao": "API REST de gestão portuária consumida por múltiplos sistemas e por catracas físicas de controle de acesso, que reduziu a conciliação de taxas de horas para minutos.",

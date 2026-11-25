@@ -190,9 +190,11 @@ export function llmsTxt(cvEn, cvPt) {
   out.push('')
 
   out.push('## Projects', '')
-  for (const p of cvEn.projetos.filter((x) => hasLink(x.link))) {
+  // projetos com link do sistema ou com página própria (sem link público, aponta para a página)
+  for (const p of cvEn.projetos.filter((x) => hasLink(x.link) || (x.slug && x.pagina))) {
     const { title, subtitle } = splitTitle(p.nome)
-    out.push(`- [${title}](${p.link}): ${subtitle ? `${subtitle}. ` : ''}${firstSentence(p.descricao)}`)
+    const href = hasLink(p.link) ? p.link : absUrl(projectPath('en', p.slug))
+    out.push(`- [${title}](${href}): ${subtitle ? `${subtitle}. ` : ''}${firstSentence(p.descricao)}`)
     if (p.pagina) {
       const page = absUrl(projectPath('en', p.slug))
       out.push(`  - [${title} case study](${page}): screenshots, what I did, results and stack ([Markdown](${page}index.md))`)
