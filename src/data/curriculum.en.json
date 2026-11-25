@@ -243,28 +243,303 @@
       "nome": "Porto Fácil – Port management API",
       "descricao": "Port management REST API consumed by multiple systems and by physical access-control turnstiles, cutting fee reconciliation from hours to minutes.",
       "link": "https://portofacil.online/",
-      "imagem": "/projects/porto-facil"
+      "imagem": "/projects/porto-facil",
+      "pagina": {
+        "periodo": "2023 – present",
+        "tags": [
+          "port management",
+          "REST API",
+          "turnstiles"
+        ],
+        "status": "in production",
+        "subtitulo": "Port management system that charges boarding fees, controls access through turnstiles and integrates with ticket sales systems.",
+        "links": [
+          {
+            "rotulo": "open website",
+            "url": "https://portofacil.online/"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/porto-facil/1.webp",
+            "legenda": "Porto Fácil website."
+          },
+          {
+            "src": "/projects/porto-facil/2.webp",
+            "legenda": "The system: fee report per vessel and fee type."
+          },
+          {
+            "src": "/projects/porto-facil/3.webp",
+            "legenda": "Features: fee issuing, berthing, access control, anti-fraud and reports."
+          }
+        ],
+        "visao": [
+          "Porto Fácil handles boarding fee collection and access control at river ports and terminals. The city or the port operator registers companies, vessels and fees, and every ticket sold already carries the port fee.",
+          "The **REST API** is used by TechRios, Yjara Viagens and other sales systems, and also by **physical turnstiles**, which validate the ticket at the boarding gate."
+        ],
+        "fiz": [
+          "Built Porto Fácil: port fee billing per company, vessel and route, with exemptions and financial reports.",
+          "Developed the **REST API** used by TechRios, other sales systems and the physical turnstiles, which validate tickets and sync fees.",
+          "Created the agent that runs on the turnstile and **works offline** (SQLite), validating the fee and marking it as used.",
+          "Automated company billing through WhatsApp and email.",
+          "Developed the Navegante module, with agency sales per city and access for the Navy."
+        ],
+        "resultados": [
+          {
+            "valor": "hours → minutes",
+            "rotulo": "in port fee reconciliation"
+          }
+        ],
+        "funcionalidades": [
+          "Companies, vessels, routes and fees, with exemptions.",
+          "Boarding fees issued on their own or together with the ticket sale.",
+          "Ticket validation at the turnstiles, even without internet.",
+          "Company billing through PIX, WhatsApp and email.",
+          "Financial reports per company, fee type and period.",
+          "Public sign-up for cities and port operators.",
+          "Navegante module to follow sales and trips."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "MySQL",
+              "Sanctum",
+              "Spatie Permission"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Vue 3",
+              "Inertia",
+              "Tailwind CSS",
+              "ApexCharts"
+            ]
+          },
+          {
+            "grupo": "turnstile",
+            "itens": [
+              "PHP",
+              "SQLite"
+            ]
+          },
+          {
+            "grupo": "integrations",
+            "itens": [
+              "PIX",
+              "WhatsApp",
+              "Dropbox",
+              "thermal printer (ESC/POS)"
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "w3zap",
       "nome": "W3Zap – AI-powered omnichannel customer service CRM",
       "descricao": "Customer service CRM for WhatsApp, Instagram and Messenger, built on Ticketz and adapted to W3's operations, with the official WhatsApp API, segmented campaigns, AI agents in automations and voice calls.",
       "link": "https://app.w3zap.net/",
-      "imagem": "/projects/w3zap"
+      "imagem": "/projects/w3zap",
+      "pagina": {
+        "tags": [
+          "CRM",
+          "omnichannel",
+          "AI agents"
+        ],
+        "status": "in production",
+        "subtitulo": "Customer service CRM that brings WhatsApp, Instagram and Messenger into one queue, with AI agents in the automations.",
+        "links": [
+          {
+            "rotulo": "open website",
+            "url": "https://app.w3zap.net/"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/w3zap/1.webp",
+            "legenda": "W3Zap website."
+          },
+          {
+            "src": "/projects/w3zap/2.webp",
+            "legenda": "Features: voice calls, multiple connections, customer history, automated service, campaigns and metrics."
+          },
+          {
+            "src": "/projects/w3zap/3.webp",
+            "legenda": "How the AI agent solves tickets: triage, context, system lookups and handoff to a human."
+          }
+        ],
+        "visao": [
+          "W3Zap is the customer service hub for W3 operations: WhatsApp, Instagram and Messenger messages land in the same queue, split by department and agent.",
+          "It was built on top of the open-source **Ticketz** and adapted to W3 operations, with the official WhatsApp API, segmented campaigns, AI agents in the automations and voice calls."
+        ],
+        "fiz": [
+          "Integrated the **official WhatsApp API**, with segmented campaigns and approved templates.",
+          "Added **AI agents to the service automations**.",
+          "Implemented **voice calls** with multi-user management."
+        ],
+        "funcionalidades": [
+          "WhatsApp, Instagram and Messenger in a single inbox.",
+          "Multiple connections and queues per department, with many agents.",
+          "Voice calls over WhatsApp.",
+          "24/7 automated service with menus and auto-replies.",
+          "Bulk campaigns and messages with approved templates.",
+          "Full customer history in every conversation.",
+          "AI agent that triages and hands off to a human when needed.",
+          "Real-time service metrics."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "Node.js",
+              "TypeScript",
+              "Express",
+              "Sequelize",
+              "PostgreSQL",
+              "Bull",
+              "Socket.IO"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "React",
+              "Material UI"
+            ]
+          },
+          {
+            "grupo": "ai and integrations",
+            "itens": [
+              "Claude (Anthropic)",
+              "OpenAI",
+              "MCP",
+              "WhatsApp Cloud API",
+              "Instagram",
+              "Messenger"
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "ribba",
       "nome": "RIBBA – Lower Amazon Bioeconomy Innovation Network",
       "descricao": "Institutional platform for the Lower Amazon Bioeconomy Innovation Network, connecting entrepreneurs, researchers, institutions and the community, with partner profiles and a membership form.",
       "link": "https://rederibba.org",
-      "imagem": "/projects/ribba"
+      "imagem": "/projects/ribba",
+      "pagina": {
+        "tags": [
+          "institutional platform",
+          "bioeconomy",
+          "Lower Amazon"
+        ],
+        "status": "live",
+        "subtitulo": "Platform of the Lower Amazon Bioeconomy Innovation Network, connecting entrepreneurs, researchers, institutions and the community.",
+        "links": [
+          {
+            "rotulo": "open website",
+            "url": "https://rederibba.org"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/ribba/1.webp",
+            "legenda": "RIBBA home page."
+          },
+          {
+            "src": "/projects/ribba/2.webp",
+            "legenda": "About the network and the member pre-registration form."
+          },
+          {
+            "src": "/projects/ribba/3.webp",
+            "legenda": "Network partners."
+          }
+        ],
+        "visao": [
+          "RIBBA brings together entrepreneurs, researchers, public and private institutions and the community around the bioeconomy of the Lower Amazon.",
+          "The platform presents the network, its working groups and partners, publishes a blog, photo albums and events, and takes new member sign-ups through a form."
+        ],
+        "funcionalidades": [
+          "Network and working group presentation.",
+          "Partners page: companies, institutions and members.",
+          "Pre-registration form for new members.",
+          "Blog and events calendar.",
+          "Photo album gallery.",
+          "Admin area with login."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "Sanctum",
+              "Spatie Permission"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Vue 3",
+              "Inertia",
+              "ApexCharts"
+            ]
+          },
+          {
+            "grupo": "integrations",
+            "itens": [
+              "Google Drive"
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "bjmarmitaria",
       "nome": "BjMarmitaria – University meal ordering",
       "descricao": "Packed-meal ordering system for UFOPA campuses, with weekly menus per campus, order cutoffs for lunch and dinner, a vegetarian option and payment via PIX.",
       "link": "https://bjmarmitaria.com",
-      "imagem": "/projects/bjmarmitaria"
+      "imagem": "/projects/bjmarmitaria",
+      "pagina": {
+        "tags": [
+          "online ordering",
+          "UFOPA"
+        ],
+        "status": "live",
+        "subtitulo": "Meal ordering system for UFOPA campuses, with a weekly menu per campus and PIX payments.",
+        "links": [
+          {
+            "rotulo": "open website",
+            "url": "https://bjmarmitaria.com"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/bjmarmitaria/1.webp",
+            "legenda": "Student portal."
+          },
+          {
+            "src": "/projects/bjmarmitaria/2.webp",
+            "legenda": "Choosing a campus to see the menus."
+          }
+        ],
+        "visao": [
+          "BjMarmitaria moves UFOPA students’ meal orders online: the student picks a campus, sees the weekly menu and orders lunch or dinner before the deadline.",
+          "Payment is through PIX with automatic confirmation, and students follow their orders on the portal."
+        ],
+        "funcionalidades": [
+          "Weekly menu per campus.",
+          "Order deadlines for lunch and dinner.",
+          "Vegetarian option.",
+          "PIX payment with automatic confirmation.",
+          "Real-time order tracking.",
+          "Student sign-up and login."
+        ]
+      }
     }
   ],
   "projetos_codigo": [

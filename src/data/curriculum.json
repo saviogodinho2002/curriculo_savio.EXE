@@ -243,28 +243,303 @@
       "nome": "Porto Fácil – API de gestão portuária",
       "descricao": "API REST de gestão portuária consumida por múltiplos sistemas e por catracas físicas de controle de acesso, que reduziu a conciliação de taxas de horas para minutos.",
       "link": "https://portofacil.online/",
-      "imagem": "/projects/porto-facil"
+      "imagem": "/projects/porto-facil",
+      "pagina": {
+        "periodo": "2023 – hoje",
+        "tags": [
+          "gestão portuária",
+          "API REST",
+          "catracas"
+        ],
+        "status": "em produção",
+        "subtitulo": "Sistema de gestão portuária que cobra as taxas de embarque, controla o acesso por catracas e se integra aos sistemas de venda de passagens.",
+        "links": [
+          {
+            "rotulo": "abrir site",
+            "url": "https://portofacil.online/"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/porto-facil/1.webp",
+            "legenda": "Site do Porto Fácil."
+          },
+          {
+            "src": "/projects/porto-facil/2.webp",
+            "legenda": "O sistema: relatório de taxas por embarcação e por tipo de tarifa."
+          },
+          {
+            "src": "/projects/porto-facil/3.webp",
+            "legenda": "Vantagens: emissão de tarifas, atracação, controle de acesso, antifraude e relatórios."
+          }
+        ],
+        "visao": [
+          "O Porto Fácil organiza a cobrança das taxas de embarque e o controle de acesso em portos e terminais fluviais. A prefeitura ou a gestora do porto cadastra empresas, embarcações e tarifas, e cada passagem vendida já sai com a taxa do porto.",
+          "A **API REST** é consumida pelo TechRios, pelo Yjara Viagens e por outros sistemas de venda, e também pelas **catracas físicas**, que validam o bilhete na entrada do embarque."
+        ],
+        "fiz": [
+          "Construí o Porto Fácil: cobrança das taxas portuárias por empresa, embarcação e trecho, com isenções e relatórios financeiros.",
+          "Desenvolvi a **API REST** consumida pelo TechRios, por outros sistemas de venda e pelas catracas físicas, que validam o bilhete e sincronizam as tarifas.",
+          "Criei o agente que roda na catraca e **funciona offline** (SQLite), validando a tarifa e marcando como usada.",
+          "Automatizei a cobrança das empresas por WhatsApp e e-mail.",
+          "Desenvolvi o módulo Navegante, com as vendas das agências por cidade e acesso para a Marinha."
+        ],
+        "resultados": [
+          {
+            "valor": "horas → minutos",
+            "rotulo": "na conciliação das taxas portuárias"
+          }
+        ],
+        "funcionalidades": [
+          "Cadastro de empresas, embarcações, trechos e tarifas, com isenções.",
+          "Emissão de tarifas de embarque avulsas ou junto com a venda da passagem.",
+          "Validação do bilhete nas catracas, inclusive sem internet.",
+          "Cobrança das empresas por PIX, WhatsApp e e-mail.",
+          "Relatórios financeiros por empresa, tipo de tarifa e período.",
+          "Adesão pública de prefeituras e gestoras de porto.",
+          "Módulo Navegante para acompanhar vendas e viagens."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "MySQL",
+              "Sanctum",
+              "Spatie Permission"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Vue 3",
+              "Inertia",
+              "Tailwind CSS",
+              "ApexCharts"
+            ]
+          },
+          {
+            "grupo": "catraca",
+            "itens": [
+              "PHP",
+              "SQLite"
+            ]
+          },
+          {
+            "grupo": "integrações",
+            "itens": [
+              "PIX",
+              "WhatsApp",
+              "Dropbox",
+              "impressora térmica (ESC/POS)"
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "w3zap",
       "nome": "W3Zap – CRM omnichannel de atendimento com IA",
       "descricao": "CRM de atendimento por WhatsApp, Instagram e Messenger, construído sobre o Ticketz e adaptado às operações da W3, com API oficial do WhatsApp, campanhas segmentadas, agentes de IA nas automações e chamadas de voz.",
       "link": "https://app.w3zap.net/",
-      "imagem": "/projects/w3zap"
+      "imagem": "/projects/w3zap",
+      "pagina": {
+        "tags": [
+          "CRM",
+          "omnichannel",
+          "agentes de IA"
+        ],
+        "status": "em produção",
+        "subtitulo": "CRM de atendimento que junta WhatsApp, Instagram e Messenger numa só fila, com agentes de IA nas automações.",
+        "links": [
+          {
+            "rotulo": "abrir site",
+            "url": "https://app.w3zap.net/"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/w3zap/1.webp",
+            "legenda": "Site do W3Zap."
+          },
+          {
+            "src": "/projects/w3zap/2.webp",
+            "legenda": "Recursos: chamadas de voz, múltiplas conexões, histórico do cliente, atendimento automático, campanhas e métricas."
+          },
+          {
+            "src": "/projects/w3zap/3.webp",
+            "legenda": "Como o agente de IA resolve os tickets: triagem, contexto, consulta aos sistemas e transferência para humano."
+          }
+        ],
+        "visao": [
+          "O W3Zap é a central de atendimento das operações da W3: mensagens de WhatsApp, Instagram e Messenger chegam na mesma fila, divididas por setor e por atendente.",
+          "Foi construído sobre o **Ticketz**, de código aberto, e adaptado às operações da W3, com API oficial do WhatsApp, campanhas segmentadas, agentes de IA nas automações e chamadas de voz."
+        ],
+        "fiz": [
+          "Integrei a **API oficial do WhatsApp**, com campanhas segmentadas e templates aprovados.",
+          "Coloquei **agentes de IA nas automações** de atendimento.",
+          "Implementei **chamadas de voz** com gerenciamento multiusuário."
+        ],
+        "funcionalidades": [
+          "WhatsApp, Instagram e Messenger numa caixa de entrada só.",
+          "Várias conexões e filas por setor, com vários atendentes.",
+          "Chamadas de voz pelo WhatsApp.",
+          "Atendimento automático 24/7, com menus e respostas automáticas.",
+          "Campanhas e mensagens em massa com templates aprovados.",
+          "Histórico completo do cliente em qualquer atendimento.",
+          "Agente de IA que faz a triagem e transfere para um humano quando precisa.",
+          "Métricas de atendimento em tempo real."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "Node.js",
+              "TypeScript",
+              "Express",
+              "Sequelize",
+              "PostgreSQL",
+              "Bull",
+              "Socket.IO"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "React",
+              "Material UI"
+            ]
+          },
+          {
+            "grupo": "ia e integrações",
+            "itens": [
+              "Claude (Anthropic)",
+              "OpenAI",
+              "MCP",
+              "WhatsApp Cloud API",
+              "Instagram",
+              "Messenger"
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "ribba",
       "nome": "RIBBA – Rede de Inovação da Bioeconomia do Baixo Amazonas",
       "descricao": "Plataforma institucional da Rede de Inovação da Bioeconomia do Baixo Amazonas, que conecta empreendedores, pesquisadores, instituições e comunidade, com apresentação dos parceiros e formulário de adesão.",
       "link": "https://rederibba.org",
-      "imagem": "/projects/ribba"
+      "imagem": "/projects/ribba",
+      "pagina": {
+        "tags": [
+          "plataforma institucional",
+          "bioeconomia",
+          "Baixo Amazonas"
+        ],
+        "status": "no ar",
+        "subtitulo": "Plataforma da Rede de Inovação da Bioeconomia do Baixo Amazonas, que conecta empreendedores, pesquisadores, instituições e comunidade.",
+        "links": [
+          {
+            "rotulo": "abrir site",
+            "url": "https://rederibba.org"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/ribba/1.webp",
+            "legenda": "Página inicial da RIBBA."
+          },
+          {
+            "src": "/projects/ribba/2.webp",
+            "legenda": "Quem somos e o formulário de pré-cadastro de membros."
+          },
+          {
+            "src": "/projects/ribba/3.webp",
+            "legenda": "Parceiros da rede."
+          }
+        ],
+        "visao": [
+          "A RIBBA reúne empreendedores, pesquisadores, instituições públicas e privadas e a comunidade em torno da bioeconomia do Baixo Amazonas.",
+          "A plataforma apresenta a rede, os grupos de trabalho e os parceiros, publica blog, álbuns e eventos, e recebe a adesão de novos membros por formulário."
+        ],
+        "funcionalidades": [
+          "Apresentação da rede e dos grupos de trabalho.",
+          "Página de parceiros: empresas, instituições e membros.",
+          "Formulário de pré-cadastro para novos membros.",
+          "Blog e agenda de eventos.",
+          "Galeria de álbuns de fotos.",
+          "Área administrativa com login."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "Sanctum",
+              "Spatie Permission"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Vue 3",
+              "Inertia",
+              "ApexCharts"
+            ]
+          },
+          {
+            "grupo": "integrações",
+            "itens": [
+              "Google Drive"
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "bjmarmitaria",
       "nome": "BjMarmitaria – Pedidos de refeições universitárias",
       "descricao": "Sistema de pedidos de marmitas para os campi da UFOPA, com cardápio semanal por campus, prazo para pedidos de almoço e janta, opção vegetariana e pagamento via PIX.",
       "link": "https://bjmarmitaria.com",
-      "imagem": "/projects/bjmarmitaria"
+      "imagem": "/projects/bjmarmitaria",
+      "pagina": {
+        "tags": [
+          "pedidos online",
+          "UFOPA"
+        ],
+        "status": "no ar",
+        "subtitulo": "Sistema de pedidos de marmitas para os campi da UFOPA, com cardápio semanal por campus e pagamento via PIX.",
+        "links": [
+          {
+            "rotulo": "abrir site",
+            "url": "https://bjmarmitaria.com"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/bjmarmitaria/1.webp",
+            "legenda": "Portal do aluno."
+          },
+          {
+            "src": "/projects/bjmarmitaria/2.webp",
+            "legenda": "Escolha do campus para ver os cardápios."
+          }
+        ],
+        "visao": [
+          "O BjMarmitaria leva os pedidos de marmitas dos estudantes da UFOPA para o online: o aluno escolhe o campus, vê o cardápio da semana e faz o pedido de almoço ou janta dentro do prazo.",
+          "O pagamento é via PIX, com confirmação automática, e o aluno acompanha o pedido pelo portal."
+        ],
+        "funcionalidades": [
+          "Cardápio semanal por campus.",
+          "Prazo para pedidos de almoço e de janta.",
+          "Opção vegetariana.",
+          "Pagamento via PIX com confirmação automática.",
+          "Acompanhamento do pedido em tempo real.",
+          "Cadastro e login do aluno."
+        ]
+      }
     }
   ],
   "projetos_codigo": [
