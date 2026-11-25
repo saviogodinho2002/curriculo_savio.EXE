@@ -222,21 +222,264 @@
       "nome": "Agente Águia – Estudo para concursos com IA",
       "descricao": "Plataforma de estudo para concursos com IA, com banco de questões e provas, comentários pedagógicos gerados por LLM e um chat que faz busca semântica, cria flashcards e resume conteúdos.",
       "link": "https://agenteaguia.omentorconcursos.com.br/",
-      "imagem": "/projects/agente-aguia"
+      "imagem": "/projects/agente-aguia",
+      "pagina": {
+        "periodo": "2026 – hoje",
+        "tags": [
+          "edtech",
+          "IA",
+          "concursos"
+        ],
+        "status": "em produção",
+        "subtitulo": "Plataforma de estudo para concursos com IA: banco de questões e um chat que busca nos materiais, cria flashcards e resume conteúdos.",
+        "links": [
+          {
+            "rotulo": "abrir site",
+            "url": "https://agenteaguia.omentorconcursos.com.br/"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/agente-aguia.webp",
+            "legenda": "Chat do Agente Águia: resume o conteúdo e cria os flashcards a partir da conversa."
+          },
+          {
+            "src": "/projects/agente-aguia/2.webp",
+            "legenda": "Biblioteca de flashcards: aprendendo, revisão, pontos fracos e cards do dia, por matéria."
+          },
+          {
+            "src": "/projects/agente-aguia/3.webp",
+            "legenda": "Estudo com repetição espaçada: o aluno revela a resposta e marca se errou, achou bom ou fácil."
+          }
+        ],
+        "visao": [
+          "O Agente Águia é a plataforma de estudo com IA para concurseiros: um banco de questões e provas com comentários pedagógicos gerados por LLM e um chat que conversa sobre os materiais do curso.",
+          "No chat, o aluno pede resumos, tira dúvidas com **busca semântica** nos materiais e transforma a conversa em flashcards, que entram na repetição espaçada."
+        ],
+        "fiz": [
+          "Desenvolvi o módulo de questões: banco de questões e provas, **extração automática com IA** e comentários pedagógicos gerados por LLM.",
+          "Reestruturei as ferramentas do chat com IA: busca semântica nos materiais, geração de flashcards e resumos de estudo.",
+          "Criei a aprovação de questões com filtros e a **dificuldade de 1 a 10 calculada por IA** a partir dos materiais.",
+          "Modelei questões-mãe e questões-filha e o tratamento de questões anuladas e canceladas."
+        ],
+        "funcionalidades": [
+          "Banco de questões e provas com filtros.",
+          "Comentários pedagógicos gerados por LLM.",
+          "Chat com busca semântica nos materiais do curso.",
+          "Resumos e flashcards criados pelo chat.",
+          "Flashcards com repetição espaçada, pontos fracos e deck diário.",
+          "Painel de aprovação de questões para a equipe."
+        ],
+        "stack": [
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Next.js",
+              "React",
+              "TypeScript",
+              "Tailwind CSS",
+              "Tiptap"
+            ]
+          },
+          {
+            "grupo": "back-end",
+            "itens": [
+              "Supabase",
+              "PostgreSQL",
+              "pgvector",
+              "Upstash Redis"
+            ]
+          },
+          {
+            "grupo": "ia",
+            "itens": [
+              "OpenAI",
+              "busca semântica"
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "o-mentor-app",
       "nome": "O Mentor App – Gestão de rotina e estudos para concurseiros",
       "descricao": "Plataforma de mentoria para concurseiros, integrada ao Agente Águia e lançada em novembro de 2026 para quase 8 mil alunos. Atuei no backend em Laravel e no frontend em Next.js, no onboarding, no planejamento de rotina e no ciclo de estudos.",
       "link": "https://omentorconcursos.com.br",
-      "imagem": "/projects/o-mentor-app"
+      "imagem": "/projects/o-mentor-app",
+      "pagina": {
+        "periodo": "2026 – hoje",
+        "tags": [
+          "edtech",
+          "concursos",
+          "SaaS"
+        ],
+        "status": "em produção",
+        "subtitulo": "Plataforma de mentoria para concurseiros que monta a rotina e o ciclo de estudos de cada aluno e traz o banco de questões do Agente Águia.",
+        "links": [
+          {
+            "rotulo": "abrir site",
+            "url": "https://omentorconcursos.com.br"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/o-mentor-app.webp",
+            "legenda": "Ciclo de estudos: as sessões da semana distribuídas conforme a rotina do aluno."
+          },
+          {
+            "src": "/projects/o-mentor-app/2.webp",
+            "legenda": "Questões livres: o banco de questões do Agente Águia dentro do Mentor."
+          },
+          {
+            "src": "/projects/o-mentor-app/3.webp",
+            "legenda": "Rotina: trabalho, sono e compromissos no calendário, com os blocos de estudo encaixados."
+          }
+        ],
+        "visao": [
+          "O Mentor acompanha o concurseiro do edital à rotina: o aluno informa o concurso, o tempo que tem e os compromissos, e a plataforma monta o plano e o ciclo de estudos da semana.",
+          "A nova versão foi lançada em novembro de 2026 para uma base de quase 8 mil alunos e traz o banco de questões do **Agente Águia**."
+        ],
+        "fiz": [
+          "Desenvolvi o Ciclo de Estudos, que distribui as matérias de cada aluno ao longo da semana conforme a rotina informada no onboarding e se **renova automaticamente via fila** (Redis + Horizon), com a regra de negócio validada por testes de mutação.",
+          "Construí o planejamento de rotina: o aluno marca trabalho, sono, obrigações e escala de plantão no calendário, e o sistema encaixa os blocos de estudo.",
+          "Integrei o banco de questões do Agente Águia ao Mentor, criando sessões de estudo livre com filtros e assuntos pré-marcados pelo histórico do aluno.",
+          "Tirei consultas N+1 dos endpoints do onboarding, do ciclo e do plano de estudos.",
+          "Participei do lançamento da nova versão, em novembro de 2026, para quase 8 mil alunos."
+        ],
+        "resultados": [
+          {
+            "valor": "~8 mil",
+            "rotulo": "alunos na base do lançamento (nov/2026)"
+          }
+        ],
+        "funcionalidades": [
+          "Onboarding que coleta o concurso, a rotina e a disponibilidade do aluno.",
+          "Ciclo de estudos semanal com progressão e revisão por matéria.",
+          "Rotina no calendário com trabalho, sono, escalas e compromissos.",
+          "Edital verticalizado e plano de estudos.",
+          "Questões livres com filtros por matéria, assunto e banca.",
+          "Renovação automática do ciclo na virada da semana."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "PostgreSQL",
+              "Redis",
+              "Horizon",
+              "JWT"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Next.js",
+              "React",
+              "TypeScript",
+              "FullCalendar"
+            ]
+          },
+          {
+            "grupo": "qualidade",
+            "itens": [
+              "testes de mutação",
+              "Sentry"
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "river-fiam",
       "nome": "River FIAM – Gestão financeira de projetos da UFOPA",
       "descricao": "Sistema de gestão financeira dos projetos de pesquisa da fundação de apoio da UFOPA, do orçamento à prestação de contas. Inclui a Iara, a conferência de documentos com IA e a conciliação integrada ao Banco do Brasil e ao Sicredi.",
       "link": "https://app.portalfiam.org/transparency-portal",
-      "imagem": "/projects/river-fiam"
+      "imagem": "/projects/river-fiam",
+      "pagina": {
+        "periodo": "2024 – hoje",
+        "tags": [
+          "gestão financeira",
+          "fundação de apoio",
+          "IA"
+        ],
+        "status": "em produção",
+        "subtitulo": "Gestão financeira dos projetos de pesquisa da fundação de apoio da UFOPA, do orçamento à prestação de contas, com IA na conferência dos documentos.",
+        "links": [
+          {
+            "rotulo": "portal da transparência",
+            "url": "https://app.portalfiam.org/transparency-portal"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/river-fiam.webp",
+            "legenda": "Iara: a assistente responde em linguagem natural consultando o banco, aqui com os projetos de maior saldo."
+          },
+          {
+            "src": "/projects/river-fiam/2.webp",
+            "legenda": "Resumo financeiro do projeto: saldo, execução orçamentária e consumo por rubrica."
+          },
+          {
+            "src": "/projects/river-fiam/3.webp",
+            "legenda": "Análise do documento pela IA: a nota fiscal anexada é de outro CNPJ, e o sistema sugere a pendência."
+          }
+        ],
+        "visao": [
+          "O River FIAM é o sistema da Fundação de Integração Amazônica (FIAM) para gerir o dinheiro dos projetos de pesquisa da UFOPA: orçamento por rubrica, pedidos de pagamento, reembolsos, bolsas, diárias e compras, conciliação bancária e prestação de contas.",
+          "Coordenadores e equipe da fundação acompanham cada projeto em tempo real, e o portal da transparência publica a execução para a sociedade."
+        ],
+        "fiz": [
+          "Criei a **Iara**, assistente de IA que responde perguntas da equipe sobre projetos, saldos e pagamentos consultando o banco de dados. Cada pessoa só vê os projetos que coordena.",
+          "Integrei a conciliação bancária às APIs do Banco do Brasil e do Sicredi. Os extratos chegam direto dos bancos e cada lançamento é cruzado com os pagamentos aprovados no sistema, o que acabou com a importação manual de arquivos de extrato.",
+          "Automatizei a sincronização diária dos extratos com conferência do saldo dia a dia, reprocessando os períodos divergentes para capturar estornos e tarifas lançados com atraso.",
+          "Integrei as aplicações e resgates dos projetos à API de Fundos do Banco do Brasil, com controle para que nenhuma operação seja registrada em duplicidade.",
+          "Implementei a conferência de documentos com IA, que verifica se os anexos correspondem ao pedido e notifica o favorecido quando há divergência, além de ler o contrato de novos projetos para preencher o cadastro.",
+          "Desenvolvi a API que entrega projetos, rubricas, contratos e relatórios a outros sistemas. As chamadas são assinadas com HMAC, e cada chave tem permissões próprias e pode ser trocada sem interromper as integrações."
+        ],
+        "funcionalidades": [
+          "Orçamento do projeto por rubrica, com saldo, reservas e gastos.",
+          "Pedidos de pagamento a pessoa física e jurídica, reembolsos, bolsas, diárias, compras e contratos.",
+          "Fluxo de aprovação com pendências e prazos.",
+          "Conciliação bancária com os extratos do Banco do Brasil e do Sicredi.",
+          "Aplicações e resgates pela API de Fundos do BB.",
+          "**Iara**, assistente de IA que responde sobre projetos, saldos e pagamentos.",
+          "Conferência de documentos com IA e leitura do contrato no cadastro do projeto.",
+          "Portal da transparência e API para outros sistemas."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "MySQL",
+              "Sanctum",
+              "Spatie Permission",
+              "Laravel Auditing"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Vue 3",
+              "Inertia",
+              "Vuetify",
+              "ApexCharts"
+            ]
+          },
+          {
+            "grupo": "ia e integrações",
+            "itens": [
+              "Gemini",
+              "Banco do Brasil",
+              "Sicredi",
+              "Google Drive"
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "porto-facil",

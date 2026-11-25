@@ -1,7 +1,7 @@
 // Prints de DENTRO dos sistemas (telas com login), tirados de ambientes LOCAIS com dados
 // fictícios ou anonimizados. Credenciais de teste vêm de scripts/shots/flows.local.json,
 // que é ignorado pelo git e nunca é publicado.
-// Uso: node scripts/shots/build-app-shots.mjs <app> [<app> ...]    (apps: mentor, aguia, fiam, techrios-kpi, techrios-venda)
+// Uso: node scripts/shots/build-app-shots.mjs <app> [<app> ...]    (apps: mentor, mentor-questao, mentor-rotina, aguia, aguia-flashcards, aguia-card, fiam, fiam-relatorio, fiam-analise, techrios-kpi, techrios-venda)
 import { execFileSync, spawn } from 'node:child_process'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -13,22 +13,50 @@ const CHROME =
   process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 const creds = JSON.parse(readFileSync(join(root, 'scripts/shots/flows.local.json'), 'utf8'))
 
+// O Mentor guarda o token na memória do React: depois do login, navegar por dentro do app
+// (window.next.router.push, sem recarregar) mantém a sessão
+const mentorLogin = (c) => [
+  { goto: 'http://localhost:3000/login' },
+  { waitFor: '#email' },
+  { wait: 8000 }, // hidratação do React (no dev a 1ª compilação é lenta)
+  { fill: ['#email', c.email] },
+  { fill: ['#password', c.password] },
+  { js: `[...document.querySelectorAll('button')].find((b) => b.innerText.trim() === 'Entrar')?.click()` },
+  { waitJs: 'location.pathname !== "/login"' },
+  { wait: 4000 },
+  { log: 'location.pathname + " | " + document.body.innerText.replace(/\\s+/g, " ").slice(-260)' },
+]
+const mentorGo = (path, wait = 15000) => [
+  { js: `window.next?.router?.push(${JSON.stringify(path)})` },
+  { wait },
+  { log: 'location.pathname + " | " + document.body.innerText.slice(0, 220).replace(/\\s+/g, " ")' },
+]
+
+const aguiaLogin = (c) => [
+  { goto: 'http://localhost:3300/login' },
+  { waitFor: '#email' },
+  { fill: ['#email', c.email] },
+  { fill: ['#password', c.password] },
+  { submit: '#password' },
+  { waitJs: 'location.pathname.startsWith("/app")' },
+  { log: 'location.pathname' },
+]
+
+const fiamLogin = (c) => [
+  { goto: 'http://127.0.0.1:8020/login' },
+  { waitFor: 'input[type=email]' },
+  { fill: ['input[type=email]', c.email] },
+  { fill: ['input[type=password]', c.password] },
+  { submit: 'input[type=password]' },
+  { wait: 6000 },
+  { log: 'location.pathname' },
+]
+
 // Roteiro de cada app. Os seletores e URLs são locais; a credencial vem do arquivo ignorado.
 const FLOWS = {
   mentor: (c) => ({
     slug: 'o-mentor-app',
-    steps: [
-      { goto: 'http://localhost:3000/login' },
-      { waitFor: '#email' },
-      { fill: ['#email', c.email] },
-      { fill: ['#password', c.password] },
-      { submit: '#password' },
-      { wait: 10000 },
-      { log: 'location.pathname + " | " + document.body.innerText.slice(0, 160).replace(/\\s+/g, " ")' },
-      // o token fica na memória do React: navegar por dentro do app (sem recarregar) mantém a sessão
-      { js: 'window.next?.router?.push("/student/ciclo")' },
-      { wait: 7000 },
-    ],
+    steps: [...mentorLogin(c), ...mentorGo('/student/ciclo', 12000)],
   }),
   // Agente Águia no Supabase local, com conta de teste criada só para o print (chat começa vazio)
   aguia: (c) => ({
@@ -55,13 +83,7 @@ const FLOWS = {
   fiam: (c) => ({
     slug: 'river-fiam',
     steps: [
-      { goto: 'http://127.0.0.1:8020/login' },
-      { waitFor: 'input[type=email]' },
-      { fill: ['input[type=email]', c.email] },
-      { fill: ['input[type=password]', c.password] },
-      { submit: 'input[type=password]' },
-      { wait: 6000 },
-      { log: 'location.pathname' },
+      ...fiamLogin(c),
       // abre o chat pelo botão "Iara" do cabeçalho
       { js: `[...document.querySelectorAll('.header-docs-text')].find((e) => e.textContent.trim() === 'Iara')?.closest('button, a, .v-btn')?.click()` },
       { waitFor: 'textarea' },
@@ -69,6 +91,86 @@ const FLOWS = {
       { js: `document.querySelector('textarea').dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))` },
       { wait: 45000 },
       { log: 'document.querySelector("textarea")?.closest("aside, section, div")?.innerText.slice(-200).replace(/\\s+/g, " ")' },
+    ],
+  }),
+  'mentor-questao': (c) => ({
+    slug: 'o-mentor-app',
+    file: 'o-mentor-app/2',
+    steps: [
+      ...mentorLogin(c),
+      ...mentorGo('/student/questoes', 15000),
+      // escolhe a matéria e abre o caderno de questões
+      { js: `[...document.querySelectorAll('button, [role=button], label')].find((b) => b.innerText.trim() === 'Direito Constitucional')?.click()` },
+      { wait: 1500 },
+      { js: `[...document.querySelectorAll('button')].find((b) => b.innerText.trim() === 'Começar')?.click()` },
+      { wait: 12000 },
+      // responde e abre o comentário do professor (gerado por LLM)
+      { js: `[...document.querySelectorAll('button, [role=button], label')].find((b) => /^C\\s*Certo$/.test(b.innerText.trim()))?.click()` },
+      { wait: 3000 },
+      { js: `[...document.querySelectorAll('button, [role=button]')].find((b) => b.innerText.trim() === 'Explicação do professor')?.click()` },
+      { wait: 4000 },
+      { log: 'document.body.innerText.replace(/\\s+/g, " ").slice(0, 400)' },
+    ],
+  }),
+  'mentor-rotina': (c) => ({
+    slug: 'o-mentor-app',
+    file: 'o-mentor-app/3',
+    steps: [
+      ...mentorLogin(c),
+      ...mentorGo('/rotina', 20000),
+      // compromissos pessoais do usuário de teste viram um rótulo neutro (só na tela, para o print)
+      { js: `[...document.querySelectorAll('*')].filter((e) => e.children.length === 0 && /^amorzinho/i.test(e.textContent.trim())).forEach((e) => (e.textContent = 'Compromisso'))` },
+    ],
+  }),
+  'aguia-flashcards': (c) => ({
+    slug: 'agente-aguia',
+    file: 'agente-aguia/2',
+    steps: [
+      ...aguiaLogin(c),
+      { goto: 'http://localhost:3300/app/flashcards' },
+      { wait: 20000 },
+      { log: 'document.body.innerText.replace(/\\s+/g, " ").slice(0, 300)' },
+    ],
+  }),
+  'aguia-card': (c) => ({
+    slug: 'agente-aguia',
+    file: 'agente-aguia/3',
+    steps: [
+      ...aguiaLogin(c),
+      { goto: 'http://localhost:3300/app/flashcards/' + encodeURIComponent('Direito Administrativo') },
+      { wait: 20000 },
+      // revela a resposta dos dois primeiros cards
+      { js: `[...document.querySelectorAll('button')].filter((b) => b.innerText.trim() === 'Revelar').slice(0, 2).forEach((b) => b.click())` },
+      { wait: 2500 },
+    ],
+  }),
+  'fiam-relatorio': (c) => ({
+    slug: 'river-fiam',
+    file: 'river-fiam/2',
+    steps: [
+      ...fiamLogin(c),
+      { goto: 'http://127.0.0.1:8020/reports?project_id=18' },
+      { wait: 9000 },
+      { log: 'document.body.innerText.slice(0, 240).replace(/\\s+/g, " ")' },
+    ],
+  }),
+  // pedido do clone com uma nota fiscal fictícia já analisada pela IA (scratchpad fiam-nf.php)
+  'fiam-analise': (c) => ({
+    slug: 'river-fiam',
+    file: 'river-fiam/3',
+    steps: [
+      ...fiamLogin(c),
+      { goto: 'http://127.0.0.1:8020/demands/11187/legal-person-payments' },
+      { wait: 9000 },
+      // o arquivo fica no passo "Nota Fiscal" (ou "Documentos") do pedido
+      { js: `[...document.querySelectorAll('*')].filter((e) => e.children.length === 0 && e.innerText?.trim() === 'Nota Fiscal').pop()?.click()` },
+      { wait: 2500 },
+      { js: `document.querySelector('.v-chip.tw-cursor-pointer') || [...document.querySelectorAll('*')].filter((e) => e.children.length === 0 && e.innerText?.trim() === 'Documentos').pop()?.click()` },
+      { wait: 2500 },
+      { log: '[...document.querySelectorAll(".v-chip")].map((e) => e.innerText.trim()).filter(Boolean).join(" | ")' },
+      { js: `document.querySelector('.v-chip.tw-cursor-pointer')?.click()` },
+      { wait: 3000 },
+      { log: '(document.querySelector(".v-dialog, .v-overlay__content")?.innerText || "sem modal").slice(0, 300).replace(/\\s+/g, " ")' },
     ],
   }),
   // TechRios no clone db_techrios_demo (nomes de empresas, barcos e usuários trocados) em 127.0.0.1:8030

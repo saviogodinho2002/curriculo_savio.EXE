@@ -222,21 +222,264 @@
       "nome": "Agente Águia – AI-powered exam prep",
       "descricao": "AI study platform for public-service exams, with a question and exam bank, LLM-generated teaching comments and a chat that runs semantic search, creates flashcards and summarizes content.",
       "link": "https://agenteaguia.omentorconcursos.com.br/",
-      "imagem": "/projects/agente-aguia"
+      "imagem": "/projects/agente-aguia",
+      "pagina": {
+        "periodo": "2026 – present",
+        "tags": [
+          "edtech",
+          "AI",
+          "civil service exams"
+        ],
+        "status": "in production",
+        "subtitulo": "AI study platform for civil service exams: a question bank and a chat that searches the course materials, creates flashcards and summarizes content.",
+        "links": [
+          {
+            "rotulo": "open website",
+            "url": "https://agenteaguia.omentorconcursos.com.br/"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/agente-aguia.webp",
+            "legenda": "Agente Águia chat: it summarizes the content and creates flashcards from the conversation."
+          },
+          {
+            "src": "/projects/agente-aguia/2.webp",
+            "legenda": "Flashcard library: learning, review, weak spots and daily cards, per subject."
+          },
+          {
+            "src": "/projects/agente-aguia/3.webp",
+            "legenda": "Spaced repetition: the student reveals the answer and marks it as wrong, good or easy."
+          }
+        ],
+        "visao": [
+          "Agente Águia is an AI study platform for exam candidates: a question and exam bank with LLM-generated teaching comments and a chat that talks about the course materials.",
+          "In the chat, students ask for summaries, get answers through **semantic search** over the materials and turn the conversation into flashcards that go into spaced repetition."
+        ],
+        "fiz": [
+          "Developed the questions module: question and exam bank, **AI-powered extraction** and LLM-generated teaching comments.",
+          "Restructured the AI chat tools: semantic search over the materials, flashcard generation and study summaries.",
+          "Built question approval with filters and an **AI-computed difficulty from 1 to 10** based on the materials.",
+          "Modeled parent and child questions and the handling of annulled and cancelled questions."
+        ],
+        "funcionalidades": [
+          "Question and exam bank with filters.",
+          "LLM-generated teaching comments.",
+          "Chat with semantic search over the course materials.",
+          "Summaries and flashcards created by the chat.",
+          "Spaced-repetition flashcards, weak spots and a daily deck.",
+          "Question approval panel for the team."
+        ],
+        "stack": [
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Next.js",
+              "React",
+              "TypeScript",
+              "Tailwind CSS",
+              "Tiptap"
+            ]
+          },
+          {
+            "grupo": "back-end",
+            "itens": [
+              "Supabase",
+              "PostgreSQL",
+              "pgvector",
+              "Upstash Redis"
+            ]
+          },
+          {
+            "grupo": "ai",
+            "itens": [
+              "OpenAI",
+              "semantic search"
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "o-mentor-app",
       "nome": "O Mentor App – Routine and study management for exam candidates",
       "descricao": "Mentoring platform for public-service exam candidates, integrated with Agente Águia and launched in November 2026 for almost 8,000 students. I worked on the Laravel backend and the Next.js frontend for onboarding, routine planning and the study cycle.",
       "link": "https://omentorconcursos.com.br",
-      "imagem": "/projects/o-mentor-app"
+      "imagem": "/projects/o-mentor-app",
+      "pagina": {
+        "periodo": "2026 – present",
+        "tags": [
+          "edtech",
+          "civil service exams",
+          "SaaS"
+        ],
+        "status": "in production",
+        "subtitulo": "Mentoring platform for exam candidates that builds each student’s routine and study cycle and brings in the Agente Águia question bank.",
+        "links": [
+          {
+            "rotulo": "open website",
+            "url": "https://omentorconcursos.com.br"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/o-mentor-app.webp",
+            "legenda": "Study cycle: the week’s sessions spread according to the student’s routine."
+          },
+          {
+            "src": "/projects/o-mentor-app/2.webp",
+            "legenda": "Free practice: the Agente Águia question bank inside Mentor."
+          },
+          {
+            "src": "/projects/o-mentor-app/3.webp",
+            "legenda": "Routine: work, sleep and appointments on the calendar, with study blocks fitted in."
+          }
+        ],
+        "visao": [
+          "Mentor follows the exam candidate from the official notice to the daily routine: the student sets the exam, the time available and their commitments, and the platform builds the weekly study plan and cycle.",
+          "The new version launched in November 2026 to a base of almost 8,000 students and brings in the **Agente Águia** question bank."
+        ],
+        "fiz": [
+          "Developed the Study Cycle, which spreads each student’s subjects across the week based on the routine from onboarding and **renews automatically through a queue** (Redis + Horizon), with the business rules validated by mutation testing.",
+          "Built routine planning: the student marks work, sleep, obligations and shift schedules on the calendar, and the system fits in the study blocks.",
+          "Integrated the Agente Águia question bank into Mentor, with free practice sessions, filters and topics pre-selected from the student’s history.",
+          "Removed N+1 queries from the onboarding, cycle and study plan endpoints.",
+          "Took part in launching the new version in November 2026 to almost 8,000 students."
+        ],
+        "resultados": [
+          {
+            "valor": "~8k",
+            "rotulo": "students in the launch base (Nov/2026)"
+          }
+        ],
+        "funcionalidades": [
+          "Onboarding that collects the exam, routine and availability.",
+          "Weekly study cycle with progression and review per subject.",
+          "Calendar routine with work, sleep, shifts and appointments.",
+          "Exam syllabus checklist and study plan.",
+          "Free practice questions filtered by subject, topic and exam board.",
+          "Automatic cycle renewal at the turn of the week."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "PostgreSQL",
+              "Redis",
+              "Horizon",
+              "JWT"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Next.js",
+              "React",
+              "TypeScript",
+              "FullCalendar"
+            ]
+          },
+          {
+            "grupo": "quality",
+            "itens": [
+              "mutation testing",
+              "Sentry"
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "river-fiam",
       "nome": "River FIAM – Financial management for UFOPA projects",
       "descricao": "Financial management system for research projects at UFOPA's support foundation, from budget to accountability. It includes Iara, AI document checks and reconciliation integrated with Banco do Brasil and Sicredi.",
       "link": "https://app.portalfiam.org/transparency-portal",
-      "imagem": "/projects/river-fiam"
+      "imagem": "/projects/river-fiam",
+      "pagina": {
+        "periodo": "2024 – present",
+        "tags": [
+          "financial management",
+          "research foundation",
+          "AI"
+        ],
+        "status": "in production",
+        "subtitulo": "Financial management for UFOPA research projects at its support foundation, from budget to accountability, with AI checking the documents.",
+        "links": [
+          {
+            "rotulo": "transparency portal",
+            "url": "https://app.portalfiam.org/transparency-portal"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/river-fiam.webp",
+            "legenda": "Iara: the assistant answers in natural language by querying the database, here listing the projects with the highest balance."
+          },
+          {
+            "src": "/projects/river-fiam/2.webp",
+            "legenda": "Project financial summary: balance, budget execution and spending per budget line."
+          },
+          {
+            "src": "/projects/river-fiam/3.webp",
+            "legenda": "AI document check: the attached invoice was issued by another company, and the system suggests an issue."
+          }
+        ],
+        "visao": [
+          "River FIAM is the system the Amazon Integration Foundation (FIAM) uses to manage the money of UFOPA research projects: budget per line, payment requests, refunds, scholarships, per diems and purchases, bank reconciliation and accountability.",
+          "Coordinators and the foundation team follow each project in real time, and the transparency portal publishes the spending to the public."
+        ],
+        "fiz": [
+          "Built **Iara**, an AI assistant that answers the team's questions about projects, balances and payments by querying the database. Each person only sees the projects they coordinate.",
+          "Integrated bank reconciliation with the Banco do Brasil and Sicredi APIs. Statements come straight from the banks and each entry is matched against the payments approved in the system, which ended the manual import of statement files.",
+          "Automated daily statement syncing with a day-by-day balance check, reprocessing mismatched periods to catch reversals and fees posted late.",
+          "Integrated project investments and redemptions with Banco do Brasil's Funds API, with safeguards so no operation is ever recorded twice.",
+          "Implemented AI document checks that verify whether attachments match the request and notify the beneficiary of any mismatch, and that read new projects' contracts to fill in their records.",
+          "Built the API that serves projects, budget lines, contracts and reports to other systems. Calls are signed with HMAC, and each key has its own permissions and can be rotated without interrupting the integrations."
+        ],
+        "funcionalidades": [
+          "Project budget per line, with balance, reservations and spending.",
+          "Payment requests to individuals and companies, refunds, scholarships, per diems, purchases and contracts.",
+          "Approval flow with issues and deadlines.",
+          "Bank reconciliation with Banco do Brasil and Sicredi statements.",
+          "Investments and redemptions through the BB Funds API.",
+          "**Iara**, an AI assistant that answers about projects, balances and payments.",
+          "AI document checks and contract reading when registering a project.",
+          "Transparency portal and an API for other systems."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "MySQL",
+              "Sanctum",
+              "Spatie Permission",
+              "Laravel Auditing"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Vue 3",
+              "Inertia",
+              "Vuetify",
+              "ApexCharts"
+            ]
+          },
+          {
+            "grupo": "ai and integrations",
+            "itens": [
+              "Gemini",
+              "Banco do Brasil",
+              "Sicredi",
+              "Google Drive"
+            ]
+          }
+        ]
+      }
     },
     {
       "slug": "porto-facil",
