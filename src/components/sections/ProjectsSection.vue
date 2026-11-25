@@ -5,6 +5,8 @@ import { projectPath } from '../../seo/site'
 
 const props = defineProps({
   cv: { type: Object, required: true },
+  // 'profissional' (seção projetos) ou 'codigo' (seção código no github)
+  group: { type: String, default: 'profissional' },
 })
 
 const { t, locale } = useLocale()
@@ -25,14 +27,12 @@ const groups = [
   { id: 'profissional', title: t.value.projects.professional, items: props.cv.projetos || [] },
   { id: 'codigo', title: t.value.projects.code, items: props.cv.projetos_codigo || [] },
 ]
-  .filter((g) => g.items.length)
+  .filter((g) => g.id === props.group && g.items.length)
   .map((g) => ({ ...g, items: g.items.map(toCard) }))
 </script>
 
 <template>
   <div v-for="g in groups" :key="g.id" class="group">
-    <h3 class="subhead reveal-item" style="--i: 0">{{ g.title }}</h3>
-
     <div class="grid">
       <article
         v-for="(p, i) in g.items"
@@ -81,15 +81,10 @@ const groups = [
 </template>
 
 <style scoped>
-.group + .group {
-  margin-top: var(--space-5);
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
   gap: var(--space-4);
-  margin-top: var(--space-3);
 }
 
 .pcard {

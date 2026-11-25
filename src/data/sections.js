@@ -3,8 +3,9 @@
 export const SECTIONS = [
   { id: 'sobre' },
   { id: 'experiencia' },
-  { id: 'skills' },
   { id: 'projetos' },
+  { id: 'skills' },
+  { id: 'codigo' },
   { id: 'formacao' },
   { id: 'hackathons' },
   { id: 'contato' },

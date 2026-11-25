@@ -27,6 +27,7 @@ const CONTENT = {
   sobre: AboutSection,
   experiencia: ExperienceSection,
   projetos: ProjectsSection,
+  codigo: ProjectsSection,
   skills: SkillsSection,
   formacao: EducationSection,
   hackathons: HackathonsSection,
@@ -64,7 +65,7 @@ const pad = (n) => String(n).padStart(2, '0')
         :index="pad(i + 1)"
         :title="t.sections[s.id]"
       >
-        <component :is="CONTENT[s.id]" :cv="cv" />
+        <component :is="CONTENT[s.id]" :cv="cv" v-bind="s.id === 'codigo' ? { group: 'codigo' } : {}" />
       </TermWindow>
     </div>
   </main>

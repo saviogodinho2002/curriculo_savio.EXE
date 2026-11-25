@@ -63,6 +63,10 @@ export function cvMarkdown(cv, locale) {
     out.push('')
   }
 
+  out.push(`## ${cap(s.projetos)}`, '')
+  for (const p of cv.projetos) out.push(projectLine(p))
+  out.push('')
+
   out.push(`## ${cap(s.skills)}`, '')
   for (const g of cv.habilidades_grupos || []) out.push(`- **${g.grupo}**: ${g.itens.join(', ')}`)
   out.push('', `### ${cap(t.skills.interests)}`, '', ...cv.afinidades.map((a) => `- ${a}`), '')
@@ -70,9 +74,7 @@ export function cvMarkdown(cv, locale) {
     out.push(`### ${cap(t.skills.languages)}`, '', ...cv.idiomas.map((i) => `- ${i.idioma}: ${i.nivel}`), '')
   }
 
-  out.push(`## ${cap(s.projetos)}`, '')
-  for (const p of cv.projetos) out.push(projectLine(p))
-  out.push('', `### ${l.code}`, '')
+  out.push(`## ${cap(s.codigo)}`, '')
   for (const p of cv.projetos_codigo || []) out.push(projectLine(p))
   out.push('')
 
