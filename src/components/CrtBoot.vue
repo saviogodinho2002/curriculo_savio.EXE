@@ -1,3 +1,9 @@
+<script>
+// só no 1º carregamento: voltar de uma página de projeto para a home (navegação
+// pelo router) não liga o monitor de novo. Fica no escopo do módulo, não do componente.
+let played = false
+</script>
+
 <script setup>
 // "Liga o monitor": ponto -> linha -> tela cheia -> conteúdo. Roda a cada carregamento.
 // Vai no HTML pré-renderizado e só aparece com html.motion-ok (posto pelo script inline
@@ -5,15 +11,17 @@
 // Depois que o Vue monta, o overlay sai do DOM ao terminar.
 import { onMounted, onUnmounted, ref } from 'vue'
 
-const show = ref(true)
+const show = ref(!played)
 let timer
 
 function done() {
+  played = true
   show.value = false
   clearTimeout(timer)
 }
 
 onMounted(() => {
+  if (!show.value) return
   if (!document.documentElement.classList.contains('motion-ok')) {
     done()
     return

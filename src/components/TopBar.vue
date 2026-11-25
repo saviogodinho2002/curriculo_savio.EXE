@@ -9,6 +9,8 @@ import LangSwitch from './LangSwitch.vue'
 
 defineProps({
   active: { type: String, default: 'top' },
+  // fora da home (página de projeto) as janelas apontam para a home: '/' ou '/en/'
+  base: { type: String, default: '' },
 })
 
 const { t, pdf, pdfName } = useLocale()
@@ -21,7 +23,7 @@ const windows = computed(() => [
 
 <template>
   <header class="topbar">
-    <a href="#top" class="topbar__session kbd-inv" :aria-label="t.nav.home">
+    <a :href="`${base}#top`" class="topbar__session kbd-inv" :aria-label="t.nav.home">
       [savio<span class="topbar__wide">@godinho</span>]
     </a>
 
@@ -29,7 +31,7 @@ const windows = computed(() => [
       <a
         v-for="(w, i) in windows"
         :key="w.id"
-        :href="`#${w.id}`"
+        :href="`${base}#${w.id}`"
         class="topbar__win"
         :class="{ 'topbar__win--active': active === w.id }"
         :aria-current="active === w.id ? 'location' : undefined"

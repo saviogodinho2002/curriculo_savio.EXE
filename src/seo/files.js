@@ -2,22 +2,26 @@
 // Node puro: sem imports do Vite nem de .vue.
 import { LOCALE_PATHS, LOCALE_TAGS, SITE_URL, absUrl } from './site.js'
 
-export function sitemapXml(date = new Date().toISOString().slice(0, 10)) {
-  const alternates = [
-    ...Object.entries(LOCALE_PATHS).map(
-      ([loc, path]) =>
-        `    <xhtml:link rel="alternate" hreflang="${LOCALE_TAGS[loc].hreflang}" href="${absUrl(path)}"/>`,
-    ),
-    `    <xhtml:link rel="alternate" hreflang="x-default" href="${absUrl(LOCALE_PATHS.pt)}"/>`,
-  ].join('\n')
+// Cada página existe em pt e en: { pt: '/', en: '/en/' }. projectPages vem do vite.config.js.
+export function sitemapXml(date = new Date().toISOString().slice(0, 10), projectPages = []) {
+  const alternates = (paths) =>
+    [
+      ...Object.entries(paths).map(
+        ([loc, path]) =>
+          `    <xhtml:link rel="alternate" hreflang="${LOCALE_TAGS[loc].hreflang}" href="${absUrl(path)}"/>`,
+      ),
+      `    <xhtml:link rel="alternate" hreflang="x-default" href="${absUrl(paths.pt)}"/>`,
+    ].join('\n')
 
-  const urls = Object.values(LOCALE_PATHS)
-    .map(
-      (path) => `  <url>
+  const urls = [LOCALE_PATHS, ...projectPages]
+    .flatMap((paths) =>
+      Object.values(paths).map(
+        (path) => `  <url>
     <loc>${absUrl(path)}</loc>
     <lastmod>${date}</lastmod>
-${alternates}
+${alternates(paths)}
   </url>`,
+      ),
     )
     .join('\n')
 

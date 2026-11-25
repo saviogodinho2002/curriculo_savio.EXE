@@ -5,7 +5,7 @@
 // Gerado no build a partir dos JSONs: nunca fica desatualizado. Node puro.
 import { bullets, formatPeriod, splitResumo, splitTech, splitTitle, stripMarks, hasLink } from '../utils/parseCv.js'
 import { UI } from '../i18n/ui.js'
-import { LOCALE_PATHS, absUrl } from './site.js'
+import { LOCALE_PATHS, absUrl, projectPath } from './site.js'
 import { PDF_PATHS } from './assets.js'
 
 const L = {
@@ -63,18 +63,18 @@ export function cvMarkdown(cv, locale) {
     out.push('')
   }
 
-  out.push(`## ${cap(s.projetos)}`, '')
-  for (const p of cv.projetos) out.push(projectLine(p))
-  out.push('', `### ${l.code}`, '')
-  for (const p of cv.projetos_codigo || []) out.push(projectLine(p))
-  out.push('')
-
   out.push(`## ${cap(s.skills)}`, '')
   for (const g of cv.habilidades_grupos || []) out.push(`- **${g.grupo}**: ${g.itens.join(', ')}`)
   out.push('', `### ${cap(t.skills.interests)}`, '', ...cv.afinidades.map((a) => `- ${a}`), '')
   if (cv.idiomas?.length) {
     out.push(`### ${cap(t.skills.languages)}`, '', ...cv.idiomas.map((i) => `- ${i.idioma}: ${i.nivel}`), '')
   }
+
+  out.push(`## ${cap(s.projetos)}`, '')
+  for (const p of cv.projetos) out.push(projectLine(p))
+  out.push('', `### ${l.code}`, '')
+  for (const p of cv.projetos_codigo || []) out.push(projectLine(p))
+  out.push('')
 
   out.push(`## ${cap(s.formacao)}`, '')
   for (const f of cv.formacao) {
@@ -151,6 +151,7 @@ export function llmsTxt(cvEn, cvPt) {
   for (const p of cvEn.projetos.filter((x) => hasLink(x.link))) {
     const { title, subtitle } = splitTitle(p.nome)
     out.push(`- [${title}](${p.link}): ${subtitle ? `${subtitle}. ` : ''}${firstSentence(p.descricao)}`)
+    if (p.pagina) out.push(`  - [${title} case study](${absUrl(projectPath('en', p.slug))}): screenshots, what I did, results and stack`)
   }
   out.push('')
 

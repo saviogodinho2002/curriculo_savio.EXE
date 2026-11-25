@@ -12,3 +12,8 @@ export const LOCALE_TAGS = {
 }
 
 export const absUrl = (path) => `${SITE_URL}${path}`
+
+// página própria de cada projeto que tem o campo "pagina" no JSON do CV
+export const PROJECT_BASE = { pt: '/projetos/', en: '/en/projects/' }
+export const projectPath = (locale, slug) => `${PROJECT_BASE[locale]}${slug}/`
+export const projectSlugs = (cv) => (cv.projetos || []).filter((p) => p.slug && p.pagina).map((p) => p.slug)

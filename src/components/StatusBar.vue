@@ -2,6 +2,11 @@
 // Rodapé no estilo da modeline do vim + linha de comando com o easter egg :matrix.
 import { useLocale } from '../composables/useLocale'
 
+defineProps({
+  // "arquivo aberto" na modeline do vim
+  file: { type: String, default: 'portfolio.vue' },
+})
+
 const { t } = useLocale()
 const year = new Date().getFullYear()
 </script>
@@ -11,7 +16,7 @@ const year = new Date().getFullYear()
     <div class="statusbar__mode">
       <div class="statusbar__left">
         <span class="kbd-inv statusbar__badge">NORMAL</span>
-        <span>portfolio.vue</span>
+        <span>{{ file }}</span>
       </div>
       <div class="statusbar__right muted">
         <span>utf-8</span>

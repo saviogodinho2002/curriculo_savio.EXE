@@ -71,13 +71,13 @@
       "empresa": "O Mentor Concursos, Taboão da Serra/SP",
       "cargo": "Engenheiro de Software Pleno (freelancer)",
       "periodo": "Abril de 2026 - Presente",
-      "descricao": "• Participei do lançamento da nova versão do Mentor, em novembro de 2026, para uma base de quase 8 mil alunos.\n• Criei o Ciclo de Estudos, que monta a semana de cada aluno a partir da rotina que ele informou e se renova sozinho toda semana.\n• Reestruturei as ferramentas do chat com IA do Agente Águia, incluindo busca semântica, geração de flashcards e resumos de estudo.\n• Desenvolvi o módulo de questões do Agente Águia, com banco de questões e provas, extração automática com IA e comentários pedagógicos gerados por LLM.\n• Integrei o banco de questões ao Mentor, criando sessões de estudo livre com filtros e assuntos pré-marcados pelo histórico do aluno."
+      "descricao": "• Participei do lançamento da nova versão do Mentor, em novembro de 2026, para uma base de quase 8 mil alunos.\n• Desenvolvi o Ciclo de Estudos do Mentor, que distribui as matérias de cada aluno ao longo da semana conforme a rotina informada no onboarding e se renova automaticamente via fila, com a regra de negócio validada por testes de mutação.\n• Reestruturei as ferramentas do chat com IA do Agente Águia, incluindo busca semântica, geração de flashcards e resumos de estudo.\n• Desenvolvi o módulo de questões do Agente Águia, com banco de questões e provas, extração automática com IA e comentários pedagógicos gerados por LLM.\n• Integrei o banco de questões ao Mentor, criando sessões de estudo livre com filtros e assuntos pré-marcados pelo histórico do aluno."
     },
     {
       "empresa": "River FIAM (UFOPA), Santarém/PA",
       "cargo": "Engenheiro de Software (freelancer)",
       "periodo": "Abril de 2024 - Presente",
-      "descricao": "• Criei o **Boto**, assistente de IA que responde perguntas da equipe sobre projetos, saldos e pagamentos consultando o banco de dados. Cada pessoa só vê os projetos que coordena.\n• Integrei a conciliação bancária às APIs do Banco do Brasil e do Sicredi. Os extratos chegam direto dos bancos e cada lançamento é cruzado com os pagamentos aprovados no sistema, o que acabou com a importação manual de arquivos de extrato.\n• Automatizei a sincronização dos extratos com conferência diária do saldo. Quando um dia não bate, o sistema reprocessa esse período e pega estornos e tarifas lançados com atraso.\n• Integrei as aplicações e os resgates dos projetos à API de Fundos do Banco do Brasil. Uma mesma operação nunca é lançada duas vezes.\n• Implementei a conferência de documentos com IA. Quando um anexo não corresponde ao pedido, o favorecido é avisado, e a IA também lê o contrato de um projeto novo para preencher o cadastro.\n• Desenvolvi a API que entrega projetos, rubricas, contratos e relatórios a outros sistemas. As chamadas são assinadas com HMAC, e cada chave tem permissões próprias e pode ser trocada sem interromper as integrações."
+      "descricao": "• Criei a **Iara**, assistente de IA que responde perguntas da equipe sobre projetos, saldos e pagamentos consultando o banco de dados. Cada pessoa só vê os projetos que coordena.\n• Integrei a conciliação bancária às APIs do Banco do Brasil e do Sicredi. Os extratos chegam direto dos bancos e cada lançamento é cruzado com os pagamentos aprovados no sistema, o que acabou com a importação manual de arquivos de extrato.\n• Automatizei a sincronização diária dos extratos com conferência do saldo dia a dia, reprocessando os períodos divergentes para capturar estornos e tarifas lançados com atraso.\n• Integrei as aplicações e resgates dos projetos à API de Fundos do Banco do Brasil, com controle para que nenhuma operação seja registrada em duplicidade.\n• Implementei a conferência de documentos com IA, que verifica se os anexos correspondem ao pedido e notifica o favorecido quando há divergência, além de ler o contrato de novos projetos para preencher o cadastro.\n• Desenvolvi a API que entrega projetos, rubricas, contratos e relatórios a outros sistemas. As chamadas são assinadas com HMAC, e cada chave tem permissões próprias e pode ser trocada sem interromper as integrações."
     },
     {
       "empresa": "W3 Companhia, Santarém/PA",
@@ -108,49 +108,163 @@
   ],
   "projetos": [
     {
+      "slug": "techrios",
       "nome": "TechRios – ERP SaaS de transporte fluvial",
       "descricao": "ERP SaaS para empresas de navegação: empresas, agências, viagens, trechos, relatórios e emissão fiscal (BP-e/SEFAZ), com IA de assistência à venda e servidor MCP para consultas em linguagem natural. +36,7% em movimentações vs. 2024.",
-      "link": "https://techrios.online/"
+      "link": "https://techrios.online/",
+      "imagem": "/projects/techrios",
+      "pagina": {
+        "periodo": "2023 – hoje",
+        "tags": [
+          "ERP SaaS",
+          "transporte fluvial",
+          "multiempresa"
+        ],
+        "status": "em produção",
+        "subtitulo": "ERP SaaS que organiza a operação das empresas de navegação da Amazônia, da venda da passagem à emissão do bilhete fiscal.",
+        "links": [
+          {
+            "rotulo": "abrir sistema",
+            "url": "https://techrios.online/"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/techrios/1.webp",
+            "legenda": "Painel BI: arrecadação, passagens vendidas, ticket médio e ocupação por embarcação."
+          },
+          {
+            "src": "/projects/techrios/2.webp",
+            "legenda": "Venda no balcão: o vendedor escolhe as poltronas no mapa da embarcação."
+          },
+          {
+            "src": "/projects/techrios.webp",
+            "legenda": "Site público do TechRios."
+          }
+        ],
+        "visao": [
+          "O TechRios é o sistema de gestão usado por empresas de navegação e agências de viagem fluvial. Cada empresa cadastra embarcações, linhas e viagens, e vende passagens no balcão, por agências parceiras e pelo e-commerce **Yjara Viagens**, que consome a mesma API.",
+          "Além da venda, o sistema cuida de convênios, cancelamentos e remarcações, emissão do **BP-e** (bilhete de passagem eletrônico) junto à SEFAZ, financeiro e um painel de BI com os números da operação."
+        ],
+        "fiz": [
+          "Arquitetei a reestruturação dos módulos de viagens, trechos e pipelines de dados, base do crescimento de +36,7% em movimentações vs. 2024.",
+          "Embarquei IA no fluxo de operação: assistência à venda com base no histórico do passageiro e **servidor MCP próprio** para consultas de negócio em linguagem natural.",
+          "Integrei sistemas externos como **BP-e (SEFAZ), Safe2Pay, Sicredi e Dropbox**.",
+          "Colaborei na reestruturação do Yjara Viagens, o e-commerce que vende pela API do TechRios: redesenho de APIs, modelagem e serviços. Go-live em jun/2025, com +44% no volume transacionado."
+        ],
+        "resultados": [
+          {
+            "valor": "+36,7%",
+            "rotulo": "em movimentações vs. 2024"
+          },
+          {
+            "valor": "+44%",
+            "rotulo": "no volume transacionado do Yjara Viagens após o go-live"
+          }
+        ],
+        "funcionalidades": [
+          "Cadastro de embarcações, linhas, viagens e trechos, com mapa de poltronas e cômodos (rede, poltrona, camarote).",
+          "Venda no balcão, por agências parceiras e pelo e-commerce, com reserva de lugar em tempo real.",
+          "Emissão do BP-e e comunicação com a SEFAZ.",
+          "Convênios, descontos, cancelamentos e remarcações.",
+          "Financeiro com cobrança via PIX e integração bancária.",
+          "Painel BI: arrecadação, ticket médio, ocupação por trecho e receita por embarcação.",
+          "Multiempresa: empresas, filiais e agências, cada uma com permissões e identidade visual próprias.",
+          "Assistente de IA e servidor MCP para consultas em linguagem natural."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "MySQL",
+              "Laravel Horizon",
+              "Laravel Reverb",
+              "Sanctum",
+              "MCP"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Vue 3",
+              "Inertia",
+              "Tailwind CSS",
+              "PrimeVue",
+              "ApexCharts",
+              "Leaflet",
+              "Mapbox"
+            ]
+          },
+          {
+            "grupo": "integrações",
+            "itens": [
+              "BP-e (SEFAZ)",
+              "PIX",
+              "Safe2Pay",
+              "Sicredi",
+              "Dropbox"
+            ]
+          }
+        ]
+      }
     },
     {
+      "slug": "yjara-viagens",
       "nome": "Yjara Viagens – E-commerce de passagens fluviais",
       "descricao": "Atuação no backend: redesenho de APIs, modelagem e serviços. Go-live em jun/2025, com +44% no volume transacionado.",
-      "link": "https://yjaraviagens.com/"
+      "link": "https://yjaraviagens.com/",
+      "imagem": "/projects/yjara-viagens"
     },
     {
+      "slug": "agente-aguia",
       "nome": "Agente Águia – Estudo para concursos com IA",
       "descricao": "Plataforma de estudo para concursos com IA, com banco de questões e provas, comentários pedagógicos gerados por LLM e um chat que faz busca semântica, cria flashcards e resume conteúdos.",
-      "link": "https://agenteaguia.omentorconcursos.com.br/"
+      "link": "https://agenteaguia.omentorconcursos.com.br/",
+      "imagem": "/projects/agente-aguia"
     },
     {
+      "slug": "o-mentor-app",
       "nome": "O Mentor App – Gestão de rotina e estudos para concurseiros",
       "descricao": "Plataforma de mentoria para concurseiros, integrada ao Agente Águia e lançada em novembro de 2026 para quase 8 mil alunos. Atuei no backend em Laravel e no frontend em Next.js, no onboarding, no planejamento de rotina e no ciclo de estudos.",
-      "link": "https://omentorconcursos.com.br"
+      "link": "https://omentorconcursos.com.br",
+      "imagem": "/projects/o-mentor-app"
     },
     {
+      "slug": "river-fiam",
       "nome": "River FIAM – Gestão financeira de projetos da UFOPA",
-      "descricao": "Sistema de gestão financeira dos projetos de pesquisa da fundação de apoio da UFOPA, do orçamento à prestação de contas. Inclui o Boto, a conferência de documentos com IA e a conciliação integrada ao Banco do Brasil e ao Sicredi.",
-      "link": "https://app.portalfiam.org/transparency-portal"
+      "descricao": "Sistema de gestão financeira dos projetos de pesquisa da fundação de apoio da UFOPA, do orçamento à prestação de contas. Inclui a Iara, a conferência de documentos com IA e a conciliação integrada ao Banco do Brasil e ao Sicredi.",
+      "link": "https://app.portalfiam.org/transparency-portal",
+      "imagem": "/projects/river-fiam"
     },
     {
+      "slug": "porto-facil",
       "nome": "Porto Fácil – API de gestão portuária",
       "descricao": "API REST de gestão portuária consumida por múltiplos sistemas e por catracas físicas de controle de acesso, que reduziu a conciliação de taxas de horas para minutos.",
-      "link": "https://portofacil.online/"
+      "link": "https://portofacil.online/",
+      "imagem": "/projects/porto-facil"
     },
     {
+      "slug": "w3zap",
       "nome": "W3Zap – CRM omnichannel de atendimento com IA",
       "descricao": "CRM de atendimento por WhatsApp, Instagram e Messenger, construído sobre o Ticketz e adaptado às operações da W3, com API oficial do WhatsApp, campanhas segmentadas, agentes de IA nas automações e chamadas de voz.",
-      "link": "https://app.w3zap.net/"
+      "link": "https://app.w3zap.net/",
+      "imagem": "/projects/w3zap"
     },
     {
+      "slug": "ribba",
       "nome": "RIBBA – Rede de Inovação da Bioeconomia do Baixo Amazonas",
       "descricao": "Plataforma institucional da Rede de Inovação da Bioeconomia do Baixo Amazonas, que conecta empreendedores, pesquisadores, instituições e comunidade, com apresentação dos parceiros e formulário de adesão.",
-      "link": "https://rederibba.org"
+      "link": "https://rederibba.org",
+      "imagem": "/projects/ribba"
     },
     {
+      "slug": "bjmarmitaria",
       "nome": "BjMarmitaria – Pedidos de refeições universitárias",
       "descricao": "Sistema de pedidos de marmitas para os campi da UFOPA, com cardápio semanal por campus, prazo para pedidos de almoço e janta, opção vegetariana e pagamento via PIX.",
-      "link": "https://bjmarmitaria.com"
+      "link": "https://bjmarmitaria.com",
+      "imagem": "/projects/bjmarmitaria"
     }
   ],
   "projetos_codigo": [

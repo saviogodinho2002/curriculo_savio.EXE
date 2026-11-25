@@ -156,3 +156,24 @@ html.motion-ok .reveal.is-revealed .reveal-item {
     opacity: 1 !important;
   }
 }
+
+/* ===== Página de projeto: "cat <slug>.md" executando (ProjectHeader.vue) ===== */
+
+html.motion-ok .phead__cmd {
+  display: inline-block;
+  vertical-align: bottom;
+  animation: type 420ms steps(10, end) both;
+  animation-delay: 150ms;
+}
+
+html.motion-ok .phead .seq {
+  animation: line-print 240ms steps(12, end) both;
+  animation-delay: calc(550ms + var(--i, 0) * var(--stagger));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.motion-ok .phead__cmd,
+  html.motion-ok .phead .seq {
+    animation: none;
+  }
+}

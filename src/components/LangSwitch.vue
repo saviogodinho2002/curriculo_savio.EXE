@@ -2,10 +2,10 @@
 // Seletor de idioma no estilo do resto da barra: [pt|en], com o idioma atual invertido.
 // São links comuns (<a href>) para a outra URL: rastreáveis pelo Google e sem redirecionar
 // pela língua do navegador.
-import { LOCALES, LOCALE_PATH, UI } from '../i18n/ui'
+import { LOCALES, UI } from '../i18n/ui'
 import { useLocale } from '../composables/useLocale'
 
-const { locale, t } = useLocale()
+const { locale, t, pathFor } = useLocale()
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const { locale, t } = useLocale()
       <a
         v-else
         class="lang__opt"
-        :href="LOCALE_PATH[l]"
+        :href="pathFor(l)"
         :hreflang="UI[l].htmlLang"
         :lang="UI[l].htmlLang"
         :title="t.lang.switchTo"

@@ -71,13 +71,13 @@
       "empresa": "O Mentor Concursos, Taboão da Serra/SP",
       "cargo": "Mid-level Software Engineer (freelancer)",
       "periodo": "April 2026 - Present",
-      "descricao": "• Took part in the launch of the new Mentor in November 2026, for a base of almost 8,000 students.\n• Built the Study Cycle, which plans each student's week from the routine they entered and renews itself every week.\n• Restructured the tools behind Agente Águia's AI chat, including semantic search, flashcard generation and study summaries.\n• Built Agente Águia's question module, with a question and exam bank, AI-powered automatic extraction and LLM-generated teaching comments.\n• Integrated the question bank into Mentor, creating free-study sessions with filters and topics pre-selected from the student's history."
+      "descricao": "• Took part in the launch of the new Mentor in November 2026, for a base of almost 8,000 students.\n• Built Mentor's Study Cycle, which spreads each student's subjects across the week based on the routine entered during onboarding and renews automatically through a queue, with its business rules validated by mutation testing.\n• Restructured the tools behind Agente Águia's AI chat, including semantic search, flashcard generation and study summaries.\n• Built Agente Águia's question module, with a question and exam bank, AI-powered automatic extraction and LLM-generated teaching comments.\n• Integrated the question bank into Mentor, creating free-study sessions with filters and topics pre-selected from the student's history."
     },
     {
       "empresa": "River FIAM (UFOPA), Santarém/PA",
       "cargo": "Software Engineer (freelancer)",
       "periodo": "April 2024 - Present",
-      "descricao": "• Built **Boto**, an AI assistant that answers the team's questions about projects, balances and payments by querying the database. Each person only sees the projects they coordinate.\n• Integrated bank reconciliation with the Banco do Brasil and Sicredi APIs. Statements come straight from the banks and each entry is matched against the payments approved in the system, which ended the manual import of statement files.\n• Automated statement syncing with a daily balance check. When a day doesn't match, the system reprocesses that period and catches reversals and fees posted late.\n• Integrated the projects' investments and redemptions with Banco do Brasil's Funds API. The same operation is never recorded twice.\n• Implemented AI document checks. When an attachment doesn't match the request, the beneficiary is notified, and the AI also reads a new project's contract to fill in its record.\n• Built the API that serves projects, budget lines, contracts and reports to other systems. Calls are signed with HMAC, and each key has its own permissions and can be rotated without interrupting the integrations."
+      "descricao": "• Built **Iara**, an AI assistant that answers the team's questions about projects, balances and payments by querying the database. Each person only sees the projects they coordinate.\n• Integrated bank reconciliation with the Banco do Brasil and Sicredi APIs. Statements come straight from the banks and each entry is matched against the payments approved in the system, which ended the manual import of statement files.\n• Automated daily statement syncing with a day-by-day balance check, reprocessing mismatched periods to catch reversals and fees posted late.\n• Integrated project investments and redemptions with Banco do Brasil's Funds API, with safeguards so no operation is ever recorded twice.\n• Implemented AI document checks that verify whether attachments match the request and notify the beneficiary of any mismatch, and that read new projects' contracts to fill in their records.\n• Built the API that serves projects, budget lines, contracts and reports to other systems. Calls are signed with HMAC, and each key has its own permissions and can be rotated without interrupting the integrations."
     },
     {
       "empresa": "W3 Companhia, Santarém/PA",
@@ -108,49 +108,163 @@
   ],
   "projetos": [
     {
+      "slug": "techrios",
       "nome": "TechRios – SaaS ERP for river transportation",
       "descricao": "SaaS ERP for shipping companies: companies, agencies, trips, routes, reports and tax invoicing (BP-e/SEFAZ), with AI sales assistance and an MCP server for natural-language queries. +36.7% in transactions vs. 2024.",
-      "link": "https://techrios.online/"
+      "link": "https://techrios.online/",
+      "imagem": "/projects/techrios",
+      "pagina": {
+        "periodo": "2023 – present",
+        "tags": [
+          "SaaS ERP",
+          "river transportation",
+          "multi-tenant"
+        ],
+        "status": "in production",
+        "subtitulo": "SaaS ERP that runs the operation of shipping companies in the Amazon, from ticket sales to the electronic tax ticket.",
+        "links": [
+          {
+            "rotulo": "open system",
+            "url": "https://techrios.online/"
+          }
+        ],
+        "prints": [
+          {
+            "src": "/projects/techrios/1.webp",
+            "legenda": "BI dashboard: revenue, tickets sold, average ticket and occupancy per vessel."
+          },
+          {
+            "src": "/projects/techrios/2.webp",
+            "legenda": "Counter sale: the agent picks seats on the vessel map."
+          },
+          {
+            "src": "/projects/techrios.webp",
+            "legenda": "TechRios public website."
+          }
+        ],
+        "visao": [
+          "TechRios is the management system used by shipping companies and river travel agencies. Each company registers its vessels, lines and trips, and sells tickets at the counter, through partner agencies and through the **Yjara Viagens** e-commerce, which uses the same API.",
+          "Beyond sales, the system handles partnerships, cancellations and rebookings, **BP-e** issuing (the Brazilian electronic passenger ticket) with SEFAZ, finance and a BI dashboard with the operation numbers."
+        ],
+        "fiz": [
+          "Architected the restructuring of the trips, routes and data pipeline modules, the basis of +36.7% growth in transactions vs. 2024.",
+          "Brought AI into the operation: sales assistance based on passenger history and an **in-house MCP server** for business queries in natural language.",
+          "Integrated external systems such as **BP-e (SEFAZ), Safe2Pay, Sicredi and Dropbox**.",
+          "Collaborated on the rebuild of Yjara Viagens, the e-commerce that sells through the TechRios API: API redesign, data modeling and services. Go-live in Jun/2025, with +44% in transaction volume."
+        ],
+        "resultados": [
+          {
+            "valor": "+36.7%",
+            "rotulo": "in transactions vs. 2024"
+          },
+          {
+            "valor": "+44%",
+            "rotulo": "in Yjara Viagens transaction volume after go-live"
+          }
+        ],
+        "funcionalidades": [
+          "Vessels, lines, trips and routes, with seat maps and accommodations (hammock, seat, cabin).",
+          "Sales at the counter, through partner agencies and through the e-commerce, with real-time seat reservation.",
+          "BP-e issuing and communication with SEFAZ.",
+          "Partnerships, discounts, cancellations and rebookings.",
+          "Finance with PIX billing and bank integration.",
+          "BI dashboard: revenue, average ticket, occupancy per route and revenue per vessel.",
+          "Multi-tenant: companies, branches and agencies, each with its own permissions and branding.",
+          "AI assistant and MCP server for natural-language queries."
+        ],
+        "stack": [
+          {
+            "grupo": "back-end",
+            "itens": [
+              "PHP",
+              "Laravel",
+              "MySQL",
+              "Laravel Horizon",
+              "Laravel Reverb",
+              "Sanctum",
+              "MCP"
+            ]
+          },
+          {
+            "grupo": "front-end",
+            "itens": [
+              "Vue 3",
+              "Inertia",
+              "Tailwind CSS",
+              "PrimeVue",
+              "ApexCharts",
+              "Leaflet",
+              "Mapbox"
+            ]
+          },
+          {
+            "grupo": "integrations",
+            "itens": [
+              "BP-e (SEFAZ)",
+              "PIX",
+              "Safe2Pay",
+              "Sicredi",
+              "Dropbox"
+            ]
+          }
+        ]
+      }
     },
     {
+      "slug": "yjara-viagens",
       "nome": "Yjara Viagens – River ticket e-commerce",
       "descricao": "Backend work: API redesign, data modeling and services. Went live in Jun/2025 with +44% in transaction volume.",
-      "link": "https://yjaraviagens.com/"
+      "link": "https://yjaraviagens.com/",
+      "imagem": "/projects/yjara-viagens"
     },
     {
+      "slug": "agente-aguia",
       "nome": "Agente Águia – AI-powered exam prep",
       "descricao": "AI study platform for public-service exams, with a question and exam bank, LLM-generated teaching comments and a chat that runs semantic search, creates flashcards and summarizes content.",
-      "link": "https://agenteaguia.omentorconcursos.com.br/"
+      "link": "https://agenteaguia.omentorconcursos.com.br/",
+      "imagem": "/projects/agente-aguia"
     },
     {
+      "slug": "o-mentor-app",
       "nome": "O Mentor App – Routine and study management for exam candidates",
       "descricao": "Mentoring platform for public-service exam candidates, integrated with Agente Águia and launched in November 2026 for almost 8,000 students. I worked on the Laravel backend and the Next.js frontend for onboarding, routine planning and the study cycle.",
-      "link": "https://omentorconcursos.com.br"
+      "link": "https://omentorconcursos.com.br",
+      "imagem": "/projects/o-mentor-app"
     },
     {
+      "slug": "river-fiam",
       "nome": "River FIAM – Financial management for UFOPA projects",
-      "descricao": "Financial management system for research projects at UFOPA's support foundation, from budget to accountability. It includes Boto, AI document checks and reconciliation integrated with Banco do Brasil and Sicredi.",
-      "link": "https://app.portalfiam.org/transparency-portal"
+      "descricao": "Financial management system for research projects at UFOPA's support foundation, from budget to accountability. It includes Iara, AI document checks and reconciliation integrated with Banco do Brasil and Sicredi.",
+      "link": "https://app.portalfiam.org/transparency-portal",
+      "imagem": "/projects/river-fiam"
     },
     {
+      "slug": "porto-facil",
       "nome": "Porto Fácil – Port management API",
       "descricao": "Port management REST API consumed by multiple systems and by physical access-control turnstiles, cutting fee reconciliation from hours to minutes.",
-      "link": "https://portofacil.online/"
+      "link": "https://portofacil.online/",
+      "imagem": "/projects/porto-facil"
     },
     {
+      "slug": "w3zap",
       "nome": "W3Zap – AI-powered omnichannel customer service CRM",
       "descricao": "Customer service CRM for WhatsApp, Instagram and Messenger, built on Ticketz and adapted to W3's operations, with the official WhatsApp API, segmented campaigns, AI agents in automations and voice calls.",
-      "link": "https://app.w3zap.net/"
+      "link": "https://app.w3zap.net/",
+      "imagem": "/projects/w3zap"
     },
     {
+      "slug": "ribba",
       "nome": "RIBBA – Lower Amazon Bioeconomy Innovation Network",
       "descricao": "Institutional platform for the Lower Amazon Bioeconomy Innovation Network, connecting entrepreneurs, researchers, institutions and the community, with partner profiles and a membership form.",
-      "link": "https://rederibba.org"
+      "link": "https://rederibba.org",
+      "imagem": "/projects/ribba"
     },
     {
+      "slug": "bjmarmitaria",
       "nome": "BjMarmitaria – University meal ordering",
       "descricao": "Packed-meal ordering system for UFOPA campuses, with weekly menus per campus, order cutoffs for lunch and dinner, a vegetarian option and payment via PIX.",
-      "link": "https://bjmarmitaria.com"
+      "link": "https://bjmarmitaria.com",
+      "imagem": "/projects/bjmarmitaria"
     }
   ],
   "projetos_codigo": [

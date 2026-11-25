@@ -1,7 +1,7 @@
 // Monta o <head> de cada idioma: title, description, canonical, hreflang,
 // Open Graph, Twitter e dados estruturados (JSON-LD ProfilePage + Person).
 // Tudo sai no HTML pré-renderizado pelo vite-ssg.
-import { LOCALE_PATHS, LOCALE_TAGS, SITE_URL, absUrl } from './site'
+import { LOCALE_PATHS, LOCALE_TAGS, SITE_URL, absUrl, projectPath } from './site'
 import { MD_PATHS, OG_IMAGES, OG_SIZE } from './assets'
 
 const stripMarks = (s) => (s || '').replace(/\*\*(.+?)\*\*/g, '$1')
@@ -124,5 +124,88 @@ export function buildHead(locale, cv) {
         innerHTML: JSON.stringify(ld),
       },
     ],
+  }
+}
+
+/**
+ * <head> da página de um projeto (/projetos/<slug>/ e /en/projects/<slug>/):
+ * title e description próprios, canonical, hreflang, og:image = 1º print e JSON-LD
+ * SoftwareApplication (autor = a mesma Person da home) + BreadcrumbList.
+ */
+export function buildProjectHead(locale, cv, project, { title: name, subtitle }) {
+  const tag = LOCALE_TAGS[locale]
+  const other = locale === 'pt' ? 'en' : 'pt'
+  const page = project.pagina
+  const url = absUrl(projectPath(locale, project.slug))
+  const title = `${name} — ${cv.nome}`
+  const desc = clamp(stripMarks(page.subtitulo || subtitle || project.descricao))
+  const first = page.prints?.[0]
+  const image = first ? absUrl(first.src) : absUrl(OG_IMAGES[locale].path)
+  const home = absUrl(LOCALE_PATHS[locale])
+  const projectsLabel = locale === 'pt' ? 'Projetos' : 'Projects'
+
+  const ld = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        url,
+        name: title,
+        description: desc,
+        inLanguage: tag.hreflang,
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: cv.nome, item: home },
+            { '@type': 'ListItem', position: 2, name: projectsLabel, item: `${home}#projetos` },
+            { '@type': 'ListItem', position: 3, name, item: url },
+          ],
+        },
+        mainEntity: {
+          '@type': 'SoftwareApplication',
+          name,
+          description: stripMarks(project.descricao),
+          applicationCategory: 'BusinessApplication',
+          operatingSystem: 'Web',
+          url: project.link && project.link !== '#' ? project.link : url,
+          image: (page.prints || []).map((p) => absUrl(p.src)),
+          keywords: (page.stack || []).flatMap((g) => g.itens).join(', ') || undefined,
+          author: { '@type': 'Person', '@id': `${SITE_URL}/#person`, name: cv.nome, url: home },
+        },
+      },
+    ],
+  }
+
+  return {
+    htmlAttrs: { lang: tag.hreflang },
+    title,
+    meta: [
+      { name: 'description', content: desc },
+      { name: 'robots', content: 'index, follow, max-image-preview:large' },
+      { property: 'og:type', content: 'article' },
+      { property: 'og:site_name', content: cv.nome },
+      { property: 'og:url', content: url },
+      { property: 'og:title', content: title },
+      { property: 'og:description', content: desc },
+      { property: 'og:locale', content: tag.og },
+      { property: 'og:locale:alternate', content: LOCALE_TAGS[other].og },
+      { property: 'og:image', content: image },
+      { property: 'og:image:width', content: first ? '1280' : String(OG_SIZE.width) },
+      { property: 'og:image:height', content: first ? '800' : String(OG_SIZE.height) },
+      { property: 'og:image:alt', content: first?.legenda || title },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:image', content: image },
+      { name: 'twitter:title', content: title },
+      { name: 'twitter:description', content: desc },
+    ],
+    link: [
+      { rel: 'canonical', href: url },
+      { rel: 'alternate', hreflang: LOCALE_TAGS.pt.hreflang, href: absUrl(projectPath('pt', project.slug)) },
+      { rel: 'alternate', hreflang: LOCALE_TAGS.en.hreflang, href: absUrl(projectPath('en', project.slug)) },
+      { rel: 'alternate', hreflang: 'x-default', href: absUrl(projectPath('pt', project.slug)) },
+      { rel: 'describedby', type: 'text/plain', href: absUrl('/llms.txt') },
+    ],
+    script: [{ type: 'application/ld+json', innerHTML: JSON.stringify(ld) }],
   }
 }

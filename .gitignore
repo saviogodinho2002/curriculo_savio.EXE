@@ -31,3 +31,6 @@ coverage
 
 # pasta temporária da pré-renderização (vite-ssg)
 .vite-ssg-temp
+
+# credenciais de teste locais usadas pelo script de prints (nunca versionar)
+scripts/shots/flows.local.json

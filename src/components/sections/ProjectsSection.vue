@@ -1,12 +1,13 @@
 <script setup>
 import { hasLink, highlight, linkLabel, splitTitle } from '../../utils/parseCv'
 import { useLocale } from '../../composables/useLocale'
+import { projectPath } from '../../seo/site'
 
 const props = defineProps({
   cv: { type: Object, required: true },
 })
 
-const { t } = useLocale()
+const { t, locale } = useLocale()
 
 const toCard = (p) => ({
   ...splitTitle(p.nome),
@@ -14,6 +15,10 @@ const toCard = (p) => ({
   descricao: p.descricao,
   link: hasLink(p.link) ? p.link : null,
   linkText: hasLink(p.link) ? linkLabel(p.link) : '',
+  // print do projeto (public/projects/<slug>-card.webp, 640×400); projetos de código não têm
+  shot: p.imagem ? `${p.imagem}-card.webp` : null,
+  // página própria do projeto (só os que têm "pagina" no JSON)
+  page: p.slug && p.pagina ? projectPath(locale.value, p.slug) : null,
 })
 
 const groups = [
@@ -33,8 +38,26 @@ const groups = [
         v-for="(p, i) in g.items"
         :key="p.key"
         class="pcard reveal-item"
+        :class="{ 'pcard--shot': p.shot }"
         :style="{ '--i': i + 1 }"
       >
+        <component
+          :is="p.page ? 'RouterLink' : 'figure'"
+          v-if="p.shot"
+          :to="p.page || undefined"
+          class="pcard__shot"
+          :tabindex="p.page ? -1 : undefined"
+        >
+          <img
+            :src="p.shot"
+            :alt="`${t.projects.shot} ${p.title}`"
+            width="640"
+            height="400"
+            loading="lazy"
+            decoding="async"
+          />
+        </component>
+
         <header class="pcard__head">
           <h4 class="pcard__title">{{ p.title }}</h4>
           <p v-if="p.subtitle" class="pcard__subtitle muted">{{ p.subtitle }}</p>
@@ -47,9 +70,10 @@ const groups = [
           </template>
         </p>
 
-        <footer v-if="p.link" class="pcard__foot">
-          <a class="btn btn--accent" :href="p.link" target="_blank" rel="noopener">{{ t.projects.open }}</a>
-          <span class="pcard__url muted">{{ p.linkText }}</span>
+        <footer v-if="p.link || p.page" class="pcard__foot">
+          <RouterLink v-if="p.page" class="btn btn--accent" :to="p.page">{{ t.projects.details }}</RouterLink>
+          <a v-if="p.link" class="btn" :class="{ 'btn--accent': !p.page }" :href="p.link" target="_blank" rel="noopener">{{ t.projects.open }}</a>
+          <span v-if="p.link" class="pcard__url muted">{{ p.linkText }}</span>
         </footer>
       </article>
     </div>
@@ -79,6 +103,49 @@ const groups = [
 
 .pcard:hover {
   border-color: var(--accent);
+}
+
+/* Print do projeto no topo do card, como uma "tela" dentro da janela */
+.pcard__shot {
+  position: relative;
+  display: block;
+  margin: calc(-1 * var(--space-3)) calc(-1 * var(--space-3)) var(--space-3);
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.pcard__shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.4s ease;
+}
+
+/* scanlines por cima do print (somem no tema claro, onde --scanline é transparente) */
+.pcard__shot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, var(--scanline) 0 1px, transparent 1px 3px);
+}
+
+.pcard:hover .pcard__shot img {
+  transform: scale(1.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pcard__shot img {
+    transition: none;
+  }
+
+  .pcard:hover .pcard__shot img {
+    transform: none;
+  }
 }
 
 .pcard__head {
