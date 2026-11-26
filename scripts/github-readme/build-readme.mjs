@@ -488,7 +488,7 @@ put('statusbar.svg', statusbar())
 
 // ===== README.md =====
 // sem espaço nem quebra entre as tags: o GitHub não deixa buraco entre as imagens
-const img = (file, alt, href, attrs = 'width="100%"') => `<a href="${href}"><img src="assets/${FILES[file]}"alt="${esc(alt)}" ${attrs}></a>`
+const img = (file, alt, href, attrs = 'width="100%"') => `<a href="${href}"><img src="assets/${FILES[file]}" alt="${esc(alt)}" ${attrs}></a>`
 const hex = (s) => s.replace('#', '')
 const statsQ = `bg_color=${hex(c.bg)}&title_color=${hex(c.accent)}&text_color=${hex(c.fg)}&icon_color=${hex(c.fg)}&border_color=${hex(c.border)}&ring_color=${hex(c.accent)}`
 const streakQ = `background=${hex(c.bg)}&border=${hex(c.border)}&stroke=${hex(c.border)}&ring=${hex(c.accent)}&fire=${hex(c.accent)}&currStreakNum=${hex(c.fg)}&sideNums=${hex(c.fg)}&currStreakLabel=${hex(c.accent)}&sideLabels=${hex(c.muted)}&dates=${hex(c.muted)}`
