@@ -18,7 +18,6 @@ mkdirSync(assetsDir, { recursive: true })
 
 const read = (p) => readFileSync(join(root, p), 'utf8')
 const cv = JSON.parse(read('src/data/curriculum.json'))
-const ART = read('src/data/dot-art-dark.txt').trimEnd()
 
 const SITE = 'https://curriculo-savio-exe.vercel.app'
 const PROFILE = 'https://github.com/saviogodinho2002'
@@ -141,39 +140,38 @@ function btn(x, y, label, accent = false, size = 13) {
   }
 }
 
-// ===== hero: saída do neofetch com o dot art =====
-const DOTS = [[0, 0, 0], [1, 0, 1], [2, 0, 2], [3, 1, 0], [4, 1, 1], [5, 1, 2], [6, 0, 3], [7, 1, 3]] // [bit, x, y] do braille
-function dotPath(art) {
-  const rows = new Map()
-  const lines = art.split('\n')
-  lines.forEach((line, cy) => {
-    ;[...line].forEach((ch, cx) => {
-      const code = ch.codePointAt(0) - 0x2800
-      if (code <= 0 || code > 0xff) return
-      for (const [bit, dx, dy] of DOTS) {
-        if (!(code & (1 << bit))) continue
-        const y = cy * 4 + dy
-        if (!rows.has(y)) rows.set(y, [])
-        rows.get(y).push(cx * 2 + dx)
-      }
-    })
-  })
-  // ponto = segmento de comprimento zero com ponta redonda; "m3 0h0" anda 3 colunas e desenha
+// ===== hero: saída do neofetch =====
+// No lugar do "logo da distro" vai um monograma SG em pontos (a foto em dot art fica só no site;
+// no GitHub o avatar já mostra o rosto). Cada pixel do bitmap vira 2×2 pontos redondos.
+const MONOGRAM = [
+  ' #####    ##### ',
+  '##   ##  ##   ##',
+  '##       ##     ',
+  ' ####    ##     ',
+  '   ###   ## ####',
+  '     ##  ##   ##',
+  '     ##  ##   ##',
+  '##   ##  ##   ##',
+  ' #####    ######',
+]
+function monogramPath() {
+  // ponto = segmento de comprimento zero com ponta redonda
   let d = ''
-  for (const [y, xs] of [...rows].sort((a, b) => a[0] - b[0])) {
-    xs.sort((a, b) => a - b)
-    d += `M${xs[0]} ${y}h0`
-    for (let i = 1; i < xs.length; i++) d += `m${xs[i] - xs[i - 1]} 0h0`
-  }
-  return { d, w: Math.max(...lines.map((l) => [...l].length)) * 2, h: lines.length * 4 }
+  MONOGRAM.forEach((row, y) =>
+    [...row].forEach((ch, x) => {
+      if (ch !== '#') return
+      for (const [dx, dy] of [[0, 0], [1, 0], [0, 1], [1, 1]]) d += `M${x * 2 + dx} ${y * 2 + dy}h0`
+    }),
+  )
+  return { d, w: MONOGRAM[0].length * 2, h: MONOGRAM.length * 2 }
 }
 
 function hero() {
   const H = 452
-  const art = dotPath(ART)
-  const pitch = 1.8
-  const ax = 30
-  const ay = 62
+  const art = monogramPath()
+  const pitch = 8
+  const ax = 40
+  const ay = 160
   const rows = [
     ['cargo', cv.titulo],
     ['empresa', cv.empresa_atual],
@@ -182,7 +180,7 @@ function hero() {
     ['stack', cv.habilidades.slice(0, 5).join(' · ')],
     ['email', cv.contato.email],
   ].filter((r) => r[1])
-  const X = 440
+  const X = 345
   const s = (i) => seq(i, 1.05)
   const kv = rows
     .map(
@@ -204,7 +202,7 @@ ${style()}
 <text x="16" y="23" class="d" font-size="20"><tspan class="ac">[0]</tspan><tspan class="fg" dx="8">savio@godinho: ~</tspan></text>
 <text x="${W - 16}" y="22" class="m mu" font-size="14" text-anchor="end">[_][□][×]</text>
 <g class="screen">
-<path d="${art.d}" transform="translate(${ax} ${ay}) scale(${pitch})" stroke="${c.fg}" stroke-width=".72" stroke-linecap="round" fill="none" filter="url(#glow)"/>
+<path d="${art.d}" transform="translate(${ax} ${ay}) scale(${pitch})" stroke="${c.fg}" stroke-width=".7" stroke-linecap="round" fill="none" filter="url(#glow)"/>
 <text x="${ax + (art.w * pitch) / 2}" y="${ay + art.h * pitch + 22}" class="m mu" font-size="12" text-anchor="middle">[ ${esc(SITE.replace('https://', ''))} ]</text>
 <g filter="url(#glow)">
 <text x="${X}" y="84" class="m" font-size="16"><tspan class="ac">savio@godinho</tspan><tspan class="fg">:~$ ${typed('neofetch', 0.35)}</tspan></text>
