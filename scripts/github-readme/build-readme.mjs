@@ -7,6 +7,7 @@
 // Uso: node scripts/github-readme/build-readme.mjs [pasta-do-repo-do-perfil]
 //      (padrão: ../saviogodinho2002, ao lado deste repo)
 import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -435,10 +436,16 @@ ${OVERLAY(W, H)}
 
 // ===== escreve os SVGs (apaga os antigos, inclusive os -light de versões anteriores) =====
 for (const f of readdirSync(assetsDir)) if (f.endsWith('.svg')) rmSync(join(assetsDir, f))
+// o nome leva um hash do conteúdo: o GitHub guarda as imagens em cache pelo endereço, então
+// cada mudança precisa virar um arquivo novo para aparecer na hora
 const sizes = {}
+const FILES = {}
 const put = (name, svg) => {
-  writeFileSync(join(assetsDir, name), svg)
-  sizes[name] = Buffer.byteLength(svg)
+  const hash = createHash('sha1').update(svg).digest('hex').slice(0, 8)
+  const file = name.replace(/\.svg$/, `.${hash}.svg`)
+  writeFileSync(join(assetsDir, file), svg)
+  FILES[name] = file
+  sizes[file] = Buffer.byteLength(svg)
 }
 
 put('hero.svg', hero())
@@ -481,7 +488,7 @@ put('statusbar.svg', statusbar())
 
 // ===== README.md =====
 // sem espaço nem quebra entre as tags: o GitHub não deixa buraco entre as imagens
-const img = (file, alt, href, attrs = 'width="100%"') => `<a href="${href}"><img src="assets/${file}" alt="${esc(alt)}" ${attrs}></a>`
+const img = (file, alt, href, attrs = 'width="100%"') => `<a href="${href}"><img src="assets/${FILES[file]}"alt="${esc(alt)}" ${attrs}></a>`
 const hex = (s) => s.replace('#', '')
 const statsQ = `bg_color=${hex(c.bg)}&title_color=${hex(c.accent)}&text_color=${hex(c.fg)}&icon_color=${hex(c.fg)}&border_color=${hex(c.border)}&ring_color=${hex(c.accent)}`
 const streakQ = `background=${hex(c.bg)}&border=${hex(c.border)}&stroke=${hex(c.border)}&ring=${hex(c.accent)}&fire=${hex(c.accent)}&currStreakNum=${hex(c.fg)}&sideNums=${hex(c.fg)}&currStreakLabel=${hex(c.accent)}&sideLabels=${hex(c.muted)}&dates=${hex(c.muted)}`
